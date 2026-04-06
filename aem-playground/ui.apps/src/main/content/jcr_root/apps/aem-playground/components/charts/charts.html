@@ -1,8 +1,9 @@
-<div class="cmp-charts" data-cmp-is="charts" data-chart-type="${properties.chartType @ context='attr'}" 
-     data-chart-data="${properties.chartData @ context='unsafe'}" 
-     data-title="${properties.title @ context='attr'}"
-     data-width="${properties.width @ context='attr'}"
-     data-height="${properties.height @ context='attr'}">
+<sly data-sly-use.chartsModel="com.aem.playground.core.models.ChartsModel"></sly>
+<div class="cmp-charts" data-cmp-is="charts" data-chart-type="${chartsModel.chartType @ context='attr'}" 
+     data-chart-data="${chartsModel.chartDataJson @ context='unsafe'}" 
+     data-title="${chartsModel.title @ context='attr'}"
+     data-width="${chartsModel.width @ context='attr'}"
+     data-height="${chartsModel.height @ context='attr'}">
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
