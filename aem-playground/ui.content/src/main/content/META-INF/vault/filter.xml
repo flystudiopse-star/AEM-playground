@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/aem-playground" mode="merge"/>
+    <filter root="/content/aem-playground" mode="merge"/>
+    <filter root="/content/dam/aem-playground" mode="merge">
+        <exclude pattern="/content/dam/aem-playground(/.*)?"/>
+        <include pattern="/content/dam/aem-playground/jcr:content(/.*)?"/>
+    </filter>
+    <filter root="/content/dam/aem-playground/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/aem-playground" mode="merge"/>
+</workspaceFilter>
