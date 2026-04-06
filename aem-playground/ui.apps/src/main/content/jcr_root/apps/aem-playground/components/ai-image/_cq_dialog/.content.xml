@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="AI Image"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/tabs">
+        <items jcr:primaryType="nt:unstructured">
+            <aiGeneration
+                jcr:primaryType="nt:unstructured"
+                jcr:title="AI Generation"
+                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                <items jcr:primaryType="nt:unstructured">
+                    <column
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <aiEnabled
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                name="./aiEnabled"
+                                fieldLabel="Enable AI Generation"
+                                text="Enable AI image generation"/>
+                            <aiPrompt
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                                name="./aiPrompt"
+                                fieldLabel="AI Prompt"
+                                rows="4"
+                                placeholder="Describe the image you want to generate..."/>
+                            <aiServiceUrl
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                name="./aiServiceUrl"
+                                fieldLabel="AI Service URL"
+                                value="https://api.openai.com/v1/images/generations"
+                                placeholder="https://api.openai.com/v1/images/generations"/>
+                        </items>
+                    </column>
+                </items>
+            </aiGeneration>
+        </items>
+    </content>
+</jcr:root>
