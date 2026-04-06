@@ -1,0 +1,9 @@
+<sly data-sly-use="aiTextModel="com.aem.playground.core.models.AITextModel"></sly>
+<sly data-sly-test="${aiTextModel.useGeneratedText}">
+    <div class="ai-text-component">
+        <p>${aiTextModel.generatedText}</p>
+    </div>
+</sly>
+<sly data-sly-test="${!aiTextModel.useGeneratedText}">
+    <sly data-sly-resource="${resource.path @ resourceType='core/wcm/components/text/v2/text'}"></sly>
+</sly>

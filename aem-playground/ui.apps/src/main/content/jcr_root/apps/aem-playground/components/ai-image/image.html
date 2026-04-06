@@ -1,0 +1,9 @@
+<sly data-sly-use="aiImageModel="com.aem.playground.core.models.AIImageModel"></sly>
+<sly data-sly-test="${aiImageModel.useGeneratedImage}">
+    <div class="ai-image-component">
+        <img src="${aiImageModel.generatedImageUrl}" alt="${aiImageModel.aiPrompt}"/>
+    </div>
+</sly>
+<sly data-sly-test="${!aiImageModel.useGeneratedImage}">
+    <sly data-sly-resource="${resource.path @ resourceType='core/wcm/components/image/v3/image'}"></sly>
+</sly>

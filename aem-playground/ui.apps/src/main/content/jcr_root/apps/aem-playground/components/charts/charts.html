@@ -1,0 +1,76 @@
+<sly data-sly-use.chartsModel="com.aem.playground.core.models.ChartsModel"></sly>
+<div class="cmp-charts" data-cmp-is="charts" data-chart-type="${chartsModel.chartType @ context='attr'}" 
+     data-chart-data="${chartsModel.chartDataJson @ context='unsafe'}" 
+     data-title="${chartsModel.title @ context='attr'}"
+     data-width="${chartsModel.width @ context='attr'}"
+     data-height="${chartsModel.height @ context='attr'}">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    (function() {
+        function initChart() {
+            var chartContainer = document.querySelector('.cmp-charts');
+            if (!chartContainer) return;
+
+            var chartType = chartContainer.dataset.chartType || 'pie';
+            var chartData = chartContainer.dataset.chartData;
+            var title = chartContainer.dataset.title;
+            var width = chartContainer.dataset.width || '100%';
+            var height = chartContainer.dataset.height || '400px';
+
+            try {
+                var parsedData = chartData ? JSON.parse(chartData) : [];
+                if (!parsedData || parsedData.length === 0) {
+                    return;
+                }
+                
+                var labels = parsedData.map(function(item) { return item.label; });
+                var values = parsedData.map(function(item) { return item.value; });
+                var colors = parsedData.map(function(item) { return item.color || '#888888'; });
+
+                var canvas = document.createElement('canvas');
+                canvas.style.width = width;
+                canvas.style.maxWidth = '100%';
+                canvas.style.height = height;
+                chartContainer.appendChild(canvas);
+
+                var chartJsType = chartType === 'bar' ? 'bar' : 'doughnut';
+
+                new Chart(canvas, {
+                    type: chartJsType,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: title || 'Chart',
+                            data: values,
+                            backgroundColor: colors,
+                            borderColor: colors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: chartType !== 'bar'
+                            },
+                            title: {
+                                display: !!title,
+                                text: title
+                            }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Error rendering chart:', e);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initChart);
+        } else {
+            initChart();
+        }
+    })();
+</script>
