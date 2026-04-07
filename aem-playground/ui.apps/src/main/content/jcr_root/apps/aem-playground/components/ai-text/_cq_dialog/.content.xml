@@ -36,6 +36,12 @@
                                 fieldLabel="AI Service URL"
                                 value="https://api.openai.com/v1/chat/completions"
                                 placeholder="https://api.openai.com/v1/chat/completions"/>
+                            <regenerate
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                name="./regenerate"
+                                fieldLabel="Regenerate Content"
+                                text="Regenerate AI content (ignores cached content)"/>
                         </items>
                     </column>
                 </items>

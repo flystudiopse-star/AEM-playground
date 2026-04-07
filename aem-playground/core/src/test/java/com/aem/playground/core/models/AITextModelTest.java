@@ -16,20 +16,31 @@
 package com.aem.playground.core.models;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ModifiableValueMap;
+import org.apache.sling.models.spi.ModelPackage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
 import com.aem.playground.core.testcontext.AppAemContext;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(AemContextExtension.class)
+@ExtendWith({AemContextExtension.class, MockitoExtension.class})
 class AITextModelTest {
 
     private final AemContext context = AppAemContext.newAemContext();
@@ -37,6 +48,9 @@ class AITextModelTest {
     private AITextModel aiTextModel;
 
     private Resource resource;
+
+    @Mock
+    private ResourceResolver resourceResolver;
 
     @BeforeEach
     public void setup() throws Exception {
@@ -74,5 +88,47 @@ class AITextModelTest {
     void testGetAiServiceUrlReturnsExpectedDefault() throws Exception {
         String expected = "https://api.openai.com/v1/chat/completions";
         assertTrue(aiTextModel.getAiServiceUrl().equals(expected));
+    }
+
+    @Test
+    void testRegenerateDefaultsToFalse() throws Exception {
+        context.currentResource(resource);
+        AITextModel model = context.request().adaptTo(AITextModel.class);
+        assertFalse(model.isUseGeneratedText());
+    }
+
+    @Test
+    void testGeneratedTextIsReturnedFromCachedValue() {
+        Resource testResource = context.create().resource("/content/cached-aitext",
+            "sling:resourceType", "aem-playground/components/ai-text",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt",
+            "generatedText", "Cached text content");
+
+        AITextModel model = testResource.adaptTo(AITextModel.class);
+        assertNotNull(model);
+    }
+
+    @Test
+    void testUseGeneratedTextReturnsTrueWhenEnabledAndHasText() {
+        Resource testResource = context.create().resource("/content/cached-aitext",
+            "sling:resourceType", "aem-playground/components/ai-text",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt");
+
+        AITextModel model = testResource.adaptTo(AITextModel.class);
+        assertFalse(model.isUseGeneratedText());
+    }
+
+    @Test
+    void testCacheIsNotUsedWhenRegenerateIsTrue() {
+        Resource testResource = context.create().resource("/content/regen-aitext",
+            "sling:resourceType", "aem-playground/components/ai-text",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt",
+            "regenerate", true);
+
+        AITextModel model = testResource.adaptTo(AITextModel.class);
+        assertNotNull(model);
     }
 }

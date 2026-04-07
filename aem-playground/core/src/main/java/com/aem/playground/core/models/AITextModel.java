@@ -15,8 +15,12 @@
  */
 package com.aem.playground.core.models;
 
+import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ResourceResolverAnnotated;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.models.annotations.Default;
 
@@ -36,17 +40,14 @@ public class AITextModel {
     private static final String PN_AI_ENABLED = "aiEnabled";
     private static final String PN_AI_PROMPT = "aiPrompt";
     private static final String PN_AI_SERVICE_URL = "aiServiceUrl";
+    private static final String PN_GENERATED_TEXT = "generatedText";
+    private static final String PN_REGENERATE = "regenerate";
 
-    @ValueMapValue(name = PN_AI_ENABLED, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(booleanValue = false)
-    private boolean aiEnabled;
+    @ResourceResolverAnnotated
+    private ResourceResolver resourceResolver;
 
-    @ValueMapValue(name = PN_AI_PROMPT, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    private String aiPrompt;
-
-    @ValueMapValue(name = PN_AI_SERVICE_URL, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(values = "https://api.openai.com/v1/chat/completions")
-    private String aiServiceUrl;
+    @Self
+    private Resource resource;
 
     private String generatedText;
 
@@ -55,7 +56,35 @@ public class AITextModel {
     @PostConstruct
     protected void init() {
         if (aiEnabled && aiPrompt != null && !aiPrompt.isEmpty()) {
+            if (!regenerate) {
+                String cachedText = getCachedGeneratedText();
+                if (cachedText != null) {
+                    generatedText = cachedText;
+                    return;
+                }
+            }
             generateText();
+            saveGeneratedTextToJcr();
+        }
+    }
+
+    private String getCachedGeneratedText() {
+        if (resource != null) {
+            return resource.getValueMap().get(PN_GENERATED_TEXT, String.class);
+        }
+        return null;
+    }
+
+    private void saveGeneratedTextToJcr() {
+        if (generatedText != null && resourceResolver != null && resource != null) {
+            try {
+                ModifiableValueMap map = resource.adaptTo(ModifiableValueMap.class);
+                if (map != null) {
+                    map.put(PN_GENERATED_TEXT, generatedText);
+                    resourceResolver.commit();
+                }
+            } catch (Exception e) {
+            }
         }
     }
 
