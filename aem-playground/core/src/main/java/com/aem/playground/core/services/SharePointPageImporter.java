@@ -285,7 +285,7 @@ public class SharePointPageImporter {
         return createdResources;
     }
 
-    private void createPathHierarchy(String path) throws RepositoryException {
+    private void createPathHierarchy(String path) throws RepositoryException, org.apache.sling.api.resource.PersistenceException {
         String[] segments = path.split("/");
         StringBuilder currentPath = new StringBuilder();
 
@@ -303,7 +303,10 @@ public class SharePointPageImporter {
 
                 Resource parent = resourceResolver.getResource(currentPath.substring(0, currentPath.lastIndexOf("/")));
                 if (parent != null) {
-                    resourceResolver.create(parent, segment, props);
+                    try {
+                        resourceResolver.create(parent, segment, props);
+                    } catch (org.apache.sling.api.resource.PersistenceException e) {
+                    }
                 }
             }
         }
