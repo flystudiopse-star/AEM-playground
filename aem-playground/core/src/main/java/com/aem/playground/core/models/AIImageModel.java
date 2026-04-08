@@ -43,7 +43,6 @@ public class AIImageModel {
     private static final String PN_AI_SERVICE_URL = "aiServiceUrl";
 
     @ValueMapValue(name = PN_AI_ENABLED, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(booleanValue = false)
     private boolean aiEnabled;
 
     @ValueMapValue(name = PN_AI_PROMPT, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
@@ -60,7 +59,6 @@ public class AIImageModel {
     private String generatedAltText;
 
     @ValueMapValue(name = "regenerate", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(booleanValue = false)
     private boolean regenerate;
 
     @SlingObject
