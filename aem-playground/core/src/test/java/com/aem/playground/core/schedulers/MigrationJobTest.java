@@ -33,7 +33,7 @@ class MigrationJobTest {
         when(config.scheduler_concurrent()).thenReturn(false);
         when(config.bulk_import_limit()).thenReturn(500);
         when(config.retry_count()).thenReturn(3);
-        when(config.retry_delay_ms()).thenReturn(5000);
+        when(config.retry_delay_ms()).thenReturn(5000L);
         when(config.enable_auto_import()).thenReturn(false);
 
         fixture.activate(config);
@@ -48,7 +48,7 @@ class MigrationJobTest {
         when(config.scheduler_concurrent()).thenReturn(true);
         when(config.bulk_import_limit()).thenReturn(100);
         when(config.retry_count()).thenReturn(2);
-        when(config.retry_delay_ms()).thenReturn(3000);
+        when(config.retry_delay_ms()).thenReturn(3000L);
         when(config.enable_auto_import()).thenReturn(true);
 
         fixture.activate(config);
@@ -61,7 +61,7 @@ class MigrationJobTest {
         when(config.scheduler_concurrent()).thenReturn(false);
         when(config.bulk_import_limit()).thenReturn(1000);
         when(config.retry_count()).thenReturn(3);
-        when(config.retry_delay_ms()).thenReturn(5000);
+        when(config.retry_delay_ms()).thenReturn(5000L);
         when(config.enable_auto_import()).thenReturn(false);
 
         fixture.activate(config);
