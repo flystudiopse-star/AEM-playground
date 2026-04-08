@@ -16,9 +16,12 @@
 package com.aem.playground.core.models;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.Default;
+import org.apache.jackrabbit.JcrConstants;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
@@ -26,6 +29,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +43,6 @@ public class AITextModel {
     private static final String PN_AI_SERVICE_URL = "aiServiceUrl";
 
     @ValueMapValue(name = PN_AI_ENABLED, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(booleanValue = false)
     private boolean aiEnabled;
 
     @ValueMapValue(name = PN_AI_PROMPT, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
@@ -48,14 +52,28 @@ public class AITextModel {
     @Default(values = "https://api.openai.com/v1/chat/completions")
     private String aiServiceUrl;
 
+    @ValueMapValue(name = "generatedText", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedText;
+
+    @ValueMapValue(name = "regenerate", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
+    private boolean regenerate;
+
+    @SlingObject
+    private ResourceResolver resourceResolver;
+
+    @SlingObject
+    private Resource currentResource;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostConstruct
     protected void init() {
         if (aiEnabled && aiPrompt != null && !aiPrompt.isEmpty()) {
+            if (generatedText != null && !generatedText.isEmpty() && !regenerate) {
+                return;
+            }
             generateText();
+            saveToJcr();
         }
     }
 
@@ -77,6 +95,27 @@ public class AITextModel {
 
     public boolean isUseGeneratedText() {
         return aiEnabled && generatedText != null && !generatedText.isEmpty();
+    }
+
+    public boolean isRegenerate() {
+        return regenerate;
+    }
+
+    private void saveToJcr() {
+        if (currentResource != null && generatedText != null && !generatedText.isEmpty()) {
+            try {
+                Resource parent = currentResource.getParent();
+                if (parent != null) {
+                    String childName = currentResource.getName() + "_generated";
+                    Map<String, Object> props = new HashMap<>();
+                    props.put(JcrConstants.JCR_PRIMARYTYPE, JcrConstants.NT_UNSTRUCTURED);
+                    props.put("generatedText", generatedText);
+                    resourceResolver.create(parent, childName, props);
+                    resourceResolver.commit();
+                }
+            } catch (Exception e) {
+            }
+        }
     }
 
     private void generateText() {

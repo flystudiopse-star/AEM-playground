@@ -14,5 +14,3 @@
  *  limitations under the License.
  */
 package com.aem.playground.core.services;
-
-import aQute.bnd.annotation.bnd.Components;
