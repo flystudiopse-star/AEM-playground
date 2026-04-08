@@ -16,9 +16,12 @@
 package com.aem.playground.core.models;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
+import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.Default;
+import org.apache.jackrabbit.JcrConstants;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
@@ -26,6 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,14 +53,32 @@ public class AIImageModel {
     @Default(values = "https://api.openai.com/v1/images/generations")
     private String aiServiceUrl;
 
+    @ValueMapValue(name = "generatedImageUrl", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedImageUrl;
+
+    @ValueMapValue(name = "generatedAltText", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
+    private String generatedAltText;
+
+    @ValueMapValue(name = "regenerate", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
+    @Default(booleanValue = false)
+    private boolean regenerate;
+
+    @SlingObject
+    private ResourceResolver resourceResolver;
+
+    @SlingObject
+    private Resource currentResource;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostConstruct
     protected void init() {
         if (aiEnabled && aiPrompt != null && !aiPrompt.isEmpty()) {
+            if (generatedImageUrl != null && !generatedImageUrl.isEmpty() && !regenerate) {
+                return;
+            }
             generateImage();
+            saveToJcr();
         }
     }
 
@@ -75,8 +98,36 @@ public class AIImageModel {
         return generatedImageUrl;
     }
 
+    public String getGeneratedAltText() {
+        return generatedAltText;
+    }
+
     public boolean isUseGeneratedImage() {
         return aiEnabled && generatedImageUrl != null && !generatedImageUrl.isEmpty();
+    }
+
+    public boolean isRegenerate() {
+        return regenerate;
+    }
+
+    private void saveToJcr() {
+        if (currentResource != null && generatedImageUrl != null && !generatedImageUrl.isEmpty()) {
+            try {
+                Resource parent = currentResource.getParent();
+                if (parent != null) {
+                    String childName = currentResource.getName() + "_generated";
+                    Map<String, Object> props = new HashMap<>();
+                    props.put(JcrConstants.JCR_PRIMARYTYPE, JcrConstants.NT_UNSTRUCTURED);
+                    props.put("generatedImageUrl", generatedImageUrl);
+                    if (generatedAltText != null) {
+                        props.put("generatedAltText", generatedAltText);
+                    }
+                    resourceResolver.create(parent, childName, props);
+                    resourceResolver.commit();
+                }
+            } catch (Exception e) {
+            }
+        }
     }
 
     private void generateImage() {
@@ -104,11 +155,16 @@ public class AIImageModel {
                     JsonNode dataArray = rootNode.get("data");
                     if (dataArray != null && dataArray.isArray() && dataArray.size() > 0) {
                         generatedImageUrl = dataArray.get(0).get("url").asText();
+                        JsonNode revisedPrompt = dataArray.get(0).get("revised_prompt");
+                        if (revisedPrompt != null) {
+                            generatedAltText = revisedPrompt.asText();
+                        }
                     }
                 }
             }
         } catch (Exception e) {
             generatedImageUrl = null;
+            generatedAltText = null;
         }
     }
 
