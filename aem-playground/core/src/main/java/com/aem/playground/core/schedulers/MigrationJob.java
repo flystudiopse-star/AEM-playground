@@ -339,6 +339,7 @@ public class MigrationJob implements Runnable {
 
     public enum MigrationStatus {
         PENDING,
+        IN_PROGRESS,
         FETCHING_PAGES,
         IMPORTING,
         RETRYING,

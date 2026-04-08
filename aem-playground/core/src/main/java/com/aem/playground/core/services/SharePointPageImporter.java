@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.aem.playground.core.services.SharePointMigrationService.SharePointPage;
+
 @Component(service = SharePointPageImporter.class)
 public class SharePointPageImporter {
 
