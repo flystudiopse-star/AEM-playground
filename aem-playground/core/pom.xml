@@ -96,6 +96,16 @@ Import-Package: javax.annotation;version=0.0.0,*
             <version>2.15.2</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.http.components</groupId>
+            <artifactId>httpclient-osgi</artifactId>
+            <version>4.5.14</version>
+        </dependency>
+        <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>core.wcm.components.core</artifactId>
             <scope>test</scope>
