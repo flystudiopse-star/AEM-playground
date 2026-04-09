@@ -1,0 +1,11 @@
+{
+  "ai.service.url":"https://api.openai.com/v1/chat/completions",
+  "api.key":"",
+  "vision.model":"gpt-4o",
+  "text.model":"gpt-4",
+  "max.tokens":2000,
+  "enable.cleanup":true,
+  "enable.metadata":true,
+  "enable.component.mapping":true,
+  "enable.redirects":true
+}

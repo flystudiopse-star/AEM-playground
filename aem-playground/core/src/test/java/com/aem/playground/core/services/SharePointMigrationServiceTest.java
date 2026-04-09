@@ -31,6 +31,10 @@ class SharePointMigrationServiceTest {
         when(config.sharepoint_site_name()).thenReturn("TestSite");
         when(config.api_timeout()).thenReturn(30000);
         when(config.enable_debug()).thenReturn(false);
+        when(config.enable_ai_transformation()).thenReturn(true);
+        when(config.enable_ai_metadata()).thenReturn(true);
+        when(config.enable_ai_image_alt()).thenReturn(true);
+        when(config.enable_ai_cleanup()).thenReturn(true);
 
         fixture.activate(config);
 
@@ -49,6 +53,10 @@ class SharePointMigrationServiceTest {
         when(config.sharepoint_site_name()).thenReturn("TestSite");
         when(config.api_timeout()).thenReturn(30000);
         when(config.enable_debug()).thenReturn(false);
+        when(config.enable_ai_transformation()).thenReturn(true);
+        when(config.enable_ai_metadata()).thenReturn(true);
+        when(config.enable_ai_image_alt()).thenReturn(true);
+        when(config.enable_ai_cleanup()).thenReturn(true);
 
         fixture.activate(config);
 
@@ -65,6 +73,10 @@ class SharePointMigrationServiceTest {
         when(config.sharepoint_site_name()).thenReturn("TestSite");
         when(config.api_timeout()).thenReturn(30000);
         when(config.enable_debug()).thenReturn(false);
+        when(config.enable_ai_transformation()).thenReturn(true);
+        when(config.enable_ai_metadata()).thenReturn(true);
+        when(config.enable_ai_image_alt()).thenReturn(true);
+        when(config.enable_ai_cleanup()).thenReturn(true);
 
         fixture.activate(config);
 

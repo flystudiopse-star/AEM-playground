@@ -1,0 +1,13 @@
+{
+  "sharepoint.site.url":"https://your-tenant.sharepoint.com/sites/your-site",
+  "sharepoint.client.id":"your-client-id",
+  "sharepoint.client.secret":"your-client-secret",
+  "sharepoint.tenant.id":"your-tenant-id",
+  "sharepoint.site.name":"your-site-name",
+  "api.timeout":30000,
+  "enable.debug":false,
+  "enable.ai.transformation":true,
+  "enable.ai.metadata":true,
+  "enable.ai.image.alt":true,
+  "enable.ai.cleanup":true
+}
