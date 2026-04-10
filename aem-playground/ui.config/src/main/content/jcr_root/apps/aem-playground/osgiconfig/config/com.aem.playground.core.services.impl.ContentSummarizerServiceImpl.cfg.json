@@ -1,0 +1,14 @@
+{
+  "api.key":"",
+  "service.url":"https://api.openai.com/v1/chat/completions",
+  "default.model":"gpt-4",
+  "temperature":0.5,
+  "max.tokens":2000,
+  "enable.cache":true,
+  "cache.size":100,
+  "default.summary.length":500,
+  "default.executive.summary.length":300,
+  "default.key.takeaways":5,
+  "default.highlights":10,
+  "enable.ai.integration":true
+}
