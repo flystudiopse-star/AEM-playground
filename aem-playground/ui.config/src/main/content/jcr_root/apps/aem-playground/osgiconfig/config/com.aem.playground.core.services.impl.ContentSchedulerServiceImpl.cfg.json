@@ -1,0 +1,16 @@
+{
+  "api.key":"",
+  "service.url":"https://api.openai.com/v1/chat/completions",
+  "default.model":"gpt-4",
+  "temperature":0.7,
+  "max.tokens":4000,
+  "enable.cache":true,
+  "cache.size":100,
+  "default.timezone":"America/New_York",
+  "engagement.analysis.window":30,
+  "default.publish.frequency":"weekly",
+  "posts.per.week":5,
+  "scheduler.name":"aem-content-scheduler",
+  "enable.timezone.conversion":true,
+  "min.engagement.score":0.5
+}
