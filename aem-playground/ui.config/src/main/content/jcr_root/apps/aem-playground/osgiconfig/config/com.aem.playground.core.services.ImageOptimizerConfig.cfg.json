@@ -1,0 +1,14 @@
+{
+  "apiKey": "",
+  "visionEndpoint": "https://api.openai.com/v1/chat/completions",
+  "visionModel": "gpt-4o",
+  "defaultQuality": 85,
+  "maxWidth": 1920,
+  "maxHeight": 1080,
+  "defaultFormat": "webp",
+  "generateResponsiveVariants": true,
+  "breakpoints": "320,768,1024,1920",
+  "altTextPrompt": "Describe this image for accessibility purposes in one concise sentence.",
+  "enableCaching": true,
+  "cacheSize": 100
+}
