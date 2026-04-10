@@ -108,6 +108,40 @@ public final class AIGenerationOptions {
         return additionalParams;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String model;
+        private double temperature;
+        private int maxTokens;
+        private String customSystemPrompt;
+        private int imageCount;
+        private String imageSize;
+        private boolean enableCache;
+
+        public Builder model(String model) { this.model = model; return this; }
+        public Builder temperature(double temperature) { this.temperature = temperature; return this; }
+        public Builder maxTokens(int maxTokens) { this.maxTokens = maxTokens; return this; }
+        public Builder customSystemPrompt(String customSystemPrompt) { this.customSystemPrompt = customSystemPrompt; return this; }
+        public Builder imageCount(int imageCount) { this.imageCount = imageCount; return this; }
+        public Builder imageSize(String imageSize) { this.imageSize = imageSize; return this; }
+        public Builder enableCache(boolean enableCache) { this.enableCache = enableCache; return this; }
+
+        public AIGenerationOptions build() {
+            AIGenerationOptions opts = new AIGenerationOptions();
+            if (model != null) opts.model = model;
+            opts.temperature = temperature;
+            opts.maxTokens = maxTokens;
+            opts.customSystemPrompt = customSystemPrompt;
+            opts.imageCount = imageCount;
+            opts.imageSize = imageSize;
+            opts.enableCache = enableCache;
+            return opts;
+        }
+    }
+
     public String getCacheKey() {
         StringBuilder sb = new StringBuilder();
         sb.append(model).append(":").append(temperature).append(":").append(maxTokens);
