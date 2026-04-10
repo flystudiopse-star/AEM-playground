@@ -34,6 +34,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Model(adaptables = Resource.class)
 public class AIImageModel {
@@ -68,6 +70,7 @@ public class AIImageModel {
     private Resource currentResource;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger log = LoggerFactory.getLogger(AIImageModel.class);
 
     @PostConstruct
     protected void init() {
@@ -124,6 +127,7 @@ public class AIImageModel {
                     resourceResolver.commit();
                 }
             } catch (Exception e) {
+                log.error("Error saving generated image to JCR", e);
             }
         }
     }
@@ -161,6 +165,7 @@ public class AIImageModel {
                 }
             }
         } catch (Exception e) {
+            log.error("Error generating image", e);
             generatedImageUrl = null;
             generatedAltText = null;
         }

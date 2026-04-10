@@ -34,6 +34,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Model(adaptables = Resource.class)
 public class AITextModel {
@@ -65,6 +67,7 @@ public class AITextModel {
     private Resource currentResource;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger log = LoggerFactory.getLogger(AITextModel.class);
 
     @PostConstruct
     protected void init() {
@@ -114,6 +117,7 @@ public class AITextModel {
                     resourceResolver.commit();
                 }
             } catch (Exception e) {
+                log.error("Error saving generated text to JCR", e);
             }
         }
     }
@@ -147,6 +151,7 @@ public class AITextModel {
                 }
             }
         } catch (Exception e) {
+            log.error("Error generating text", e);
             generatedText = null;
         }
     }
