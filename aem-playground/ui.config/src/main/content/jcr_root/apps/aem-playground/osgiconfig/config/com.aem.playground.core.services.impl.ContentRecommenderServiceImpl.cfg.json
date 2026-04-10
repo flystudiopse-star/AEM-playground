@@ -1,0 +1,14 @@
+{
+  "api.key":"",
+  "default.model":"gpt-4",
+  "max.recommendations":10,
+  "min.relevance.threshold":0.3,
+  "similarity.threshold":0.5,
+  "max.similar.users":20,
+  "enable.caching":true,
+  "cache.size":100,
+  "content.analysis.prompt":"Analyze the following content and identify key topics and themes:",
+  "enable.collaborative.filtering":true,
+  "personalization.enabled":true,
+  "recommendation.ttl":3600
+}
