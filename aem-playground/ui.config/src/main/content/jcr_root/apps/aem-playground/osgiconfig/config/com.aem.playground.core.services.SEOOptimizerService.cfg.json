@@ -1,0 +1,7 @@
+{
+  "defaultLanguage":"en",
+  "generateSchemaEnabled":true,
+  "openGraphEnabled":true,
+  "twitterCardsEnabled":true,
+  "cacheMaxSize":100
+}
