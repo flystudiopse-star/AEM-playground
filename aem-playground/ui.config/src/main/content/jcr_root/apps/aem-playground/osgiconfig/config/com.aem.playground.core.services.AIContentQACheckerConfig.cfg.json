@@ -1,0 +1,7 @@
+{
+  "aiEnabled":true,
+  "allowedBrandColors":"#000000,#FFFFFF,#FF0000,#00FF00,#0000FF",
+  "allowedFonts":"Arial,Helvetica,Roboto,Open Sans",
+  "minContentLength":100,
+  "maxContentLength":10000
+}
