@@ -40,6 +40,7 @@ import com.aem.playground.core.services.TaggableContent;
 import com.aem.playground.core.services.TaggingService;
 import com.aem.playground.core.services.TaggingServiceConfig;
 import com.aem.playground.core.services.TagManagerResult;
+import com.aem.playground.core.services.TaxonomyNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -448,7 +449,7 @@ public class AITaggingService implements TaggingService {
         if (cache.size() > cacheSize) {
             int toRemove = cache.size() - cacheSize;
             for (int i = 0; i < toRemove && !cache.isEmpty(); i++) {
-                String key = cache.keys().nextElement();
+                String key = cache.keySet().iterator().next();
                 cache.remove(key);
             }
         }
