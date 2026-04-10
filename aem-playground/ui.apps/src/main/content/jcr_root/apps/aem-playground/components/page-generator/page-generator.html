@@ -1,0 +1,24 @@
+<sly data-sly-use="pageGeneratorModel="com.aem.playground.core.models.PageGeneratorModel"></sly>
+<sly data-sly-test="${pageGeneratorModel.hasGeneratedContent}">
+    <div class="page-generator-component" data-page-title="${pageGeneratorModel.pageTitle}">
+        <div class="generated-metadata" data-seo-keywords="${pageGeneratorModel.seoKeywords}" data-og-title="${pageGeneratorModel.seoOgTitle}" data-og-description="${pageGeneratorModel.seoOgDescription}"></div>
+        <section class="generated-content">
+            <sly data-sly-list="${pageGeneratorModel.contentSections}">
+                <div class="content-section" data-sly-test="${item.title}">
+                    <h2 data-sly-element="${item.title}">${item.title}</h2>
+                    <p class="section-content">${item.content}</p>
+                    <sly data-sly-test="${item.fragmentPath}">
+                        <sly data-sly-resource="${item.fragmentPath}"></sly>
+                    </sly>
+                </div>
+            </sly>
+        </section>
+        <sly data-sly-resource="${resource.path @ resourceType='core/wcm/components/container/v1/container'}"></sly>
+    </div>
+</sly>
+<sly data-sly-test="${!pageGeneratorModel.hasGeneratedContent}">
+    <div class="page-generator-empty">
+        <p class="placeholder-text">Configure the AI Page Generator component to generate page content.</p>
+        <sly data-sly-resource="${resource.path @ resourceType='core/wcm/components/container/v1/container'}"></sly>
+    </div>
+</sly>
