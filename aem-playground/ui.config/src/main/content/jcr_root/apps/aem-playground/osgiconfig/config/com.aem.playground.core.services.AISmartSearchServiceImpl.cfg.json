@@ -1,0 +1,9 @@
+{
+  "apiKey":"",
+  "embeddingsEndpoint":"https://api.openai.com/v1/embeddings",
+  "embeddingModel":"text-embedding-ada-002",
+  "maxIndexSize":10000,
+  "suggestionCount":5,
+  "defaultSearchResults":10,
+  "minScoreThreshold":0.5
+}
