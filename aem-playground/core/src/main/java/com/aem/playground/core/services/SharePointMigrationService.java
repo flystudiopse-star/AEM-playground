@@ -3,6 +3,7 @@ package com.aem.playground.core.services;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
@@ -19,10 +20,15 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component(service = SharePointMigrationService.class, configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = SharePointMigrationService.Config.class)
 public class SharePointMigrationService {
+
+    @Reference
+    private ContentTransformer contentTransformer;
 
     @ObjectClassDefinition(name = "SharePoint Migration Configuration",
             description = "Configuration for SharePoint to AEM migration")
@@ -48,6 +54,18 @@ public class SharePointMigrationService {
 
         @AttributeDefinition(name = "Enable Debug Logging", description = "Enable debug logging")
         boolean enable_debug() default false;
+
+        @AttributeDefinition(name = "Enable AI Transformation", description = "Enable AI-powered content transformation")
+        boolean enable_ai_transformation() default true;
+
+        @AttributeDefinition(name = "Enable AI Metadata", description = "Enable AI-generated metadata")
+        boolean enable_ai_metadata() default true;
+
+        @AttributeDefinition(name = "Enable AI Image Alt Text", description = "Enable AI-generated image alt text")
+        boolean enable_ai_image_alt() default true;
+
+        @AttributeDefinition(name = "Enable AI Cleanup", description = "Enable AI-powered content cleanup")
+        boolean enable_ai_cleanup() default true;
     }
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -59,9 +77,18 @@ public class SharePointMigrationService {
     private String siteName;
     private int apiTimeout;
     private boolean enableDebug;
+    private boolean enableAiTransformation;
+    private boolean enableAiMetadata;
+    private boolean enableAiImageAlt;
+    private boolean enableAiCleanup;
 
     private String accessToken;
     private long tokenExpiry;
+
+    private static final Pattern IMAGE_PATTERN = Pattern.compile(
+            "<img[^>]+src=['\"]([^'\"]+)['\"][^>]*>",
+            Pattern.CASE_INSENSITIVE
+    );
 
     @PostConstruct
     protected void init() {
@@ -77,8 +104,13 @@ public class SharePointMigrationService {
         this.siteName = config.sharepoint_site_name();
         this.apiTimeout = config.api_timeout();
         this.enableDebug = config.enable_debug();
+        this.enableAiTransformation = config.enable_ai_transformation();
+        this.enableAiMetadata = config.enable_ai_metadata();
+        this.enableAiImageAlt = config.enable_ai_image_alt();
+        this.enableAiCleanup = config.enable_ai_cleanup();
 
-        logger.info("SharePoint migration service activated with site: {}", siteUrl);
+        logger.info("SharePoint migration service activated with site: {}, AI: transformation={}, metadata={}, imageAlt={}, cleanup={}",
+                siteUrl, enableAiTransformation, enableAiMetadata, enableAiImageAlt, enableAiCleanup);
     }
 
     public String getSiteUrl() {
@@ -407,6 +439,296 @@ public class SharePointMigrationService {
         } else {
             throw new IOException("Failed to download asset, response code: " + responseCode);
         }
+    }
+
+    public void setContentTransformer(ContentTransformer contentTransformer) {
+    }
+
+    public boolean isAiTransformationEnabled() {
+        return enableAiTransformation && contentTransformer != null;
+    }
+
+    public boolean isAiMetadataEnabled() {
+        return enableAiMetadata && contentTransformer != null;
+    }
+
+    public boolean isAiImageAltEnabled() {
+        return enableAiImageAlt && contentTransformer != null;
+    }
+
+    public boolean isAiCleanupEnabled() {
+        return enableAiCleanup && contentTransformer != null;
+    }
+
+    public TransformationResult transformContentWithAi(SharePointPageContent content) {
+        TransformationResult result = new TransformationResult();
+        result.setOriginalContent(content.getHtmlContent());
+
+        if (!isAiTransformationEnabled()) {
+            result.setTransformedContent(content.getHtmlContent());
+            return result;
+        }
+
+        try {
+            ContentTransformer.TransformOptions options = createTransformOptions();
+            String transformed = contentTransformer.transformContent(content.getHtmlContent(), options);
+            result.setTransformedContent(transformed);
+            result.setTransformationSuccess(true);
+
+            List<String> imageUrls = extractImageUrls(content.getHtmlContent());
+            result.setImageUrls(imageUrls);
+
+            if (enableAiMetadata) {
+                Map<String, String> metadata = contentTransformer.generateMetadata(
+                        content.getHtmlContent(),
+                        content.getMetadata().get("Title")
+                );
+                result.setGeneratedMetadata(metadata);
+            }
+
+            if (enableAiCleanup) {
+                ContentTransformer.CleanupOptions cleanupOptions = createCleanupOptions();
+                String cleaned = contentTransformer.cleanupAndOptimize(transformed, cleanupOptions);
+                if (!cleaned.equals(transformed)) {
+                    result.setTransformedContent(cleaned);
+                    result.setCleanupApplied(true);
+                }
+            }
+
+            if (enableDebug) {
+                logger.debug("AI transformation completed for content length: {}", content.getHtmlContent().length());
+            }
+
+        } catch (Exception e) {
+            logger.error("AI transformation failed: {}", e.getMessage());
+            result.setTransformedContent(content.getHtmlContent());
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    public ImageAltTextResult generateImageAltText(byte[] imageData, String imageName) {
+        ImageAltTextResult result = new ImageAltTextResult();
+        result.setImageName(imageName);
+
+        if (!isAiImageAltEnabled()) {
+            result.setAltText(generateDefaultAltText(imageName));
+            return result;
+        }
+
+        try {
+            String altText = contentTransformer.generateImageAltText(imageData, imageName);
+            result.setAltText(altText);
+            result.setGenerationSuccess(true);
+
+            if (enableDebug) {
+                logger.debug("Generated alt text for image {}: {}", imageName, altText);
+            }
+
+        } catch (Exception e) {
+            logger.error("Failed to generate alt text for {}: {}", imageName, e.getMessage());
+            result.setAltText(generateDefaultAltText(imageName));
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    public ComponentMappingResult suggestComponentMappings(String htmlContent) {
+        ComponentMappingResult result = new ComponentMappingResult();
+
+        if (!isAiTransformationEnabled()) {
+            return result;
+        }
+
+        try {
+            List<ContentTransformer.ComponentMapping> mappings =
+                    contentTransformer.suggestComponentMappings(htmlContent);
+            result.setMappings(mappings);
+            result.setMappingSuccess(true);
+
+            if (enableDebug) {
+                logger.debug("Suggested {} component mappings", mappings.size());
+            }
+
+        } catch (Exception e) {
+            logger.error("Component mapping failed: {}", e.getMessage());
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    public RedirectResult generateRedirectMappings(List<SharePointPage> pages, String targetBaseUrl) {
+        RedirectResult result = new RedirectResult();
+
+        if (!isAiTransformationEnabled()) {
+            return result;
+        }
+
+        try {
+            List<String> sourceUrls = new ArrayList<>();
+            for (SharePointPage page : pages) {
+                sourceUrls.add(page.getFileRef());
+            }
+
+            List<ContentTransformer.RedirectMapping> redirects =
+                    contentTransformer.generateRedirectMappings(sourceUrls, targetBaseUrl);
+            result.setRedirects(redirects);
+            result.setGenerationSuccess(true);
+
+            if (enableDebug) {
+                logger.debug("Generated {} redirect mappings", redirects.size());
+            }
+
+        } catch (Exception e) {
+            logger.error("Redirect mapping failed: {}", e.getMessage());
+            result.setErrorMessage(e.getMessage());
+        }
+
+        return result;
+    }
+
+    private List<String> extractImageUrls(String htmlContent) {
+        List<String> urls = new ArrayList<>();
+        if (htmlContent == null || htmlContent.isEmpty()) {
+            return urls;
+        }
+
+        Matcher matcher = IMAGE_PATTERN.matcher(htmlContent);
+        while (matcher.find()) {
+            String src = matcher.group(1);
+            if (src != null && !src.isEmpty()) {
+                urls.add(src);
+            }
+        }
+
+        return urls;
+    }
+
+    private ContentTransformer.TransformOptions createTransformOptions() {
+        return new ContentTransformer.TransformOptions() {
+            @Override
+            public String getTargetFormat() {
+                return "AEM HTL";
+            }
+
+            @Override
+            public boolean isPreserveImages() {
+                return true;
+            }
+
+            @Override
+            public boolean isCleanupHtml() {
+                return enableAiCleanup;
+            }
+
+            @Override
+            public Map<String, String> getCustomMappings() {
+                return new HashMap<>();
+            }
+        };
+    }
+
+    private ContentTransformer.CleanupOptions createCleanupOptions() {
+        return new ContentTransformer.CleanupOptions() {
+            @Override
+            public boolean isRemoveEmptyParagraphs() {
+                return true;
+            }
+
+            @Override
+            public boolean isFixEncoding() {
+                return true;
+            }
+
+            @Override
+            public boolean isNormalizeWhitespace() {
+                return true;
+            }
+
+            @Override
+            public boolean isRemoveInvalidTags() {
+                return true;
+            }
+        };
+    }
+
+    private String generateDefaultAltText(String imageName) {
+        if (imageName == null || imageName.isEmpty()) {
+            return "Image";
+        }
+        String name = imageName.substring(0, imageName.lastIndexOf('.'));
+        String camelCase = name.replaceAll("([a-z])([A-Z])", "$1 $2");
+        return camelCase.replaceAll("[-_]", " ");
+    }
+
+    public static class TransformationResult {
+        private String originalContent;
+        private String transformedContent;
+        private boolean transformationSuccess;
+        private boolean cleanupApplied;
+        private List<String> imageUrls = new ArrayList<>();
+        private Map<String, String> generatedMetadata;
+        private String errorMessage;
+
+        public String getOriginalContent() { return originalContent; }
+        public void setOriginalContent(String originalContent) { this.originalContent = originalContent; }
+        public String getTransformedContent() { return transformedContent; }
+        public void setTransformedContent(String transformedContent) { this.transformedContent = transformedContent; }
+        public boolean isTransformationSuccess() { return transformationSuccess; }
+        public void setTransformationSuccess(boolean transformationSuccess) { this.transformationSuccess = transformationSuccess; }
+        public boolean isCleanupApplied() { return cleanupApplied; }
+        public void setCleanupApplied(boolean cleanupApplied) { this.cleanupApplied = cleanupApplied; }
+        public List<String> getImageUrls() { return imageUrls; }
+        public void setImageUrls(List<String> imageUrls) { this.imageUrls = imageUrls; }
+        public Map<String, String> getGeneratedMetadata() { return generatedMetadata; }
+        public void setGeneratedMetadata(Map<String, String> generatedMetadata) { this.generatedMetadata = generatedMetadata; }
+        public String getErrorMessage() { return errorMessage; }
+        public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+    }
+
+    public static class ImageAltTextResult {
+        private String imageName;
+        private String altText;
+        private boolean generationSuccess;
+        private String errorMessage;
+
+        public String getImageName() { return imageName; }
+        public void setImageName(String imageName) { this.imageName = imageName; }
+        public String getAltText() { return altText; }
+        public void setAltText(String altText) { this.altText = altText; }
+        public boolean isGenerationSuccess() { return generationSuccess; }
+        public void setGenerationSuccess(boolean generationSuccess) { this.generationSuccess = generationSuccess; }
+        public String getErrorMessage() { return errorMessage; }
+        public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+    }
+
+    public static class ComponentMappingResult {
+        private List<ContentTransformer.ComponentMapping> mappings = new ArrayList<>();
+        private boolean mappingSuccess;
+        private String errorMessage;
+
+        public List<ContentTransformer.ComponentMapping> getMappings() { return mappings; }
+        public void setMappings(List<ContentTransformer.ComponentMapping> mappings) { this.mappings = mappings; }
+        public boolean isMappingSuccess() { return mappingSuccess; }
+        public void setMappingSuccess(boolean mappingSuccess) { this.mappingSuccess = mappingSuccess; }
+        public String getErrorMessage() { return errorMessage; }
+        public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+    }
+
+    public static class RedirectResult {
+        private List<ContentTransformer.RedirectMapping> redirects = new ArrayList<>();
+        private boolean generationSuccess;
+        private String errorMessage;
+
+        public List<ContentTransformer.RedirectMapping> getRedirects() { return redirects; }
+        public void setRedirects(List<ContentTransformer.RedirectMapping> redirects) { this.redirects = redirects; }
+        public boolean isGenerationSuccess() { return generationSuccess; }
+        public void setGenerationSuccess(boolean generationSuccess) { this.generationSuccess = generationSuccess; }
+        public String getErrorMessage() { return errorMessage; }
+        public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
     }
 
     public static class SharePointPage {
