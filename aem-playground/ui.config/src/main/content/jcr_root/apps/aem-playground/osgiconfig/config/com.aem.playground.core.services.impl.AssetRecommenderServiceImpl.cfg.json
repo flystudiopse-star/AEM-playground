@@ -1,0 +1,9 @@
+{
+  "dam.base.path":"/content/dam",
+  "embeddings.endpoint":"https://api.openai.com/v1/embeddings",
+  "embedding.model":"text-embedding-ada-002",
+  "max.recommendations":10,
+  "similarity.threshold":0.5,
+  "enable.semantic.search":true,
+  "collections.base.path":"/content/collections"
+}
