@@ -1,0 +1,11 @@
+{
+  "api.key":"",
+  "service.url":"https://api.openai.com/v1/chat/completions",
+  "default.model":"gpt-4",
+  "temperature":0.7,
+  "max.tokens":4000,
+  "enable.cache":true,
+  "cache.size":100,
+  "drift.threshold":0.3,
+  "auto.restore.points":true
+}
