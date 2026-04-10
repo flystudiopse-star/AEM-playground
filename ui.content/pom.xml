@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.example.aem</groupId>
+        <artifactId>aem-project-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>ui.content</artifactId>
+    <packaging>content-package</packaging>
+
+    <name>AEM UI.content Package</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.example.aem</groupId>
+            <artifactId>ui.apps</artifactId>
+            <version>${project.version}</version>
+            <type>content-package</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>filevault-package-maven-plugin</artifactId>
+                <configuration>
+                    <group>com.example.aem</group>
+                    <name>aem-project-ui.content</name>
+                    <packageType>content</packageType>
+                    <filters>
+                        <filter>
+                            <root>/content/aem-project</root>
+                        </filter>
+                        <filter>
+                            <root>/conf/aem-project</root>
+                        </filter>
+                    </filters>
+                    <properties>
+                        <cloudManagerTarget>none</cloudManagerTarget>
+                    </properties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

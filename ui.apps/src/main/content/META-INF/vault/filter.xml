@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/aem-project">
+        <include pattern="/apps/aem-project/components"/>
+        <include pattern="/apps/aem-project/conf"/>
+        <include pattern="/apps/aem-project/etc"/>
+    </filter>
+</workspaceFilter>
