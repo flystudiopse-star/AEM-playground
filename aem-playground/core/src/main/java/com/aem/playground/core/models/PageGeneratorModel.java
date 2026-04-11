@@ -20,20 +20,18 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.apache.sling.models.annotations.injectorspecific.Reference;
 import org.apache.sling.models.annotations.Default;
 import org.apache.jackrabbit.JcrConstants;
 
 import javax.annotation.PostConstruct;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aem.playground.core.services.AIService;
+import com.aem.playground.core.services.AIGenerationOptions;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -81,6 +79,9 @@ public class PageGeneratorModel {
 
     @SlingObject
     private Resource currentResource;
+
+    @Reference
+    private AIService aiService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private List<ContentSection> contentSections;
@@ -179,36 +180,15 @@ public class PageGeneratorModel {
     }
 
     private void generatePageContent() {
-        try {
-            URL url = new URL(aiServiceUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            String prompt = buildPageGenerationPrompt();
-            String requestBody = String.format(
-                "{\"model\": \"gpt-4\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}], \"max_tokens\": 2000}",
-                escapeJson(prompt)
-            );
-
-            try (OutputStream os = connection.getOutputStream()) {
-                byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                try (InputStream responseStream = connection.getInputStream()) {
-                    JsonNode rootNode = objectMapper.readTree(responseStream);
-                    JsonNode choices = rootNode.get("choices");
-                    if (choices != null && choices.isArray() && choices.size() > 0) {
-                        String responseText = choices.get(0).get("message").get("content").asText();
-                        parsePageResponse(responseText);
-                    }
-                }
-            }
-        } catch (Exception e) {
+        String prompt = buildPageGenerationPrompt();
+        AIGenerationOptions options = AIGenerationOptions.builder()
+            .setMaxTokens(2000)
+            .setTemperature(0.7f)
+            .build();
+        
+        AIService.AIGenerationResult result = aiService.generateText(prompt, options);
+        if (result.isSuccess()) {
+            parsePageResponse(result.getContent());
         }
     }
 
@@ -315,14 +295,5 @@ public class PageGeneratorModel {
             }
         } catch (Exception e) {
         }
-    }
-
-    private String escapeJson(String text) {
-        if (text == null) return "";
-        return text.replace("\\", "\\\\")
-                   .replace("\"", "\\\"")
-                   .replace("\n", "\\n")
-                   .replace("\r", "\\r")
-                   .replace("\t", "\\t");
     }
 }
