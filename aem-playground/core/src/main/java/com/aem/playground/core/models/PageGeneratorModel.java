@@ -182,9 +182,8 @@ public class PageGeneratorModel {
     private void generatePageContent() {
         String prompt = buildPageGenerationPrompt();
         AIGenerationOptions options = AIGenerationOptions.builder()
-            .setMaxTokens(2000)
-            .setTemperature(0.7f)
-            .build();
+            .maxTokens(2000)
+            .temperature(0.7);
         
         AIService.AIGenerationResult result = aiService.generateText(prompt, options);
         if (result.isSuccess()) {
