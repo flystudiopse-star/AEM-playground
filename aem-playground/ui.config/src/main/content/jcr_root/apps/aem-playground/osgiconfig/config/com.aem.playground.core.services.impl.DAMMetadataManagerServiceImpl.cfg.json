@@ -1,0 +1,16 @@
+{
+  "ai.service.url":"https://api.openai.com/v1/chat/completions",
+  "api.key":"",
+  "model":"gpt-4",
+  "max.keywords":10,
+  "min.confidence":0.5,
+  "max.tokens":2000,
+  "temperature":0.7,
+  "enable.smart.keywords":true,
+  "enable.categories":true,
+  "enable.relationships":true,
+  "enable.intelligent.tagging":true,
+  "enable.metadata.extraction":true,
+  "cache.enabled":true,
+  "cache.size":100
+}
