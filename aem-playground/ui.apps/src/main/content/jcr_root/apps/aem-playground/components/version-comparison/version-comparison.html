@@ -1,0 +1,92 @@
+<!--/*
+    AI Content Version Manager - Version Comparison Component
+    Provides UI for comparing content versions using AI
+*/-->
+<div class="cmp-version-comparison" data-cmp-is="versionComparison"
+     data-content-path="${properties.contentPath}"
+     data-version1="${properties.version1}"
+     data-version2="${properties.version2}">
+
+    <sly data-sly-use.model="com.aem.playground.core.models.ContentVersionComparisonModel">
+    
+    <div class="cmp-version-comparison__header">
+        <h2 class="cmp-version-comparison__title">${properties.title || 'Content Version Comparison'}</h2>
+        <p class="cmp-version-comparison__path">${properties.contentPath}</p>
+    </div>
+
+    <div class="cmp-version-comparison__versions" data-sly-test="${properties.version1 && properties.version2}">
+        <div class="cmp-version-comparison__version cmp-version-comparison__version--1">
+            <h3>Version: ${properties.version1}</h3>
+            <div class="cmp-version-comparison__summary" data-sly-use.summary1="model.summary1">
+                <p class="cmp-version-comparison__summary-text">${summary1.summary}</p>
+                <span class="cmp-version-comparison__confidence">
+                    AI Confidence: ${summary1.aiConfidence}
+                </span>
+            </div>
+        </div>
+        
+        <div class="cmp-version-comparison__version cmp-version-comparison__version--2">
+            <h3>Version: ${properties.version2}</h3>
+            <div class="cmp-version-comparison__summary" data-sly-use.summary2="model.summary2">
+                <p class="cmp-version-comparison__summary-text">${summary2.summary}</p>
+                <span class="cmp-version-comparison__confidence">
+                    AI Confidence: ${summary2.aiConfidence}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cmp-version-comparison__comparison" data-sly-use.comparison="model.comparison">
+        <h3>Comparison Analysis</h3>
+        <div class="cmp-version-comparison__score">
+            <span class="cmp-version-comparison__score-label">Similarity Score:</span>
+            <span class="cmp-version-comparison__score-value">${comparison.similarityScore}</span>
+        </div>
+        <div class="cmp-version-comparison__summary-text">
+            ${comparison.summary}
+        </div>
+        <div class="cmp-version-comparison__differences" data-sly-list="${comparison.differences}">
+            <div class="cmp-version-comparison__difference">
+                <span class="cmp-version-comparison__difference-path">${item.path}</span>
+                <span class="cmp-version-comparison__difference-type">${item.type}</span>
+                <span class="cmp-version-comparison__difference-description">${item.description}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="cmp-version-comparison__drift" data-sly-use.drift="model.drift">
+        <h3>Content Drift Analysis</h3>
+        <div class="cmp-version-comparison__drift-status cmp-version-comparison__drift-status--${drift.status}">
+            Status: ${drift.status}
+        </div>
+        <div class="cmp-version-comparison__drift-score">
+            Drift Score: ${drift.driftScore}
+        </div>
+        <p class="cmp-version-comparison__drift-reason">${drift.driftReason}</p>
+    </div>
+
+    <div class="cmp-version-comparison__recommendations" data-sly-list="${model.recommendations}">
+        <div class="cmp-version-comparison__recommendation">
+            <h4>Version: ${item.versionId}</h4>
+            <p class="cmp-version-comparison__recommendation-type">Recommendation: ${item.recommendation}</p>
+            <p class="cmp-version-comparison__recommendation-reason">${item.reason}</p>
+            <span class="cmp-version-comparison__recommendation-confidence">
+                Confidence: ${item.confidenceScore}
+            </span>
+            <ul class="cmp-version-comparison__recommendation-actions" data-sly-list="${item.suggestedActions}">
+                <li>${item}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="cmp-version-comparison__restore-points" data-sly-list="${model.restorePoints}">
+        <div class="cmp-version-comparison__restore-point">
+            <span class="cmp-version-comparison__restore-point-label">${item.label}</span>
+            <span class="cmp-version-comparison__restore-point-version">Version: ${item.versionId}</span>
+            <span class="cmp-version-comparison__restore-point-type">${item.type}</span>
+            <span class="cmp-version-comparison__restore-point-timestamp">${item.timestamp}</span>
+        </div>
+    </div>
+
+    </sly>
+</div>

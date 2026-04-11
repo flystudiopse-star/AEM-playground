@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Version Comparison"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation">
+        <items
+            jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/tabs">
+                <items
+                    jcr:primaryType="nt:unstructured">
+                    <general
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="General"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                        <items
+                            jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items
+                                    jcr:primaryType="nt:unstructured">
+                                    <title
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="Title"
+                                        name="./title"/>
+                                    <contentPath
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                        fieldLabel="Content Path"
+                                        name="./contentPath"
+                                        rootPath="/content"/>
+                                </items>
+                            </column>
+                        </items>
+                    </general>
+                    <versions
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Versions"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                        <items
+                            jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items
+                                    jcr:primaryType="nt:unstructured">
+                                    <version1
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="Version 1"
+                                        name="./version1"/>
+                                    <version2
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                        fieldLabel="Version 2"
+                                        name="./version2"/>
+                                </items>
+                            </column>
+                        </items>
+                    </versions>
+                    <analysis
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Analysis Options"
+                        sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+                        <items
+                            jcr:primaryType="nt:unstructured">
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items
+                                    jcr:primaryType="nt:unstructured">
+                                    <enableDriftDetection
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        fieldLabel="Enable Drift Detection"
+                                        name="./enableDriftDetection"
+                                        text="Enable drift detection between versions"/>
+                                    <driftThreshold
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                        fieldLabel="Drift Threshold"
+                                        name="./driftThreshold"
+                                        min="0"
+                                        max="1"
+                                        step="0.1"
+                                        value="0.3"/>
+                                    <showRecommendations
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        fieldLabel="Show Recommendations"
+                                        name="./showRecommendations"
+                                        text="Show AI-powered version recommendations"/>
+                                    <showRestorePoints
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                        fieldLabel="Show Restore Points"
+                                        name="./showRestorePoints"
+                                        text="Show existing restore points"/>
+                                </items>
+                            </column>
+                        </items>
+                    </analysis>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>
