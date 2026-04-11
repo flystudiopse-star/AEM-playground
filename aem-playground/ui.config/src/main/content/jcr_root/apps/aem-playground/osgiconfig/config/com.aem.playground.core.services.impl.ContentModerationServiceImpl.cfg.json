@@ -1,0 +1,16 @@
+{
+  "api.key":"",
+  "service.url":"https://api.openai.com/v1/chat/completions",
+  "default.model":"gpt-4",
+  "temperature":0.3,
+  "max.tokens":4000,
+  "enable.cache":true,
+  "cache.size":100,
+  "auto.censor.enabled":true,
+  "moderation.sensitivity":0.5,
+  "workflow.trigger.enabled":true,
+  "moderation.workflow.model":"models/content-moderation",
+  "approval.queue.enabled":true,
+  "report.generation.enabled":true,
+  "censorship.character":"*"
+}
