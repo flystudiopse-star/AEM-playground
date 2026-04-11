@@ -1,0 +1,14 @@
+package com.aem.playground.core.services;
+
+public enum ErrorType {
+    BROKEN_LINK,
+    MISSING_ASSET,
+    MISSING_REFERENCE,
+    CONTENT_STRUCTURE,
+    AUTHORING_ERROR,
+    INVALID_COMPONENT,
+    MISSING_REQUIRED_FIELD,
+    INCONSISTENT_DATA,
+    DUPLICATE_CONTENT,
+    INVALID_FORMAT
+}
