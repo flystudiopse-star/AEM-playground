@@ -1,0 +1,126 @@
+<sly data-sly-use.model="com.aem.playground.core.models.AnalyticsDashboardModel">
+<sly data-sly-init="${model.init()}">
+    <div class="analytics-dashboard aem-Grid aem-Grid--12 aem-Grid--default--12">
+        <div class="dashboard-header aem-GridColumn aem-GridColumn--default--12">
+            <h2>AI Analytics Dashboard</h2>
+            <p class="dashboard-description">AI-powered insights and recommendations for your content</p>
+        </div>
+
+        <div class="summary-cards aem-GridColumn aem-GridColumn--default--12">
+            <div class="summary-card">
+                <span class="card-label">Total Page Views</span>
+                <span class="card-value" data-sly-test.summaryData="${model.summaryData['totalPageViews']}">${summaryData}</span>
+                <span class="card-value" data-sly-test="${!summaryData['totalPageViews']}">--</span>
+            </div>
+            <div class="summary-card">
+                <span class="card-label">Unique Visitors</span>
+                <span class="card-value" data-sly-test.summaryData="${model.summaryData['totalUniqueVisitors']}">${summaryData}</span>
+                <span class="card-value" data-sly-test="${!summaryData['totalUniqueVisitors']}">--</span>
+            </div>
+            <div class="summary-card">
+                <span class="card-label">Total Conversions</span>
+                <span class="card-value" data-sly-test.summaryData="${model.summaryData['totalConversions']}">${summaryData}</span>
+                <span class="card-value" data-sly-test="${!summaryData['totalConversions']}">--</span>
+            </div>
+            <div class="summary-card">
+                <span class="card-label">Avg Score</span>
+                <span class="card-value" data-sly-test.summaryData="${model.summaryData['averageOverallScore']}">${model.summaryData['averageOverallScore'] @ format='%.1f'}</span>
+                <span class="card-value" data-sly-test="${!summaryData['averageOverallScore']}">--</span>
+            </div>
+        </div>
+
+        <div class="insights-section aem-GridColumn aem-GridColumn--default--12">
+            <h3>AI Insights & Recommendations</h3>
+            <div class="insights-list" data-sly-list.insight="${model.insights}">
+                <div class="insight-item priority-${insight.priority}">
+                    <div class="insight-header">
+                        <span class="insight-type">${insight.insightType}</span>
+                        <span class="insight-priority" data-sly-test="${insight.priority == 1}">High</span>
+                        <span class="insight-priority medium" data-sly-test="${insight.priority != 1}">Medium</span>
+                    </div>
+                    <h4 class="insight-title">${insight.title}</h4>
+                    <p class="insight-description">${insight.description}</p>
+                    <p class="insight-recommendation"><strong>Recommendation:</strong> ${insight.recommendation}</p>
+                    <div class="insight-confidence">Confidence: ${insight.confidence @ format='%.0f'}%</div>
+                </div>
+            </div>
+            <p data-sly-test="${!model.insights || model.insights.size == 0}">No insights available yet.</p>
+        </div>
+
+        <div class="top-performing aem-GridColumn aem-GridColumn--default--6">
+            <h3>Top Performing Content</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Content</th>
+                        <th>Views</th>
+                        <th>Conversions</th>
+                    </tr>
+                </thead>
+                <tbody data-sly-list.item="${model.topPerformingContent}">
+                    <tr>
+                        <td>${item.contentTitle}</td>
+                        <td>${item.pageViews}</td>
+                        <td>${item.conversionCount}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="underperforming aem-GridColumn aem-GridColumn--default--6">
+            <h3>Content Needing Attention</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Content</th>
+                        <th>Views</th>
+                        <th>Bounce Rate</th>
+                    </tr>
+                </thead>
+                <tbody data-sly-list.item="${model.underperformingContent}">
+                    <tr>
+                        <td>${item.contentTitle}</td>
+                        <td>${item.pageViews}</td>
+                        <td>${item.bounceRate @ format='%.1f'}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="score-distribution aem-GridColumn aem-GridColumn--default--12">
+            <h3>Content Score Distribution</h3>
+            <div class="scores-grid" data-sly-list.score="${model.contentScores}">
+                <div class="score-card">
+                    <div class="score-title">${score.contentPath}</div>
+                    <div class="score-bars">
+                        <div class="score-bar">
+                            <span class="score-label">Quality</span>
+                            <div class="bar-container"><div class="bar quality" style="width: ${score.qualityScore}%"></div></div>
+                            <span class="score-value">${score.qualityScore @ format='%.0f'}</span>
+                        </div>
+                        <div class="score-bar">
+                            <span class="score-label">SEO</span>
+                            <div class="bar-container"><div class="bar seo" style="width: ${score.seoScore}%"></div></div>
+                            <span class="score-value">${score.seoScore @ format='%.0f'}</span>
+                        </div>
+                        <div class="score-bar">
+                            <span class="score-label">Engagement</span>
+                            <div class="bar-container"><div class="bar engagement" style="width: ${score.engagementScore}%"></div></div>
+                            <span class="score-value">${score.engagementScore @ format='%.0f'}</span>
+                        </div>
+                    </div>
+                    <div class="overall-score">Overall: ${score.overallScore @ format='%.0f'}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-section aem-GridColumn aem-GridColumn--default--12">
+            <h3>AI Reports</h3>
+            <div class="report-buttons">
+                <button class="btn-report" onclick="console.log('Weekly: ${model.weeklyReportJson}')">View Weekly Report</button>
+                <button class="btn-report" onclick="console.log('Monthly: ${model.monthlyReportJson}')">View Monthly Report</button>
+            </div>
+        </div>
+    </div>
+</sly>
+</sly>
