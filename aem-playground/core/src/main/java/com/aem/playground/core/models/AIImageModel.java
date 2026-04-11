@@ -110,52 +110,7 @@ public class AIImageModel {
             }
         }
         return null;
-    }
-
-    private void saveGeneratedImageToJcr() {
-        if (generatedImageUrl != null && resourceResolver != null && resource != null) {
-            try {
-                ModifiableValueMap map = resource.adaptTo(ModifiableValueMap.class);
-                if (map != null) {
-                    map.put(PN_GENERATED_IMAGE_URL, generatedImageUrl);
-                    if (generatedAltText != null) {
-                        map.put(PN_GENERATED_ALT_TEXT, generatedAltText);
-                    }
-                    resourceResolver.commit();
-                }
-            } catch (Exception e) {
-            }
->>>>>>> origin/gt/sage/9e57cc31
-        }
-    }
-
-    public boolean isAiEnabled() {
-        return aiEnabled;
-    }
-
-    public String getAiPrompt() {
-        return aiPrompt;
-    }
-
-    public String getAiServiceUrl() {
-        return aiServiceUrl;
-    }
-
-    public String getGeneratedImageUrl() {
-        return generatedImageUrl;
-    }
-
-    public String getGeneratedAltText() {
-        return generatedAltText;
-    }
-
-    public boolean isUseGeneratedImage() {
-        return aiEnabled && generatedImageUrl != null && !generatedImageUrl.isEmpty();
-    }
-
-    public boolean isRegenerate() {
-        return regenerate;
-    }
+}
 
     private void saveToJcr() {
         if (currentResource != null && generatedImageUrl != null && !generatedImageUrl.isEmpty()) {

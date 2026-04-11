@@ -95,20 +95,6 @@ public class AITextModel {
         return null;
     }
 
-    private void saveGeneratedTextToJcr() {
-        if (generatedText != null && resourceResolver != null && resource != null) {
-            try {
-                ModifiableValueMap map = resource.adaptTo(ModifiableValueMap.class);
-                if (map != null) {
-                    map.put(PN_GENERATED_TEXT, generatedText);
-                    resourceResolver.commit();
-                }
-            } catch (Exception e) {
-            }
->>>>>>> origin/gt/sage/9e57cc31
-        }
-    }
-
     public boolean isAiEnabled() {
         return aiEnabled;
     }
