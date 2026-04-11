@@ -15,9 +15,12 @@
  */
 package com.aem.playground.core.models;
 
+import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.ResourceResolverAnnotated;
+import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.Default;
@@ -41,6 +44,15 @@ public class AIImageModel {
     private static final String PN_AI_ENABLED = "aiEnabled";
     private static final String PN_AI_PROMPT = "aiPrompt";
     private static final String PN_AI_SERVICE_URL = "aiServiceUrl";
+    private static final String PN_GENERATED_IMAGE_URL = "generatedImageUrl";
+    private static final String PN_GENERATED_ALT_TEXT = "generatedAltText";
+    private static final String PN_REGENERATE = "regenerate";
+
+    @ResourceResolverAnnotated
+    private ResourceResolver resourceResolver;
+
+    @Self
+    private Resource resource;
 
     @ValueMapValue(name = PN_AI_ENABLED, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private boolean aiEnabled;
@@ -54,6 +66,7 @@ public class AIImageModel {
 
     @ValueMapValue(name = "generatedImageUrl", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedImageUrl;
+    private String generatedAltText;
 
     @ValueMapValue(name = "generatedAltText", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedAltText;
@@ -75,8 +88,44 @@ public class AIImageModel {
             if (generatedImageUrl != null && !generatedImageUrl.isEmpty() && !regenerate) {
                 return;
             }
+            if (!regenerate) {
+                String[] cached = getCachedGeneratedImage();
+                if (cached != null) {
+                    generatedImageUrl = cached[0];
+                    generatedAltText = cached[1];
+                    return;
+                }
+            }
             generateImage();
             saveToJcr();
+        }
+    }
+
+    private String[] getCachedGeneratedImage() {
+        if (resource != null) {
+            String url = resource.getValueMap().get(PN_GENERATED_IMAGE_URL, String.class);
+            String alt = resource.getValueMap().get(PN_GENERATED_ALT_TEXT, String.class);
+            if (url != null) {
+                return new String[]{url, alt};
+            }
+        }
+        return null;
+    }
+
+    private void saveGeneratedImageToJcr() {
+        if (generatedImageUrl != null && resourceResolver != null && resource != null) {
+            try {
+                ModifiableValueMap map = resource.adaptTo(ModifiableValueMap.class);
+                if (map != null) {
+                    map.put(PN_GENERATED_IMAGE_URL, generatedImageUrl);
+                    if (generatedAltText != null) {
+                        map.put(PN_GENERATED_ALT_TEXT, generatedAltText);
+                    }
+                    resourceResolver.commit();
+                }
+            } catch (Exception e) {
+            }
+>>>>>>> origin/gt/sage/9e57cc31
         }
     }
 

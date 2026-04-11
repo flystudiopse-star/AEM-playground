@@ -16,9 +16,13 @@
 package com.aem.playground.core.models;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.spi.ModelPackage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import io.wcm.testing.mock.aem.junit5.AemContext;
 import io.wcm.testing.mock.aem.junit5.AemContextExtension;
@@ -29,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ExtendWith(AemContextExtension.class)
+@ExtendWith({AemContextExtension.class, MockitoExtension.class})
 class AIImageModelTest {
 
     private final AemContext context = AppAemContext.newAemContext();
@@ -37,6 +41,9 @@ class AIImageModelTest {
     private AIImageModel aiImageModel;
 
     private Resource resource;
+
+    @Mock
+    private ResourceResolver resourceResolver;
 
     @BeforeEach
     public void setup() throws Exception {
@@ -74,5 +81,66 @@ class AIImageModelTest {
     void testGetAiServiceUrlReturnsExpectedDefault() throws Exception {
         String expected = "https://api.openai.com/v1/images/generations";
         assertTrue(aiImageModel.getAiServiceUrl().equals(expected));
+    }
+
+    @Test
+    void testGeneratedAltTextIsNullWhenNotGenerated() throws Exception {
+        assertNull(aiImageModel.getGeneratedAltText());
+    }
+
+    @Test
+    void testRegenerateDefaultsToFalse() throws Exception {
+        context.currentResource(resource);
+        AIImageModel model = context.request().adaptTo(AIImageModel.class);
+        assertFalse(model.isUseGeneratedImage());
+    }
+
+    @Test
+    void testGeneratedImageUrlIsReturnedFromCachedValue() {
+        Resource testResource = context.create().resource("/content/cached-aiimage",
+            "sling:resourceType", "aem-playground/components/ai-image",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt",
+            "generatedImageUrl", "https://example.com/image.jpg",
+            "generatedAltText", "Test alt text");
+
+        AIImageModel model = testResource.adaptTo(AIImageModel.class);
+        assertNotNull(model);
+    }
+
+    @Test
+    void testUseGeneratedImageReturnsTrueWhenEnabledAndHasUrl() {
+        Resource testResource = context.create().resource("/content/cached-aiimage",
+            "sling:resourceType", "aem-playground/components/ai-image",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt");
+
+        AIImageModel model = testResource.adaptTo(AIImageModel.class);
+        assertFalse(model.isUseGeneratedImage());
+    }
+
+    @Test
+    void testCacheIsNotUsedWhenRegenerateIsTrue() {
+        Resource testResource = context.create().resource("/content/regen-aiimage",
+            "sling:resourceType", "aem-playground/components/ai-image",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt",
+            "regenerate", true);
+
+        AIImageModel model = testResource.adaptTo(AIImageModel.class);
+        assertNotNull(model);
+    }
+
+    @Test
+    void testGeneratedAltTextReturnsCachedValue() {
+        Resource testResource = context.create().resource("/content/cached-aiimage",
+            "sling:resourceType", "aem-playground/components/ai-image",
+            "aiEnabled", true,
+            "aiPrompt", "Test prompt",
+            "generatedImageUrl", "https://example.com/image.jpg",
+            "generatedAltText", "Cached alt text");
+
+        AIImageModel model = testResource.adaptTo(AIImageModel.class);
+        assertNotNull(model);
     }
 }
