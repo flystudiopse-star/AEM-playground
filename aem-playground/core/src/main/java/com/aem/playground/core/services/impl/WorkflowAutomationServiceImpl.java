@@ -1,6 +1,7 @@
 package com.aem.playground.core.services.impl;
 
 import com.aem.playground.core.services.*;
+import com.aem.playground.core.services.AIService.AIGenerationResult;
 import com.aem.playground.core.services.dto.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

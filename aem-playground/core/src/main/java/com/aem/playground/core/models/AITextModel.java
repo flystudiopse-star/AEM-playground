@@ -50,9 +50,6 @@ public class AITextModel {
     @ValueMapValue(name = PN_AI_ENABLED, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private boolean aiEnabled;
 
-    @ResourceResolverAnnotated
-    private ResourceResolver resourceResolver;
-
     @Self
     private Resource resource;
 

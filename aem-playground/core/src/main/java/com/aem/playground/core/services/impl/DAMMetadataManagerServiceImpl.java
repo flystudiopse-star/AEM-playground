@@ -17,7 +17,7 @@ package com.aem.playground.core.services.impl;
 
 import com.aem.playground.core.services.AIGenerationOptions;
 import com.aem.playground.core.services.AIService;
-import com.aem.playground.core.services.AIGenerationResult;
+import com.aem.playground.core.services.AIService.AIGenerationResult;
 import com.aem.playground.core.services.AssetCategory;
 import com.aem.playground.core.services.AssetKeyword;
 import com.aem.playground.core.services.AssetMetadata;

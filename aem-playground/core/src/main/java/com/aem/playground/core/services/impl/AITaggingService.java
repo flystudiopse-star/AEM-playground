@@ -40,6 +40,7 @@ import com.aem.playground.core.services.TaggableContent;
 import com.aem.playground.core.services.TaggingService;
 import com.aem.playground.core.services.TaggingServiceConfig;
 import com.aem.playground.core.services.TagManagerResult;
+import com.aem.playground.core.services.TaxonomyNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

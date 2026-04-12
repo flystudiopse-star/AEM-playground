@@ -7,7 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.commons.osgi.PropertiesUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Designate;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,7 +132,7 @@ public class ContentSchedulerServiceImpl implements ContentSchedulerService {
             suggestion.setSuggestedPublishTime(optimalTime.toLocalDateTime());
             suggestion.setSuggestedUnpublishTime(optimalTime.plusDays(defaultUnpublishLeadTime).toLocalDateTime());
             suggestion.setConfidenceScore(0.85);
-            suggestion.setReasoning("Optimal time determined by content type analysis and audience engagement patterns in " + timezone);
+            suggestion.setReason("Optimal time determined by content type analysis and audience engagement patterns in " + timezone);
             suggestion.setFactors(Arrays.asList(
                     "Best engagement hours: " + Arrays.toString(bestHours),
                     "Content type: " + contentType,
@@ -268,7 +269,7 @@ public class ContentSchedulerServiceImpl implements ContentSchedulerService {
             suggestion.setPostsPerMonth(frequency[1]);
             suggestion.setRecommendedFrequency(getFrequencyLabel(frequency[0]));
             suggestion.setConfidenceScore(0.80);
-            suggestion.setReasoning("Based on content type analysis and historical publishing patterns");
+            suggestion.setReason("Based on content type analysis and historical publishing patterns");
 
             suggestion.setBestDays(getBestDaysOfWeekList(contentType));
             suggestion.setPeakHours(getPeakHoursList(contentType));
@@ -336,7 +337,7 @@ public class ContentSchedulerServiceImpl implements ContentSchedulerService {
         analysis.setOptimalPublishTime(optimalPublishTime);
         analysis.setOptimalUnpublishTime(optimalPublishTime.plusDays(defaultUnpublishLeadTime));
         analysis.setConfidenceScore(0.85);
-        analysis.setReasoning("Based on " + contentType + " content performance patterns in " + timezone);
+        analysis.setReason("Based on " + contentType + " content performance patterns in " + timezone);
 
         List<String> factors = Arrays.asList(
                 "Peak engagement hours: " + Arrays.toString(engagementHours),

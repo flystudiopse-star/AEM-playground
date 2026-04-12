@@ -34,6 +34,10 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.aem.playground.core.services.AssetRecommenderConfig;
+import com.aem.playground.core.services.AssetRecommendationResult;
+import com.aem.playground.core.services.AssetRecommendationResult.RecommendedAsset;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;

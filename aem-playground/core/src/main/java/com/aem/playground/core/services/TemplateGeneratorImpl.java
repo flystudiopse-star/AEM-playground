@@ -67,24 +67,7 @@ public class TemplateGeneratorImpl implements TemplateGenerator {
     }
 
     static {
-        TEMPLATE_POLICIES.put("landing", Map.of(
-                "root", "aem-playground/components/container/policy_landing",
-                "hero", "aem-playground/components/hero/policy_default",
-                "features", "aem-playground/components/container/policy_features",
-                "testimonials", "aem-playground/components/carousel/policy_default",
-                "cta", "aem-playground/components/cta/policy_default"
-        ));
-        TEMPLATE_POLICIES.put("blog", Map.of(
-                "root", "aem-playground/components/container/policy_blog",
-                "content", "aem-playground/components/text/policy_blog",
-                "sidebar", "aem-playground/components/container/policy_sidebar"
-        ));
-        TEMPLATE_POLICIES.put("product", Map.of(
-                "root", "aem-playground/components/container/policy_product",
-                "product-hero", "aem-playground/components/image/policy_product",
-                "product-details", "aem-playground/components/text/policy_details"
-        ));
-        TEMPLATE_POLICENTS.put("contact", Map.of(
+        TEMPLATE_POLICIES.put("contact", Map.of(
                 "root", "aem-playground/components/container/policy_contact",
                 "contact-form", "aem-playground/components/form/container/policy_contact"
         ));

@@ -19,7 +19,7 @@ import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 @ObjectClassDefinition(name = "AI Tagging & Taxonomy Service")
-public interface TaggingServiceConfig {
+public @interface TaggingServiceConfig {
 
     @AttributeDefinition(name = "AI Service URL", description = "OpenAI API endpoint for text generation")
     String ai_service_url() default "https://api.openai.com/v1/chat/completions";

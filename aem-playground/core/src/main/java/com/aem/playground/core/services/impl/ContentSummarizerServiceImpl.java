@@ -795,8 +795,8 @@ public class ContentSummarizerServiceImpl implements ContentSummarizerService {
 
     private SummarizationDashboard createErrorDashboard(String error) {
         SummarizationDashboard dashboard = SummarizationDashboard.create("Error Dashboard");
-        Map<String, Object> metadata = new HashMap<>();
-        metadata.put("error", error);
+        Map<String, Integer> metadata = new HashMap<>();
+        metadata.put("error", 0);
         dashboard.setSummariesByContentType(metadata);
         return dashboard;
     }

@@ -76,6 +76,15 @@ public final class AIGenerationOptions {
         return this;
     }
 
+    public AIGenerationOptions cacheKey(String cacheKey) {
+        this.additionalParams.put("_cacheKey", cacheKey);
+        return this;
+    }
+
+    public AIGenerationOptions build() {
+        return this;
+    }
+
     public String getModel() {
         return model;
     }

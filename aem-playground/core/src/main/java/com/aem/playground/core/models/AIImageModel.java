@@ -48,9 +48,6 @@ public class AIImageModel {
     private static final String PN_GENERATED_ALT_TEXT = "generatedAltText";
     private static final String PN_REGENERATE = "regenerate";
 
-    @ResourceResolverAnnotated
-    private ResourceResolver resourceResolver;
-
     @Self
     private Resource resource;
 
@@ -66,7 +63,6 @@ public class AIImageModel {
 
     @ValueMapValue(name = "generatedImageUrl", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedImageUrl;
-    private String generatedAltText;
 
     @ValueMapValue(name = "generatedAltText", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedAltText;
