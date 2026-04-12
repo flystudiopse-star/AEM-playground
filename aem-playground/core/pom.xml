@@ -101,8 +101,8 @@ Import-Package: javax.annotation;version=0.0.0,*
             <version>3.14.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.http.components</groupId>
-            <artifactId>httpclient-osgi</artifactId>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
             <version>4.5.14</version>
         </dependency>
         <dependency>
