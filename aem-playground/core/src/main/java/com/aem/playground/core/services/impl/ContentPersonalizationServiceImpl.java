@@ -206,10 +206,11 @@ public class ContentPersonalizationServiceImpl implements ContentPersonalization
                     targetSegment.getName(), i + 1, targetSegment.getAttributes()
             );
 
-            AIGenerationOptions options = new AIGenerationOptions();
-            options.setModel("gpt-4");
-            options.setMaxTokens(500);
-            options.setTemperature(0.7);
+            AIGenerationOptions options = AIGenerationOptions.builder()
+                .model("gpt-4")
+                .maxTokens(500)
+                .temperature(0.7)
+                .build();
 
             AIService.AIGenerationResult result = aiService.generateText(prompt, options);
 

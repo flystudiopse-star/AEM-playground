@@ -26,50 +26,43 @@ public @interface OpenAIServiceConfig {
 
     @AttributeDefinition(
         name = "API Key",
-        description = "OpenAI API key for authentication",
-        type = AttributeDefinition.PASSWORD
+        description = "OpenAI API key for authentication"
     )
     String apiKey() default "";
 
     @AttributeDefinition(
         name = "Text API Endpoint",
-        description = "Endpoint for text generation API",
-        type = AttributeDefinition.STRING
+        description = "Endpoint for text generation API"
     )
     String textEndpoint() default "https://api.openai.com/v1/chat/completions";
 
     @AttributeDefinition(
         name = "Image API Endpoint",
-        description = "Endpoint for image generation API",
-        type = AttributeDefinition.STRING
+        description = "Endpoint for image generation API"
     )
     String imageEndpoint() default "https://api.openai.com/v1/images/generations";
 
     @AttributeDefinition(
         name = "Default Text Model",
-        description = "Default model for text generation",
-        type = AttributeDefinition.STRING
+        description = "Default model for text generation"
     )
     String defaultModel() default "gpt-4";
 
     @AttributeDefinition(
         name = "Default Image Model",
-        description = "Default model for image generation",
-        type = AttributeDefinition.STRING
+        description = "Default model for image generation"
     )
     String defaultImageModel() default "dall-e-3";
 
     @AttributeDefinition(
         name = "Cache Enabled",
-        description = "Enable caching for API responses",
-        type = AttributeDefinition.BOOLEAN
+        description = "Enable caching for API responses"
     )
     boolean cachingEnabled() default true;
 
     @AttributeDefinition(
         name = "Cache Max Size",
-        description = "Maximum number of cached entries",
-        type = AttributeDefinition.INTEGER
+        description = "Maximum number of cached entries"
     )
     int cacheMaxSize() default 100;
 }

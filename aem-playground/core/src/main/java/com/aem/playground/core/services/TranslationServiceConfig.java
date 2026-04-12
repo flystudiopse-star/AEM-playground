@@ -26,64 +26,55 @@ public @interface TranslationServiceConfig {
 
     @AttributeDefinition(
         name = "Default Target Language",
-        description = "Default target language for translation",
-        type = AttributeDefinition.STRING
+        description = "Default target language for translation"
     )
     String defaultTargetLanguage() default "en";
 
     @AttributeDefinition(
         name = "Cache Enabled",
-        description = "Enable caching for translated content",
-        type = AttributeDefinition.BOOLEAN
+        description = "Enable caching for translated content"
     )
     boolean cachingEnabled() default true;
 
     @AttributeDefinition(
         name = "Cache Max Size",
-        description = "Maximum number of cached translation entries",
-        type = AttributeDefinition.INTEGER
+        description = "Maximum number of cached translation entries"
     )
     int cacheMaxSize() default 500;
 
     @AttributeDefinition(
         name = "Cache TTL (minutes)",
-        description = "Time to live for cached translations in minutes",
-        type = AttributeDefinition.INTEGER
+        description = "Time to live for cached translations in minutes"
     )
     int cacheTtlMinutes() default 60;
 
     @AttributeDefinition(
         name = "API Key",
-        description = "OpenAI API key for translation",
-        type = AttributeDefinition.PASSWORD
+        description = "OpenAI API key for translation"
     )
     String apiKey() default "";
 
     @AttributeDefinition(
         name = "Translation Model",
-        description = "Model to use for translation",
-        type = AttributeDefinition.STRING
+        description = "Model to use for translation"
     )
     String translationModel() default "gpt-4";
 
     @AttributeDefinition(
         name = "Temperature",
-        description = "Temperature for translation generation",
-        type = AttributeDefinition.DOUBLE
+        description = "Temperature for translation generation"
     )
     double temperature() default 0.3;
 
     @AttributeDefinition(
         name = "Max Tokens",
-        description = "Maximum tokens for translation response",
-        type = AttributeDefinition.INTEGER
+        description = "Maximum tokens for translation response"
     )
     int maxTokens() default 4000;
 
     @AttributeDefinition(
         name = "Batch Size",
-        description = "Maximum number of items to translate in a single batch",
-        type = AttributeDefinition.INTEGER
+        description = "Maximum number of items to translate in a single batch"
     )
     int batchSize() default 10;
 }

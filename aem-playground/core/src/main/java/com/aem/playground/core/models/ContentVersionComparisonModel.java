@@ -10,7 +10,6 @@ import org.apache.sling.models.annotations.Default;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.InjectionStrategy;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
-import org.apache.sling.models.annotations.injectorspecific.AfterInject;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,13 +57,6 @@ public class ContentVersionComparisonModel {
     protected void init() {
         log.debug("Initializing ContentVersionComparisonModel");
         initialize(null, null, null);
-    }
-
-    @AfterInject
-    protected void afterInject() {
-        if (contentVersionManager != null && !isInitialized) {
-            log.debug("Running afterInject");
-        }
     }
 
     public void initialize(String path, String v1, String v2) {

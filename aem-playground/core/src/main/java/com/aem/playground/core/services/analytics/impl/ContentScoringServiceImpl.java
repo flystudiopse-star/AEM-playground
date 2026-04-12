@@ -81,8 +81,9 @@ public class ContentScoringServiceImpl implements ContentScoringService {
                         "freshness (0-100), and accuracy (0-100).";
 
         try {
-            AIService.AIGenerationOptions options = new AIGenerationOptions();
-            options.setMaxTokens(300);
+            AIGenerationOptions options = AIGenerationOptions.builder()
+                .maxTokens(300)
+                .build();
             AIService.AIGenerationResult result = aiService.generateText(prompt, options);
             
             if (result.isSuccess()) {
@@ -112,8 +113,9 @@ public class ContentScoringServiceImpl implements ContentScoringService {
                         "keyword usage (0-100), and structure (0-100).";
 
         try {
-            AIService.AIGenerationOptions options = new AIGenerationOptions();
-            options.setMaxTokens(300);
+            AIGenerationOptions options = AIGenerationOptions.builder()
+                .maxTokens(300)
+                .build();
             AIService.AIGenerationResult result = aiService.generateText(prompt, options);
             
             if (result.isSuccess()) {
@@ -143,8 +145,9 @@ public class ContentScoringServiceImpl implements ContentScoringService {
                         "return visits (0-100), and conversion (0-100).";
 
         try {
-            AIService.AIGenerationOptions options = new AIGenerationOptions();
-            options.setMaxTokens(300);
+            AIGenerationOptions options = AIGenerationOptions.builder()
+                .maxTokens(300)
+                .build();
             AIService.AIGenerationResult result = aiService.generateText(prompt, options);
             
             if (result.isSuccess()) {

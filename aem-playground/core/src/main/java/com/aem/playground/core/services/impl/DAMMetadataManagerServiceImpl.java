@@ -83,19 +83,19 @@ public class DAMMetadataManagerServiceImpl implements DAMMetadataManagerService 
     @Modified
     protected void activate(DAMMetadataManagerConfig config) {
         this.apiKey = config.apiKey();
-        this.textEndpoint = PropertiesUtil.toString(config.ai_service_url(), "https://api.openai.com/v1/chat/completions");
+        this.textEndpoint = PropertiesUtil.toString(config.aiServiceUrl(), "https://api.openai.com/v1/chat/completions");
         this.defaultModel = PropertiesUtil.toString(config.model(), DEFAULT_MODEL);
-        this.maxKeywords = config.max_keywords();
-        this.minConfidence = config.min_confidence();
-        this.maxTokens = config.max_tokens();
+        this.maxKeywords = config.maxKeywords();
+        this.minConfidence = config.minConfidence();
+        this.maxTokens = config.maxTokens();
         this.temperature = config.temperature();
-        this.enableSmartKeywords = config.enable_smart_keywords();
-        this.enableCategories = config.enable_categories();
-        this.enableRelationships = config.enable_relationships();
-        this.enableIntelligentTagging = config.enable_intelligent_tagging();
-        this.enableMetadataExtraction = config.enable_metadata_extraction();
-        this.cachingEnabled = config.cache_enabled();
-        this.cacheMaxSize = config.cache_size();
+        this.enableSmartKeywords = config.enableSmartKeywords();
+        this.enableCategories = config.enableCategories();
+        this.enableRelationships = config.enableRelationships();
+        this.enableIntelligentTagging = config.enableIntelligentTagging();
+        this.enableMetadataExtraction = config.enableMetadataExtraction();
+        this.cachingEnabled = config.cacheEnabled();
+        this.cacheMaxSize = config.cacheSize();
         log.info("DAMMetadataManagerService activated with model: {}", defaultModel);
     }
 

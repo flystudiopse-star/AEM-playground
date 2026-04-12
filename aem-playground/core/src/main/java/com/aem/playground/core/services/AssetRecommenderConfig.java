@@ -26,50 +26,43 @@ public @interface AssetRecommenderConfig {
 
     @AttributeDefinition(
         name = "DAM Base Path",
-        description = "Base path for DAM assets",
-        type = AttributeDefinition.STRING
+        description = "Base path for DAM assets"
     )
     String damBasePath() default "/content/dam";
 
     @AttributeDefinition(
         name = "Embeddings Endpoint",
-        description = "Endpoint for embeddings API",
-        type = AttributeDefinition.STRING
+        description = "Endpoint for embeddings API"
     )
     String embeddingsEndpoint() default "https://api.openai.com/v1/embeddings";
 
     @AttributeDefinition(
         name = "Embedding Model",
-        description = "Model to use for generating embeddings",
-        type = AttributeDefinition.STRING
+        description = "Model to use for generating embeddings"
     )
     String embeddingModel() default "text-embedding-ada-002";
 
     @AttributeDefinition(
         name = "Max Recommendations",
-        description = "Maximum number of asset recommendations",
-        type = AttributeDefinition.INTEGER
+        description = "Maximum number of asset recommendations"
     )
     int maxRecommendations() default 10;
 
     @AttributeDefinition(
         name = "Similarity Threshold",
-        description = "Minimum similarity score for recommendations (0-1)",
-        type = AttributeDefinition.DOUBLE
+        description = "Minimum similarity score for recommendations (0-1)"
     )
     double similarityThreshold() default 0.5;
 
     @AttributeDefinition(
         name = "Enable Semantic Search",
-        description = "Enable semantic search using AI embeddings",
-        type = AttributeDefinition.BOOLEAN
+        description = "Enable semantic search using AI embeddings"
     )
     boolean enableSemanticSearch() default true;
 
     @AttributeDefinition(
         name = "Collections Base Path",
-        description = "Base path for asset collections",
-        type = AttributeDefinition.STRING
+        description = "Base path for asset collections"
     )
     String collectionsBasePath() default "/content/collections";
 }

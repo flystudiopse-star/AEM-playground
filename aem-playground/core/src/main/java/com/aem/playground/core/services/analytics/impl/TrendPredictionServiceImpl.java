@@ -259,8 +259,9 @@ public class TrendPredictionServiceImpl implements TrendPredictionService {
 
     private String callAI(String prompt) {
         try {
-            AIService.AIGenerationOptions options = new AIGenerationOptions();
-            options.setMaxTokens(500);
+            AIGenerationOptions options = AIGenerationOptions.builder()
+                .maxTokens(500)
+                .build();
             AIService.AIGenerationResult result = aiService.generateText(prompt, options);
 
             if (result.isSuccess()) {
