@@ -40,6 +40,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -279,9 +280,10 @@ public class OpenAIService implements AIService {
     private void evictOldCacheEntries(Map<String, CachedResult> cache) {
         if (cache.size() > cacheMaxSize) {
             int toRemove = cache.size() - cacheMaxSize;
-            for (int i = 0; i < toRemove && !cache.isEmpty(); i++) {
-                String key = cache.keys().nextElement();
-                cache.remove(key);
+            Iterator<String> iterator = cache.keySet().iterator();
+            for (int i = 0; i < toRemove && iterator.hasNext(); i++) {
+                iterator.next();
+                iterator.remove();
             }
         }
     }
