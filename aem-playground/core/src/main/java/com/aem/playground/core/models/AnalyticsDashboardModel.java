@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Model(adapters = AnalyticsDashboardModel.class, 
+@Model(adaptables = {SlingHttpServletRequest.class, org.apache.sling.api.resource.Resource.class},
+       adapters = AnalyticsDashboardModel.class, 
        resourceType = "aem-playground/components/analytics-dashboard",
        defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
 public class AnalyticsDashboardModel {

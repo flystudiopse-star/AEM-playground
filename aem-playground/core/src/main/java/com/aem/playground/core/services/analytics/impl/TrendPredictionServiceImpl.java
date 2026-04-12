@@ -171,7 +171,7 @@ public class TrendPredictionServiceImpl implements TrendPredictionService {
         prompt.append("Content Items Analyzed: ").append(metrics.size()).append("\n");
         prompt.append("\nProvide insights on content trends and recommendations for the coming period.");
 
-        return callAI(prompt);
+        return callAI(prompt.toString());
     }
 
     private double[] generateHistoricalDataPoints(int count) {

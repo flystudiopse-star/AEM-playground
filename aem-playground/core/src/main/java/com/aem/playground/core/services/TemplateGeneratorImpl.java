@@ -49,7 +49,7 @@ public class TemplateGeneratorImpl implements TemplateGenerator {
     private boolean enableDebug;
 
     private static final Map<String, List<String>> TEMPLATE_COMPONENTS = new HashMap<>();
-    private static final Map<String, List<String>> TEMPLATE_POLICIES = new HashMap<>();
+    private static final Map<String, Map<String, String>> TEMPLATE_POLICIES = new HashMap<>();
 
     static {
         TEMPLATE_COMPONENTS.put("landing", Arrays.asList(

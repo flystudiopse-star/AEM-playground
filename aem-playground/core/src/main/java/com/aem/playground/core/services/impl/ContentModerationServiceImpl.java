@@ -273,7 +273,7 @@ public class ContentModerationServiceImpl implements ContentModerationService {
             return null;
         }
 
-        ModerationReport report = ModerationReport.ModerationReportBuilder.builder()
+        ModerationReport report = ModerationReport.builder()
                 .reportId(UUID.randomUUID().toString())
                 .startDate(startDate != null ? startDate.getTime() : 0)
                 .endDate(endDate != null ? endDate.getTime() : System.currentTimeMillis())
@@ -346,7 +346,7 @@ public class ContentModerationServiceImpl implements ContentModerationService {
         }
 
         String itemId = UUID.randomUUID().toString();
-        ApprovalQueueItem item = ApprovalQueueItem.ApprovalQueueItemBuilder.builder()
+        ApprovalQueueItem item = ApprovalQueueItem.builder()
                 .itemId(itemId)
                 .contentPath(contentPath)
                 .contentTitle(extractContentTitle(contentPath))
@@ -395,7 +395,7 @@ public class ContentModerationServiceImpl implements ContentModerationService {
         for (Map.Entry<String, ModerationCategory> entry : prohibitedPatterns.entrySet()) {
             int index = content.toLowerCase().indexOf(entry.getKey());
             if (index >= 0) {
-                ModerationViolation violation = ModerationViolation.ModerationViolationBuilder.builder()
+                ModerationViolation violation = ModerationViolation.builder()
                         .category(entry.getValue())
                         .confidence(0.95)
                         .description("Prohibited content detected")
@@ -416,7 +416,7 @@ public class ContentModerationServiceImpl implements ContentModerationService {
         List<ModerationViolation> violations = new ArrayList<>();
         
         if (content.length() > 1000) {
-            ModerationViolation violation = ModerationViolation.ModerationViolationBuilder.builder()
+            ModerationViolation violation = ModerationViolation.builder()
                     .category(ModerationCategory.SENSITIVE_TOPICS)
                     .confidence(0.75)
                     .description("AI detected potentially sensitive content")
@@ -442,7 +442,7 @@ public class ContentModerationServiceImpl implements ContentModerationService {
         String recommendation = isApproved ? "APPROVE" : 
                 (violations.stream().anyMatch(v -> "high".equals(v.getSeverity())) ? "REJECT" : "REVIEW");
 
-        ModerationResult result = ModerationResult.ModerationResultBuilder.builder()
+        ModerationResult result = ModerationResult.builder()
                 .contentPath(contentPath)
                 .isApproved(isApproved)
                 .violations(violations)

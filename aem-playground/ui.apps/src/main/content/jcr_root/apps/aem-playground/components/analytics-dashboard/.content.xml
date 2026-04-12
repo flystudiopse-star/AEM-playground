@@ -8,6 +8,7 @@
     componentGroup="AEM Playground">
     <properties jcr:primaryType="nt:unstructured">
         <rootPath
+            jcr:primaryType="nt:unstructured"
             jcr:title="Root Path"
             jcr:description="Root path for content analytics"
             sling:resourceType="granite/components/form/pathfield"
