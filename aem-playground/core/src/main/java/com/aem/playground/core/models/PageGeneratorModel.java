@@ -21,7 +21,7 @@ import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
 import org.apache.sling.models.annotations.Default;
-import org.apache.jackrabbit.JcrConstants;
+import com.day.cq.commons.jcr.JcrConstants;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
