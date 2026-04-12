@@ -407,7 +407,7 @@ public class ContentForecastServiceImpl implements ContentForecastService {
         suggestion.setAlternativeTimes(alternatives);
 
         suggestion.setConfidenceScore(0.80);
-        suggestion.setReasoning("Based on audience engagement patterns and content type analysis");
+        suggestion.setReason("Based on audience engagement patterns and content type analysis");
         suggestion.setFactors(Arrays.asList(
                 "Audience active hours: 9AM-11AM, 2PM-4PM, 7PM-9PM",
                 "Content type performance: " + contentType,
