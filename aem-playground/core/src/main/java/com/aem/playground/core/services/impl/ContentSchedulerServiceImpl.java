@@ -527,7 +527,7 @@ public class ContentSchedulerServiceImpl implements ContentSchedulerService {
             TimeSlotRecommendation slot = TimeSlotRecommendation.create(contentType, slotTime);
             slot.setPredictedEngagement(baseEngagement - (i * 0.05) + (Math.random() * 0.1));
             slot.setConfidenceScore(0.90 - (i * 0.05));
-            slot.setReasoning("Based on historical " + contentType + " performance data");
+            slot.setReason("Based on historical " + contentType + " performance data");
             slot.setAudienceSegments(Arrays.asList("General Audience", "Registered Users"));
             slot.setPeakTime(i < 3);
             slot.setRecurring(true);

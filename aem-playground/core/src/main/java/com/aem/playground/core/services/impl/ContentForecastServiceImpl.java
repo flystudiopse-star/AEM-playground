@@ -331,7 +331,7 @@ public class ContentForecastServiceImpl implements ContentForecastService {
             projection.setConfidenceLow(predictedViews * 0.8);
             projection.setConfidenceHigh(predictedViews * 1.2);
             
-            projections.add(            projections.add(projection);
+            projections.add(projection);
         }
 
         forecast.setProjections(projections);
