@@ -61,6 +61,10 @@ public class ScheduleSuggestion {
         this.reasoning = reasoning;
     }
 
+    public void setReason(String reason) {
+        this.reasoning = reason;
+    }
+
     public List<String> getFactors() {
         return factors;
     }

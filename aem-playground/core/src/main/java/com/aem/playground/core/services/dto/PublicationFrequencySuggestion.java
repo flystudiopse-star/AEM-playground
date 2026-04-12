@@ -65,6 +65,10 @@ public class PublicationFrequencySuggestion {
         this.reasoning = reasoning;
     }
 
+    public void setReason(String reason) {
+        this.reasoning = reason;
+    }
+
     public List<String> getBestDays() {
         return bestDays;
     }

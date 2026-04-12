@@ -49,6 +49,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -448,9 +449,10 @@ public class AITaggingService implements TaggingService {
     private void evictOldCacheEntries() {
         if (cache.size() > cacheSize) {
             int toRemove = cache.size() - cacheSize;
-            for (int i = 0; i < toRemove && !cache.isEmpty(); i++) {
-                String key = cache.keys().nextElement();
-                cache.remove(key);
+            Iterator<String> iterator = cache.keySet().iterator();
+            for (int i = 0; i < toRemove && iterator.hasNext(); i++) {
+                iterator.next();
+                iterator.remove();
             }
         }
     }

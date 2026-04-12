@@ -74,6 +74,10 @@ public class SchedulingAnalysis {
         this.reasoning = reasoning;
     }
 
+    public void setReason(String reason) {
+        this.reasoning = reason;
+    }
+
     public List<String> getFactors() {
         return factors;
     }

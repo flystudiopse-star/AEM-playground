@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -428,9 +429,10 @@ public class AIImageOptimizerService implements ImageOptimizerService {
     private void evictOldCacheEntries() {
         if (analysisCache.size() > cacheSize) {
             int toRemove = analysisCache.size() - cacheSize;
-            for (int i = 0; i < toRemove && !analysisCache.isEmpty(); i++) {
-                String key = analysisCache.keys().nextElement();
-                analysisCache.remove(key);
+            Iterator<String> iterator = analysisCache.keySet().iterator();
+            for (int i = 0; i < toRemove && iterator.hasNext(); i++) {
+                iterator.next();
+                iterator.remove();
             }
         }
     }
