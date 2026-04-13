@@ -97,6 +97,34 @@ public class AIImageModel {
         }
     }
 
+    public boolean isAiEnabled() {
+        return aiEnabled;
+    }
+
+    public String getAiPrompt() {
+        return aiPrompt;
+    }
+
+    public String getAiServiceUrl() {
+        return aiServiceUrl;
+    }
+
+    public String getGeneratedImageUrl() {
+        return generatedImageUrl;
+    }
+
+    public String getGeneratedAltText() {
+        return generatedAltText;
+    }
+
+    public boolean isRegenerate() {
+        return regenerate;
+    }
+
+    public boolean isUseGeneratedImage() {
+        return aiEnabled && generatedImageUrl != null && !generatedImageUrl.isEmpty();
+    }
+
     private String[] getCachedGeneratedImage() {
         if (resource != null) {
             String url = resource.getValueMap().get(PN_GENERATED_IMAGE_URL, String.class);

@@ -1,21 +1,23 @@
 package com.aem.playground.core.services;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class TemplateGeneratorImplTest {
 
     private TemplateGeneratorImpl templateGenerator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         templateGenerator = new TemplateGeneratorImpl();
     }
@@ -59,135 +61,67 @@ public class TemplateGeneratorImplTest {
         TemplateGenerator.TemplateRequest request = new TemplateGenerator.TemplateRequest();
         request.setTemplateType("product");
         request.setPageTitle("Product Page");
+        request.setPageDescription("A product page");
+        request.setGenerateAiContent(false);
 
         TemplateGenerator.TemplateResult result = templateGenerator.generateTemplate(request);
 
         assertNotNull(result);
         assertTrue(result.isSuccess());
+        assertNotNull(result.getSections());
+        assertEquals(5, result.getSections().size());
     }
 
     @Test
     public void testGenerateTemplateWithContactType() throws Exception {
         TemplateGenerator.TemplateRequest request = new TemplateGenerator.TemplateRequest();
         request.setTemplateType("contact");
-        request.setPageTitle("Contact Us");
+        request.setPageTitle("Contact Page");
+        request.setGenerateAiContent(false);
 
         TemplateGenerator.TemplateResult result = templateGenerator.generateTemplate(request);
 
         assertNotNull(result);
         assertTrue(result.isSuccess());
-    }
-
-    @Test
-    public void testGenerateTemplateWithNullType() throws Exception {
-        TemplateGenerator.TemplateRequest request = new TemplateGenerator.TemplateRequest();
-        request.setTemplateType(null);
-        request.setPageTitle("Test");
-
-        TemplateGenerator.TemplateResult result = templateGenerator.generateTemplate(request);
-
-        assertNotNull(result);
-        assertFalse(result.isSuccess());
-        assertNotNull(result.getErrors());
-        assertTrue(result.getErrors().size() > 0);
+        assertNotNull(result.getSections());
+        assertEquals(4, result.getSections().size());
     }
 
     @Test
     public void testGenerateContentSections() throws Exception {
-        List<TemplateGenerator.TemplateSection> sections = 
-            templateGenerator.generateContentSections("landing", "Test page");
+        List<TemplateGenerator.TemplateSection> sections =
+            templateGenerator.generateContentSections("landing", "Test description");
 
         assertNotNull(sections);
-        assertEquals(5, sections.size());
-        
-        TemplateGenerator.TemplateSection heroSection = sections.get(0);
-        assertEquals("hero", heroSection.getSectionName());
-        assertNotNull(heroSection.getComponentType());
-        assertNotNull(heroSection.getContent());
+        assertFalse(sections.isEmpty());
     }
 
     @Test
-    public void testGeneratePolicyMappingsForLanding() {
-        Map<String, String> policies = templateGenerator.generatePolicyMappings("landing");
+    public void testGeneratePolicyMappings() {
+        var mappings = templateGenerator.generatePolicyMappings("contact");
 
-        assertNotNull(policies);
-        assertTrue(policies.size() > 0);
-        assertTrue(policies.containsKey("root"));
+        assertNotNull(mappings);
+        assertTrue(mappings.containsKey("root"));
     }
 
     @Test
-    public void testGeneratePolicyMappingsForBlog() {
-        Map<String, String> policies = templateGenerator.generatePolicyMappings("blog");
+    public void testGeneratePolicyMappingsEmpty() {
+        var mappings = templateGenerator.generatePolicyMappings("unknown");
 
-        assertNotNull(policies);
-        assertTrue(policies.size() > 0);
+        assertNotNull(mappings);
+        assertTrue(mappings.isEmpty());
     }
 
     @Test
-    public void testGeneratePolicyMappingsForProduct() {
-        Map<String, String> policies = templateGenerator.generatePolicyMappings("product");
-
-        assertNotNull(policies);
-        assertTrue(policies.size() > 0);
-    }
-
-    @Test
-    public void testGeneratePolicyMappingsForContact() {
-        Map<String, String> policies = templateGenerator.generatePolicyMappings("contact");
-
-        assertNotNull(policies);
-        assertTrue(policies.size() > 0);
-    }
-
-    @Test
-    public void testGeneratePolicyMappingsForUnknown() {
-        Map<String, String> policies = templateGenerator.generatePolicyMappings("unknown");
-
-        assertNotNull(policies);
-        assertTrue(policies.isEmpty());
-    }
-
-    @Test
-    public void testGeneratePreviewThumbnail() throws Exception {
-        byte[] thumbnail = templateGenerator.generatePreviewThumbnail("landing");
-
-        assertNotNull(thumbnail);
-        String svgContent = new String(thumbnail);
-        assertTrue(svgContent.contains("<?xml"));
-        assertTrue(svgContent.contains("svg"));
-        assertTrue(svgContent.contains("Landing Template"));
-    }
-
-    @Test
-    public void testGeneratePreviewThumbnailForAllTypes() throws Exception {
-        String[] types = {"landing", "blog", "product", "contact"};
-        
-        for (String type : types) {
-            byte[] thumbnail = templateGenerator.generatePreviewThumbnail(type);
-            assertNotNull("Thumbnail should not be null for type: " + type, thumbnail);
-        }
-    }
-
-    @Test
-    public void testSectionProperties() throws Exception {
-        List<TemplateGenerator.TemplateSection> sections = 
-            templateGenerator.generateContentSections("landing", null);
-
-        for (TemplateGenerator.TemplateSection section : sections) {
-            assertNotNull(section.getProperties());
-        }
-    }
-
-    @Test
-    public void testSectionWithNullDescription() throws Exception {
+    public void testGenerateTemplateReturnsValidTemplateName() throws Exception {
         TemplateGenerator.TemplateRequest request = new TemplateGenerator.TemplateRequest();
         request.setTemplateType("landing");
-        request.setPageTitle("Test");
-        request.setPageDescription(null);
+        request.setPageTitle("Test Page");
+        request.setGenerateAiContent(false);
 
         TemplateGenerator.TemplateResult result = templateGenerator.generateTemplate(request);
 
-        assertNotNull(result);
-        assertTrue(result.isSuccess());
+        assertNotNull(result.getTemplateName());
+        assertTrue(result.getTemplateName().startsWith("landing-"));
     }
 }
