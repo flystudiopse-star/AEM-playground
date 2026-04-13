@@ -364,7 +364,7 @@ class LayoutSuggestionServiceTest {
         props.put("showLanguageSwitcher", false);
         ef.setFragmentProperties(props);
 
-        assertTrue(ef.getFragmentProperties().get("showSearch"));
+        assertEquals(true, ef.getFragmentProperties().get("showSearch"));
     }
 
     @Test
