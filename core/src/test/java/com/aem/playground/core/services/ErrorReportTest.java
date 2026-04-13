@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorReport;
 
 class ErrorReportTest {
 
