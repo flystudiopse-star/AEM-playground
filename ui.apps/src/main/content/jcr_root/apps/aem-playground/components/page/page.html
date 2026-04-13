@@ -1,26 +1,18 @@
 <!DOCTYPE html>
-<html lang="${page.language @ context='html'}"
-      data-sly-use.page="com.adobe.cq.wcm.launches.utils.LaunchUtils"
-      data-sly-use.template="core/wcm/components/commons/v1/templates">
+<html data-sly-use.page="com.adobe.cq.wcm.launches.utils.LaunchUtils"
+      data-sly-use.template="core/wcm/components/commons/v1/templates"
+      data-sly-use.templates="core/wcm/sightly/templates"
+      lang="${page.language}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-sly-text="${page.title}">${page.title}</title>
+    <title>${page.title}</title>
     
-    <sly data-sly-include="${'customheaderlibs.html' @ prependPath='/apps/aem-playground/components/page'}"></sly>
-    <sly data-sly-resource="${'head' @ resourceType='wcm/foundation/components/head'}"></sly>
+    <sly data-sly-include="${'head.htm'}"/>
+    <sly data-sly-include="${'customheaderlibs.html' @ prependPath='/apps/aem-playground/components/page'}"/>
 </head>
-<body class="${page.classNames @ context='html'}">
-    <div class="aem-wrapper">
-        <header class="header" data-sly-resource="${'header' @ resourceType='aem-playground/components/structure/header'}"></header>
-        
-        <main class="main" role="main">
-            <sly data-sly-resource="${'root' @ resourceType='aem-playground/components/container'}"></sly>
-        </main>
-        
-        <footer class="footer" data-sly-resource="${'footer' @ resourceType='aem-playground/components/structure/footer'}"></footer>
-    </div>
-    
-    <sly data-sly-include="${'customfooterlibs.html' @ prependPath='/apps/aem-playground/components/page'}"></sly>
+<body>
+    <sly data-sly-include="${'body.htm'}"/>
+    <sly data-sly-include="${'customfooterlibs.html' @ prependPath='/apps/aem-playground/components/page'}"/>
 </body>
 </html>
