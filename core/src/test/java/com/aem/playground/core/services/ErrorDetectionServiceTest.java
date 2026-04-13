@@ -8,6 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorReport;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorDashboard;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorSummary;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorTrend;
 
 class ErrorDetectionServiceTest {
 

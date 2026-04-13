@@ -346,6 +346,5 @@ public class MigrationJob implements Runnable {
         COMPLETED,
         FAILED,
         CANCELLED,
-        IN_PROGRESS
     }
 }
