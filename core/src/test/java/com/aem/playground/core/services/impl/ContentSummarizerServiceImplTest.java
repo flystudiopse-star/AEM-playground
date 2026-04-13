@@ -426,7 +426,7 @@ class ContentSummarizerServiceImplTest {
         assertNotNull(summary.getMetadata());
     }
 
-    static abstract class ContentSummarizerServiceTestConfig implements ContentSummarizerServiceConfig {
+    static class ContentSummarizerServiceTestConfig implements ContentSummarizerServiceConfig {
         @Override
         public String apiKey() {
             return "test-api-key";
@@ -486,5 +486,7 @@ class ContentSummarizerServiceImplTest {
         public boolean enableAIIntegration() {
             return true;
         }
+        @Override
+        public Class<? extends java.lang.annotation.Annotation> annotationType() { return ContentSummarizerServiceConfig.class; }
     }
 }

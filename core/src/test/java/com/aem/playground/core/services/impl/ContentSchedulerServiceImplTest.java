@@ -295,7 +295,7 @@ class ContentSchedulerServiceImplTest {
         assertEquals(slotTime, recommendation.getSlotTime());
     }
 
-    static abstract class ContentSchedulerServiceTestConfig implements ContentSchedulerConfig {
+    static class ContentSchedulerServiceTestConfig implements ContentSchedulerConfig {
         @Override
         public String defaultTimezone() {
             return "America/New_York";
@@ -340,5 +340,7 @@ class ContentSchedulerServiceImplTest {
         public boolean enableAemSchedulerIntegration() {
             return true;
         }
+        @Override
+        public Class<? extends java.lang.annotation.Annotation> annotationType() { return ContentSchedulerConfig.class; }
     }
 }

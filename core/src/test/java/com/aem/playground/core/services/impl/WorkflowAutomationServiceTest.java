@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,14 +24,14 @@ class WorkflowAutomationServiceTest {
     @Mock
     private AIService aiService;
 
-    private WorkflowAutomationService workflowService;
+    private WorkflowAutomationServiceImpl workflowService;
 
     @BeforeEach
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         workflowService = new WorkflowAutomationServiceImpl();
         
-        WorkflowAutomationServiceConfig config = new TestWorkflowAutomationServiceConfig();
+        WorkflowAutomationServiceConfig config = Mockito.mock(WorkflowAutomationServiceConfig.class);
         
         workflowService.activate(config);
     }

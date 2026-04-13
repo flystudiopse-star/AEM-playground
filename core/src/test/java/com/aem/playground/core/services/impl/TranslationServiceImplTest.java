@@ -46,7 +46,7 @@ class TranslationServiceImplTest {
     private AIService aiService;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         translationService = new TranslationServiceImpl();
         setField(translationService, "aiService", aiService);

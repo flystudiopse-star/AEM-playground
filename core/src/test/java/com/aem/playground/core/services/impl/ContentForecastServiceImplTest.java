@@ -445,7 +445,7 @@ class ContentForecastServiceImplTest {
         }
     }
 
-    static abstract class ContentForecastServiceTestConfig implements ContentForecastServiceConfig {
+    static class ContentForecastServiceTestConfig implements ContentForecastServiceConfig {
         @Override
         public String apiKey() {
             return "test-api-key";
@@ -490,5 +490,7 @@ class ContentForecastServiceImplTest {
         public int trendingTopicsLimit() {
             return 20;
         }
+        @Override
+        public Class<? extends java.lang.annotation.Annotation> annotationType() { return ContentForecastServiceConfig.class; }
     }
 }

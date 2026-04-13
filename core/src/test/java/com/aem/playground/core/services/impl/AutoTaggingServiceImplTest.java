@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +46,7 @@ class AutoTaggingServiceImplTest {
         MockitoAnnotations.openMocks(this);
         autoTaggingService = new AutoTaggingServiceImpl();
         
-        AutoTaggingConfig config = new TestAutoTaggingConfig();
+        AutoTaggingConfig config = Mockito.mock(AutoTaggingConfig.class);
         autoTaggingService.activate(config);
     }
 

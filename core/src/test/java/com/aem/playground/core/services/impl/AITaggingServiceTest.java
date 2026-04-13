@@ -27,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +50,7 @@ class AITaggingServiceTest {
         MockitoAnnotations.openMocks(this);
         taggingService = new AITaggingService();
         
-        TaggingServiceConfig config = new TestTaggingServiceConfig();
+        TaggingServiceConfig config = Mockito.mock(TaggingServiceConfig.class);
         
         taggingService.activate(config);
     }
@@ -157,7 +158,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "add", "programming");
 
         assertTrue(result.isSuccess());
-        assertEquals("Tag added: java", result.getError());
+        assertEquals("Tag added: java", result.getMessage());
     }
 
     @Test
@@ -165,7 +166,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "remove", null);
 
         assertTrue(result.isSuccess());
-        assertEquals("Tag removed: java", result.getError());
+        assertEquals("Tag removed: java", result.getMessage());
     }
 
     @Test
@@ -173,7 +174,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "update", "language");
 
         assertTrue(result.isSuccess());
-        assertEquals("Tag updated: java", result.getError());
+        assertEquals("Tag updated: java", result.getMessage());
     }
 
     @Test
@@ -181,7 +182,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("", "list", null);
 
         assertTrue(result.isSuccess());
-        assertEquals("Tags listed", result.getError());
+        assertEquals("Tags listed", result.getMessage());
     }
 
     @Test
@@ -189,7 +190,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "invalid", null);
 
         assertFalse(result.isSuccess());
-        assertNotNull(result.getError());
+        assertNotNull(result.getMessage());
     }
 
     @Test
