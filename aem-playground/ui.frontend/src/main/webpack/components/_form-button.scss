@@ -1,1 +1,116 @@
-.cmp-form-button {}
+// =============================================================================
+// FORM BUTTON COMPONENT — Landwind-inspired
+// =============================================================================
+
+.cmp-form-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  width: auto;
+  min-height: 44px; // accessible touch target
+  font-family: $button-font-family;
+  font-size: $button-font-size-base;
+  font-weight: $button-font-weight;
+  line-height: 1;
+  padding: $button-padding-y $button-padding-x;
+  border-radius: $button-border-radius;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: $button-transition;
+  white-space: nowrap;
+  user-select: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $input-shadow-focus;
+    ring: 2px solid $color-primary-500;
+  }
+
+  &:disabled,
+  &--disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- Primary ---------------------------------------------------------------
+  .cmp-form-button__text,
+  .cmp-button__text {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  // Default form button style — similar to primary
+  background-color: $button-primary-bg;
+  color: $button-primary-color;
+  box-shadow: $button-primary-shadow;
+
+  &:hover:not(:disabled) {
+    background-color: $button-primary-bg-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($color-primary-500, 0.35);
+  }
+
+  &:active:not(:disabled) {
+    background-color: $button-primary-bg-active;
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  // ---- Secondary ------------------------------------------------------------
+  &--secondary {
+    background-color: $button-secondary-bg;
+    border-color: $button-secondary-border;
+    color: $button-secondary-color;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: $button-secondary-bg-hover;
+      border-color: $color-primary-300;
+      color: $button-secondary-color-hover;
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      background-color: $color-primary-100;
+      transform: translateY(0);
+    }
+  }
+
+  // ---- Ghost ----------------------------------------------------------------
+  &--ghost {
+    background-color: transparent;
+    color: $button-ghost-color;
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background-color: $button-ghost-bg-hover;
+      color: $color-gray-900;
+    }
+
+    &:active:not(:disabled) {
+      background-color: $color-gray-200;
+    }
+  }
+
+  // ---- Size variants ---------------------------------------------------------
+  &--small {
+    font-size: $button-font-size-sm;
+    padding: $button-padding-y-sm $button-padding-x-sm;
+    min-height: 36px;
+  }
+
+  &--large {
+    font-size: 1.125rem;
+    padding: $button-padding-y-lg $button-padding-x-lg;
+    min-height: 52px;
+  }
+
+  // ---- Full width ------------------------------------------------------------
+  &--block,
+  &--full {
+    width: 100%;
+  }
+}

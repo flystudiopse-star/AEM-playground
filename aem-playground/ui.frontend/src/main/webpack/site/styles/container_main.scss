@@ -1,6 +1,17 @@
-
-//== Container main content style, used on page template
+// =============================================================================
+// CONTAINER — MAIN CONTENT — Landwind-inspired
+// =============================================================================
 
 main.container {
-    padding: .5em 1em;
+  padding: $spacing-8 $spacing-6;
+  max-width: $container-xl;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: $spacing-6 $spacing-4;
+  }
+
+  @media (max-width: 480px) {
+    padding: $spacing-5 $spacing-4;
+  }
 }

@@ -1,13 +1,225 @@
-.cmp-search {}
-.cmp-search__form {}
-.cmp-search__field {}
-.cmp-search__icon {}
-.cmp-search__input {}
-.cmp-search__loading-indicator {}
-.cmp-search__clear {}
-.cmp-search__clear-icon {}
-.cmp-search__results {}
-.cmp-search__item {}
-.cmp-search__item--is-focused {}
-.cmp-search__item-mark {}
-.cmp-search__item-title {}
+// =============================================================================
+// SEARCH COMPONENT — Landwind-inspired
+// Search input with dropdown results
+// =============================================================================
+
+.cmp-search {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+
+  // ---- Search form ---------------------------------------------------------
+  &__form {
+    display: flex;
+    position: relative;
+  }
+
+  // ---- Input field ---------------------------------------------------------
+  &__field {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: $color-background;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-lg;
+    padding: 0 $spacing-4;
+    height: 46px;
+    transition: border-color 0.15s ease-in-out,
+                box-shadow 0.15s ease-in-out;
+
+    &:focus-within {
+      border-color: $color-primary-500;
+      box-shadow: $input-shadow-focus;
+    }
+  }
+
+  // ---- Search icon ---------------------------------------------------------
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: $color-foreground-muted;
+    margin-right: $spacing-3;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // ---- Input ---------------------------------------------------------------
+  &__input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: $font-family-base;
+    font-size: 1rem;
+    color: $color-foreground;
+    height: 100%;
+    padding: 0;
+    box-shadow: none;
+    outline: none;
+
+    &::placeholder {
+      color: $color-gray-400;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  // ---- Clear button --------------------------------------------------------
+  &__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: $color-gray-200;
+    border: none;
+    border-radius: $border-radius-full;
+    cursor: pointer;
+    color: $color-gray-500;
+    transition: background-color 0.15s ease-in-out,
+                color 0.15s ease-in-out;
+    flex-shrink: 0;
+    margin-left: $spacing-2;
+
+    &:hover {
+      background-color: $color-gray-300;
+      color: $color-gray-700;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+    }
+
+    &-icon {
+      width: 14px;
+      height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  // ---- Loading indicator ---------------------------------------------------
+  &__loading-indicator {
+    position: absolute;
+    right: $spacing-4;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    animation: search-spin 0.7s linear infinite;
+    color: $color-primary-500;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // ---- Results dropdown ---------------------------------------------------
+  &__results {
+    position: absolute;
+    top: calc(100% + $spacing-2);
+    left: 0;
+    right: 0;
+    background-color: $color-background;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-xl;
+    z-index: $zindex-dropdown;
+    max-height: 420px;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: $spacing-2;
+    animation: nav-dropdown-in 0.15s ease-out;
+  }
+
+  // ---- Result item ---------------------------------------------------------
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+
+    &:hover,
+    &--is-focused {
+      background-color: $color-surface;
+    }
+
+    &--is-focused {
+      background-color: $color-primary-50;
+    }
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: $color-foreground-muted;
+      margin-top: 2px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-title {
+      flex: 1;
+      font-family: $font-family-base;
+      font-size: 0.9375rem;
+      font-weight: $font-weight-medium;
+      color: $color-foreground;
+      line-height: $line-height-tight;
+
+      mark,
+      &-mark {
+        background-color: rgba($color-primary-500, 0.15);
+        color: $color-primary-700;
+        border-radius: 2px;
+        padding: 0 2px;
+        font-weight: $font-weight-semibold;
+      }
+    }
+
+    &-mark {
+      @extend .cmp-search__item-title mark;
+    }
+  }
+
+  // ---- No results ----------------------------------------------------------
+  &__no-results {
+    padding: $spacing-6 $spacing-4;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: $color-foreground-muted;
+  }
+}
+
+@keyframes search-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}

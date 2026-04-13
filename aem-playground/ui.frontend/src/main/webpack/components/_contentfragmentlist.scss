@@ -1,1 +1,144 @@
-.cmp-contentfragmentlist {}
+// =============================================================================
+// CONTENT FRAGMENT LIST COMPONENT — Landwind-inspired
+// Structured content display from AEM Content Fragments
+// =============================================================================
+
+.cmp-contentfragmentlist {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-8;
+
+  // ---- Grid layout --------------------------------------------------------
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-6;
+  }
+
+  // ---- Single column -------------------------------------------------------
+  &--single {
+    gap: $spacing-6;
+  }
+
+  // ---- Fragment card -------------------------------------------------------
+  &__fragment {
+    display: flex;
+    flex-direction: column;
+    background-color: $color-background;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-xl;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-in-out,
+                transform 0.2s ease-in-out,
+                border-color 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: $shadow-lg;
+      transform: translateY(-2px);
+      border-color: $color-border-strong;
+    }
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.15);
+      border-color: $color-primary-300;
+    }
+  }
+
+  // ---- Fragment image ------------------------------------------------------
+  &__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: $color-surface;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .cmp-contentfragmentlist__fragment:hover & img {
+      transform: scale(1.04);
+    }
+  }
+
+  // ---- Fragment content ----------------------------------------------------
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+    padding: $spacing-5;
+    flex: 1;
+  }
+
+  // ---- Fragment title ------------------------------------------------------
+  &__title {
+    font-family: $font-family-heading;
+    font-size: $font-size-h4;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+    color: $color-foreground;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  // ---- Fragment text / description ----------------------------------------
+  &__text {
+    font-family: $font-family-base;
+    font-size: 0.9375rem;
+    line-height: $line-height-normal;
+    color: $color-foreground-muted;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  // ---- Reference link ------------------------------------------------------
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-family: $font-family-base;
+    font-size: 0.875rem;
+    font-weight: $font-weight-semibold;
+    color: $color-primary-600;
+    text-decoration: none;
+    margin-top: auto;
+    transition: color 0.15s ease-in-out, gap 0.15s ease-in-out;
+
+    &:hover {
+      color: $color-primary-700;
+      gap: $spacing-3;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    &::after {
+      content: '→';
+      font-size: 1em;
+      transition: transform 0.15s ease-in-out;
+    }
+
+    &:hover::after {
+      transform: translateX(3px);
+    }
+  }
+
+  // ---- Responsive ----------------------------------------------------------
+  @media (max-width: 640px) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

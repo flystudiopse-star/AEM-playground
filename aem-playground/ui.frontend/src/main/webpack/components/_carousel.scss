@@ -1,14 +1,186 @@
-.cmp-carousel {}
-.cmp-carousel__content {}
-.cmp-carousel__item {}
-.cmp-carousel__actions {}
-.cmp-carousel__action {}
-.cmp-carousel__action--disabled {}
-.cmp-carousel__action--previous {}
-.cmp-carousel__action--next {}
-.cmp-carousel__action--pause {}
-.cmp-carousel__action--play {}
-.cmp-carousel__action-icon {}
-.cmp-carousel__action-text {}
-.cmp-carousel__indicators {}
-.cmp-carousel__indicator {}
+// =============================================================================
+// CAROUSEL COMPONENT — Landwind-inspired
+// Hero/feature slider with indicators and navigation
+// =============================================================================
+
+.cmp-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: $border-radius-xl;
+  background-color: $color-gray-100;
+
+  // ---- Slide content -------------------------------------------------------
+  &__content {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  // ---- Individual slide ----------------------------------------------------
+  &__item {
+    flex: 0 0 100%;
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  // ---- Caption overlay ----------------------------------------------------
+  .cmp-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-12 $spacing-8;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+    color: #ffffff;
+    max-width: none;
+    margin: 0;
+
+    h1, h2, h3 {
+      color: #ffffff;
+    }
+  }
+
+  // ---- Navigation actions --------------------------------------------------
+  &__actions {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 $spacing-4;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: rgba($color-background, 0.85);
+    border: 1px solid $color-border;
+    border-radius: $border-radius-full;
+    cursor: pointer;
+    pointer-events: all;
+    color: $color-foreground;
+    backdrop-filter: blur(4px);
+    transition: background-color 0.15s ease-in-out,
+                color 0.15s ease-in-out,
+                transform 0.15s ease-in-out,
+                box-shadow 0.15s ease-in-out;
+
+    &:hover:not(&--disabled) {
+      background-color: $color-primary-500;
+      border-color: $color-primary-500;
+      color: #ffffff;
+      box-shadow: $shadow-lg;
+      transform: scale(1.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+    }
+
+    &--disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  &__action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__action-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // ---- Indicators (dots) --------------------------------------------------
+  &__indicators {
+    position: absolute;
+    bottom: $spacing-5;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: $spacing-2;
+    list-style: none;
+    margin: 0;
+    padding: $spacing-2 $spacing-3;
+    background-color: rgba($color-background, 0.75);
+    border-radius: $border-radius-full;
+    backdrop-filter: blur(4px);
+  }
+
+  &__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: $border-radius-full;
+    background-color: $color-gray-400;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out,
+                width 0.2s ease-in-out;
+    padding: 0;
+
+    &--active {
+      width: 24px;
+      background-color: $color-primary-500;
+    }
+
+    &:hover:not(&--active) {
+      background-color: $color-gray-600;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+    }
+  }
+
+  // ---- Autoplay controls --------------------------------------------------
+  &__action--pause,
+  &__action--play {
+    // Play/pause in bottom corner
+    position: absolute;
+    bottom: $spacing-5;
+    right: $spacing-5;
+    top: auto;
+    transform: none;
+    pointer-events: all;
+  }
+}

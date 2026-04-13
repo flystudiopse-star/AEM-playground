@@ -1,16 +1,181 @@
-
-//== XF Footer style, used on page template
+// =============================================================================
+// EXPERIENCE FRAGMENT — FOOTER — Landwind-inspired
+// Full-width footer with columns, copyright, links
+// =============================================================================
 
 footer.experiencefragment {
-    padding: .5em 1em;
-    border-top: 1px solid $color-foreground;
+  background-color: $color-gray-900;
+  color: $color-gray-300;
+  padding: $spacing-16 $spacing-6 $spacing-8;
+  border-top: 1px solid $color-gray-800;
 
-    @media (prefers-color-scheme: dark) {
-        border-color: $color-foreground-dark;
+  // ---- Grid layout ----------------------------------------------------------
+  .cmp-container {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: $spacing-12;
+    max-width: $container-xl;
+    margin: 0 auto;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-8;
     }
 
-    .cmp-separator__horizontal-rule {
-        margin: 0;
-        border: 0;
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: $spacing-8;
     }
+  }
+
+  // ---- Brand column ---------------------------------------------------------
+  .cmp-navigation__group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .cmp-navigation__item {
+      .cmp-navigation__item-link {
+        display: block;
+        padding: $spacing-1 0;
+        color: $color-gray-300;
+        text-decoration: none;
+        font-size: 0.875rem;
+        line-height: $line-height-normal;
+        transition: color 0.15s ease-in-out;
+
+        &:hover {
+          color: $color-primary-400;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $color-primary-500;
+          outline-offset: 2px;
+          border-radius: 2px;
+        }
+      }
+
+      &--active > .cmp-navigation__item-link {
+        color: $color-primary-400;
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    // Brand name (footer brand)
+    .cmp-navigation__item--brand {
+      .cmp-navigation__item-link {
+        font-family: $font-family-heading;
+        font-size: 1.375rem;
+        font-weight: $font-weight-bold;
+        color: #ffffff;
+        letter-spacing: -0.02em;
+        margin-bottom: $spacing-3;
+      }
+    }
+  }
+
+  // ---- Footer columns (links) ----------------------------------------------
+  .cmp-navigation__group--footer-links {
+    .cmp-navigation__item-title,
+    .cmp-navigation__item--section-title {
+      font-family: $font-family-base;
+      font-size: 0.75rem;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      padding: 0 0 $spacing-3;
+      margin: 0;
+    }
+
+    .cmp-navigation__item-link {
+      display: block;
+      padding: $spacing-1 0;
+      font-size: 0.875rem;
+      color: $color-gray-400;
+      text-decoration: none;
+      transition: color 0.15s ease-in-out;
+
+      &:hover {
+        color: $color-gray-100;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-primary-500;
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  // ---- Separator ------------------------------------------------------------
+  .cmp-separator__horizontal-rule {
+    border: none;
+    border-top: 1px solid $color-gray-800;
+    margin: $spacing-8 0;
+  }
+
+  // ---- Bottom bar -----------------------------------------------------------
+  .cmp-container--bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $spacing-4;
+    max-width: $container-xl;
+    margin: 0 auto;
+    padding-top: $spacing-6;
+
+    .cmp-text {
+      font-size: 0.8125rem;
+      color: $color-gray-500;
+      max-width: none;
+      margin: 0;
+
+      a {
+        color: $color-gray-400;
+        text-decoration: none;
+        transition: color 0.15s ease-in-out;
+
+        &:hover {
+          color: $color-primary-400;
+        }
+      }
+    }
+
+    .cmp-navigation__group {
+      display: flex;
+      gap: $spacing-5;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .cmp-navigation__item-link {
+        font-size: 0.8125rem;
+        color: $color-gray-500;
+        text-decoration: none;
+        transition: color 0.15s ease-in-out;
+
+        &:hover {
+          color: $color-gray-300;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $color-primary-500;
+          outline-offset: 2px;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+
+  // ---- Dark mode (respects system preference) ------------------------------
+  @media (prefers-color-scheme: dark) {
+    background-color: $color-gray-950;
+    border-top-color: $color-gray-800;
+
+    .cmp-navigation__group .cmp-navigation__item .cmp-navigation__item-link {
+      color: $color-gray-400;
+    }
+  }
 }

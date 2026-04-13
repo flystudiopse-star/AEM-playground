@@ -1,10 +1,240 @@
-.cmp-accordion {}
-.cmp-accordion__item {}
-.cmp-accordion__header {}
-.cmp-accordion__button {}
-.cmp-accordion__button--expanded {}
-.cmp-accordion__title {}
-.cmp-accordion__icon {}
-.cmp-accordion__panel {}
-.cmp-accordion__panel--expanded {}
-.cmp-accordion__panel--hidden {}
+// =============================================================================
+// ACCORDION COMPONENT — Landwind-inspired
+// Expand/collapse sections with animated panels
+// =============================================================================
+
+.cmp-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+
+  // ---- Individual accordion item -------------------------------------------
+  &__item {
+    border: 1px solid $color-border;
+    border-radius: $border-radius-lg;
+    background-color: $color-background;
+    overflow: hidden;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      border-color: $color-border-strong;
+    }
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.12);
+      border-color: $color-primary-300;
+    }
+
+    &--first {
+      border-radius: $border-radius-lg $border-radius-lg 0 0;
+    }
+
+    &--last {
+      border-radius: 0 0 $border-radius-lg $border-radius-lg;
+
+      .cmp-accordion__button[aria-expanded='true'] {
+        border-radius: 0;
+      }
+    }
+  }
+
+  // ---- Header / button wrapper ---------------------------------------------
+  &__header {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  // ---- Accordion button ----------------------------------------------------
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-4;
+    width: 100%;
+    padding: $spacing-5 $spacing-6;
+    font-family: $font-family-base;
+    font-size: 1rem;
+    font-weight: $font-weight-medium;
+    line-height: $line-height-normal;
+    color: $color-foreground;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+    border-radius: $border-radius-lg;
+
+    &:hover {
+      color: $color-primary-600;
+      background-color: $color-surface;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: inset 0 0 0 2px $color-primary-500;
+    }
+
+    // Expanded state
+    &[aria-expanded='true'] {
+      color: $color-primary-700;
+      background-color: $color-primary-50;
+      border-bottom: 1px solid $color-border;
+
+      .cmp-accordion__icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    &--expanded {
+      @extend .cmp-accordion__button[aria-expanded='true'];
+    }
+  }
+
+  // ---- Title text ----------------------------------------------------------
+  &__title {
+    flex: 1;
+    font-family: $font-family-heading;
+    font-size: 1.0625rem;
+    font-weight: $font-weight-medium;
+    color: inherit;
+    line-height: $line-height-tight;
+    margin: 0;
+  }
+
+  // ---- Chevron icon --------------------------------------------------------
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: $color-foreground-muted;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.15s ease-in-out;
+    transform: rotate(0deg);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // ---- Panel / content area ------------------------------------------------
+  &__panel {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.25s ease-in-out,
+                padding 0.3s ease-in-out;
+    padding: 0 $spacing-6;
+
+    &--expanded {
+      max-height: 2000px; // Large enough for content
+      opacity: 1;
+      padding: $spacing-5 $spacing-6 $spacing-6;
+    }
+
+    &--hidden {
+      max-height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    // Content inside panel
+    .cmp-text,
+    p {
+      font-size: 0.9375rem;
+      line-height: $line-height-normal;
+      color: $color-gray-600;
+      margin: 0;
+
+      + p {
+        margin-top: $spacing-3;
+      }
+    }
+
+    ul,
+    ol {
+      padding-left: $spacing-5;
+      margin: $spacing-3 0 0;
+
+      li {
+        margin-bottom: $spacing-2;
+        color: $color-gray-600;
+        font-size: 0.9375rem;
+        line-height: $line-height-normal;
+      }
+    }
+  }
+
+  // ---- Bordered / enclosed variant ----------------------------------------
+  &--bordered {
+    border: none;
+    gap: 0;
+
+    .cmp-accordion__item {
+      border-radius: 0;
+
+      &:first-child {
+        border-radius: $border-radius-lg $border-radius-lg 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $border-radius-lg $border-radius-lg;
+      }
+
+      &:not(:last-child) {
+        border-bottom: none;
+      }
+    }
+  }
+
+  // ---- Flat / minimal variant ----------------------------------------------
+  &--flat {
+    gap: $spacing-3;
+
+    .cmp-accordion__item {
+      border: none;
+      border-radius: $border-radius;
+      background-color: $color-surface;
+
+      &:hover {
+        background-color: $color-surface-hover;
+      }
+
+      &[aria-expanded='true'] {
+        background-color: $color-background;
+        border: 1px solid $color-border;
+        box-shadow: $shadow-md;
+      }
+    }
+
+    &__button[aria-expanded='true'] {
+      background-color: $color-background;
+      border-radius: $border-radius $border-radius 0 0;
+    }
+  }
+
+  // ---- Responsive ----------------------------------------------------------
+  @media (max-width: 640px) {
+    &__button {
+      padding: $spacing-4 $spacing-4;
+      font-size: 0.9375rem;
+    }
+
+    &__panel {
+      padding-left: $spacing-4;
+      padding-right: $spacing-4;
+
+      &--expanded {
+        padding: $spacing-4 $spacing-4 $spacing-5;
+      }
+    }
+  }
+}

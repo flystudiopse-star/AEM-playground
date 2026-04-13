@@ -1,4 +1,140 @@
-.cmp-form-text {}
-.cmp-form-text__help-block {}
-.cmp-form-text__textarea {}
-.cmp-form-text__text {}
+// =============================================================================
+// FORM TEXT INPUT COMPONENT — Landwind-inspired
+// =============================================================================
+
+.cmp-form-text {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  // ---- Label ----------------------------------------------------------------
+  &__label {
+    display: block;
+    font-family: $font-family-base;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    color: $color-gray-700;
+    line-height: $line-height-normal;
+  }
+
+  // ---- Required indicator ---------------------------------------------------
+  &__label--required::after {
+    content: ' *';
+    color: $color-error;
+  }
+
+  // ---- Text input -----------------------------------------------------------
+  &__text {
+    width: 100%;
+    font-family: $input-font-family;
+    font-size: $input-font-size;
+    line-height: $input-line-height;
+    color: $input-color;
+    background-color: $input-bg;
+    border: 1px solid $input-border;
+    border-radius: $input-border-radius;
+    padding: $input-padding-y $input-padding-x;
+    transition: $input-transition;
+    box-shadow: $shadow-sm;
+    appearance: none;
+
+    &::placeholder {
+      color: $input-placeholder;
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+      border-color: $color-gray-400;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $input-border-focus;
+      box-shadow: $input-shadow-focus, $shadow-sm;
+    }
+
+    &:disabled {
+      background-color: $input-bg-disabled;
+      color: $color-gray-400;
+      cursor: not-allowed;
+      border-color: $color-gray-200;
+    }
+
+    // Error state
+    &--error,
+    &.is-invalid {
+      border-color: $color-error;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-error, 0.2);
+      }
+    }
+
+    // Success state
+    &--success,
+    &.is-valid {
+      border-color: $color-success;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-success, 0.2);
+      }
+    }
+
+    // Sizes
+    &--small {
+      font-size: 0.875rem;
+      padding: $spacing-2 $spacing-3;
+    }
+
+    &--large {
+      font-size: 1.125rem;
+      padding: $spacing-4 $spacing-5;
+    }
+  }
+
+  // ---- Textarea -------------------------------------------------------------
+  &__textarea {
+    @extend .cmp-form-text__text;
+    resize: vertical;
+    min-height: 120px;
+    line-height: $line-height-normal;
+
+    &--small {
+      @extend .cmp-form-text__text--small;
+      min-height: 80px;
+    }
+
+    &--large {
+      @extend .cmp-form-text__text--large;
+      min-height: 180px;
+    }
+  }
+
+  // ---- Help block / description ---------------------------------------------
+  &__help-block {
+    font-size: 0.8125rem;
+    color: $color-foreground-muted;
+    line-height: $line-height-normal;
+    margin-top: $spacing-1;
+  }
+
+  // ---- Error message --------------------------------------------------------
+  &__error {
+    font-size: 0.8125rem;
+    color: $color-error;
+    line-height: $line-height-normal;
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    margin-top: $spacing-1;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: currentColor;
+      flex-shrink: 0;
+    }
+  }
+}

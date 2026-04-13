@@ -1,3 +1,158 @@
-.cmp-title {}
-.cmp-title__text {}
-.cmp-title__link {}
+// =============================================================================
+// TITLE COMPONENT — Landwind-inspired
+// Playfair Display for headings, Inter for links
+// =============================================================================
+
+.cmp-title {
+  // Reset / base
+  margin: 0;
+  font-family: $font-family-heading;
+  line-height: $line-height-heading;
+  color: $color-foreground;
+
+  // ---- Heading element scale -----------------------------------------------
+  // These apply when AEM maps h1-h6 elements to the component
+  h1 &,
+  h2 &,
+  h3 &,
+  h4 &,
+  h5 &,
+  h6 &,
+  &__text {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+  }
+
+  // Standalone heading styles (when cmp-title wraps a heading element)
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $font-family-heading;
+    line-height: $line-height-heading;
+    color: $color-foreground;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: $font-size-h1;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.015em;
+  }
+
+  h3 {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-medium;
+  }
+
+  h5 {
+    font-size: $font-size-h5;
+    font-weight: $font-weight-medium;
+  }
+
+  h6 {
+    font-size: $font-size-h6;
+    font-weight: $font-weight-medium;
+    color: $color-foreground-muted;
+  }
+
+  // ---- Text element --------------------------------------------------------
+  &__text {
+    display: block;
+    font-family: $font-family-heading;
+    line-height: $line-height-heading;
+    color: inherit;
+    margin: 0;
+  }
+
+  // ---- Link inside title ----------------------------------------------------
+  &__link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+
+    &:hover {
+      color: $color-link;
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  // ---- Size variants (applied via data attribute or modifier class) ----------
+  &--h1 {
+    font-size: $font-size-h1;
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.02em;
+  }
+
+  &--h2 {
+    font-size: $font-size-h2;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.015em;
+  }
+
+  &--h3 {
+    font-size: $font-size-h3;
+    font-weight: $font-weight-semibold;
+    letter-spacing: -0.01em;
+  }
+
+  &--h4 {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-medium;
+  }
+
+  &--h5 {
+    font-size: $font-size-h5;
+    font-weight: $font-weight-medium;
+  }
+
+  &--h6 {
+    font-size: $font-size-h6;
+    font-weight: $font-weight-medium;
+    color: $color-foreground-muted;
+  }
+
+  // ---- Responsive sizing ----------------------------------------------------
+  @media (max-width: 768px) {
+    h1,
+    &--h1 {
+      font-size: 2.25rem;
+    }
+
+    h2,
+    &--h2 {
+      font-size: 1.75rem;
+    }
+
+    h3,
+    &--h3 {
+      font-size: 1.375rem;
+    }
+
+    h4,
+    &--h4 {
+      font-size: 1.125rem;
+    }
+  }
+}

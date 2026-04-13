@@ -1,6 +1,211 @@
-.cmp-tabs {}
-.cmp-tabs__tablist {}
-.cmp-tabs__tab {}
-.cmp-tabs__tab--active {}
-.cmp-tabs__tabpanel {}
-.cmp-tabs__tabpanel--active {}
+// =============================================================================
+// TABS COMPONENT — Landwind-inspired
+// Horizontal or vertical tab panels with animated indicator
+// =============================================================================
+
+.cmp-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  // ---- Tab list ------------------------------------------------------------
+  &__tablist {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 2px solid $color-border;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    // Vertical variant
+    .cmp-tabs--vertical & {
+      flex-direction: column;
+      align-items: stretch;
+      border-bottom: none;
+      border-right: 2px solid $color-border;
+      padding-right: 0;
+      min-width: 200px;
+    }
+  }
+
+  // ---- Individual tab ------------------------------------------------------
+  &__tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-5;
+    font-family: $font-family-base;
+    font-size: 0.9375rem;
+    font-weight: $font-weight-medium;
+    color: $color-foreground-muted;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    white-space: nowrap;
+    transition: color 0.15s ease-in-out,
+                background-color 0.15s ease-in-out;
+    border-radius: $border-radius $border-radius 0 0;
+    flex-shrink: 0;
+
+    // Bottom indicator bar
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: transparent;
+      transition: background-color 0.2s ease-in-out;
+      border-radius: 2px 2px 0 0;
+    }
+
+    &:hover:not(&--active) {
+      color: $color-foreground;
+      background-color: $color-surface;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: -2px;
+    }
+
+    // Active tab
+    &--active {
+      color: $color-primary-600;
+      font-weight: $font-weight-semibold;
+      background-color: transparent;
+
+      &::after {
+        background-color: $color-primary-500;
+      }
+
+      &:hover {
+        color: $color-primary-600;
+        background-color: $color-primary-50;
+      }
+    }
+
+    // Vertical tab active state
+    .cmp-tabs--vertical & {
+      border-radius: 0;
+      border-right: 2px solid transparent;
+
+      &::after {
+        display: none;
+      }
+
+      &--active {
+        border-right: 2px solid $color-primary-500;
+        background-color: $color-primary-50;
+        color: $color-primary-600;
+      }
+    }
+  }
+
+  // ---- Tab panels ---------------------------------------------------------
+  &__tabpanel {
+    padding: $spacing-6;
+    font-family: $font-family-base;
+    font-size: 1rem;
+    line-height: $line-height-normal;
+    color: $color-foreground;
+    border-radius: 0 0 $border-radius-lg $border-radius-lg;
+    animation: tab-panel-in 0.2s ease-out;
+
+    &:not(&--active) {
+      display: none;
+    }
+
+    &--active {
+      display: block;
+    }
+
+    // Nested content
+    .cmp-text {
+      max-width: none;
+      margin: 0;
+
+      p {
+        margin: 0;
+        line-height: $line-height-normal;
+        color: $color-gray-600;
+
+        + p {
+          margin-top: $spacing-3;
+        }
+      }
+    }
+
+    .cmp-tabs--vertical & {
+      padding: $spacing-5 $spacing-6;
+      border-radius: 0 $border-radius-lg $border-radius-lg 0;
+    }
+  }
+
+  // ---- Variants ------------------------------------------------------------
+  &--pills {
+    .cmp-tabs__tablist {
+      border-bottom: none;
+      gap: $spacing-2;
+      padding: $spacing-1;
+      background-color: $color-surface;
+      border-radius: $border-radius-lg;
+    }
+
+    .cmp-tabs__tab {
+      border-radius: $border-radius-md;
+      border: none;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover:not(&--active) {
+        background-color: $color-surface-hover;
+      }
+
+      &--active {
+        background-color: $color-background;
+        color: $color-primary-600;
+        box-shadow: $shadow-sm;
+      }
+    }
+
+    .cmp-tabs__tabpanel {
+      padding-top: $spacing-5;
+    }
+  }
+
+  // ---- Responsive ----------------------------------------------------------
+  @media (max-width: 640px) {
+    .cmp-tabs__tab {
+      padding: $spacing-3 $spacing-4;
+      font-size: 0.875rem;
+    }
+
+    .cmp-tabs__tabpanel {
+      padding: $spacing-4;
+    }
+  }
+}
+
+@keyframes tab-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

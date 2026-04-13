@@ -1,2 +1,155 @@
-.cmp-pdfviewer {}
-.cmp-pdfviewer__content {}
+// =============================================================================
+// PDF VIEWER COMPONENT — Landwind-inspired
+// Embedded PDF viewer container
+// =============================================================================
+
+.cmp-pdfviewer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-xl;
+  overflow: hidden;
+  background-color: $color-gray-100;
+
+  // ---- Toolbar ------------------------------------------------------------
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-3 $spacing-4;
+    background-color: $color-background;
+    border-bottom: 1px solid $color-border;
+    gap: $spacing-3;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-family: $font-family-base;
+    font-size: 0.875rem;
+    font-weight: $font-weight-medium;
+    color: $color-foreground;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    cursor: pointer;
+    color: $color-gray-600;
+    transition: background-color 0.15s ease-in-out,
+                color 0.15s ease-in-out,
+                border-color 0.15s ease-in-out;
+
+    &:hover:not(:disabled) {
+      background-color: $color-surface;
+      border-color: $color-border-strong;
+      color: $color-foreground;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // ---- Content area -------------------------------------------------------
+  &__content {
+    width: 100%;
+    height: 600px;
+    border: none;
+    display: block;
+
+    @media (max-width: 640px) {
+      height: 400px;
+    }
+  }
+
+  // ---- Loading state ------------------------------------------------------
+  &--loading {
+    .cmp-pdfviewer__content {
+      opacity: 0;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 3px solid $color-gray-200;
+      border-top-color: $color-primary-500;
+      border-radius: $border-radius-full;
+      animation: search-spin 0.7s linear infinite;
+    }
+  }
+
+  // ---- Error state --------------------------------------------------------
+  &__error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    padding: $spacing-12;
+    text-align: center;
+    color: $color-foreground-muted;
+
+    &-icon {
+      width: 48px;
+      height: 48px;
+      color: $color-gray-400;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-message {
+      font-family: $font-family-base;
+      font-size: 0.9375rem;
+      color: $color-foreground-muted;
+    }
+
+    &-action {
+      font-size: 0.875rem;
+      color: $color-primary-600;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-primary-700;
+      }
+    }
+  }
+}

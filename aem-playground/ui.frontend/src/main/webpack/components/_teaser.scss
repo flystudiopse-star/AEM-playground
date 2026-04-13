@@ -1,9 +1,210 @@
-.cmp-teaser {}
-.cmp-teaser__image {}
-.cmp-teaser__content {}
-.cmp-teaser__pretitle {}
-.cmp-teaser__title {}
-.cmp-teaser__title-link {}
-.cmp-teaser__description {}
-.cmp-teaser__action-container {}
-.cmp-teaser__action-link {}
+// =============================================================================
+// TEASER COMPONENT — Landwind-inspired
+// Card-style layout with image, pretitle, title, description, CTA
+// =============================================================================
+
+.cmp-teaser {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-background;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-xl;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  // ---- Image ----------------------------------------------------------------
+  &__image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: $color-surface;
+    flex-shrink: 0;
+
+    img,
+    .cmp-image__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    // Hover zoom on image
+    .cmp-teaser:hover & img {
+      transform: scale(1.04);
+    }
+
+    // Placeholder overlay
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, $color-gray-100 0%, $color-gray-200 100%);
+    }
+  }
+
+  // ---- Content container ---------------------------------------------------
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: $spacing-6;
+    gap: $spacing-3;
+  }
+
+  // ---- Pretitle -------------------------------------------------------------
+  &__pretitle {
+    font-family: $font-family-base;
+    font-size: 0.75rem;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $color-primary-600;
+    line-height: $line-height-tight;
+    margin: 0;
+  }
+
+  // ---- Title ----------------------------------------------------------------
+  &__title {
+    font-family: $font-family-heading;
+    font-size: $font-size-h4;
+    font-weight: $font-weight-semibold;
+    line-height: $line-height-tight;
+    color: $color-foreground;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  &__title-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+
+    &:hover {
+      color: $color-link;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  // ---- Description ----------------------------------------------------------
+  &__description {
+    font-family: $font-family-base;
+    font-size: 0.9375rem;
+    line-height: $line-height-normal;
+    color: $color-foreground-muted;
+    margin: 0;
+    flex: 1; // Push actions to bottom
+
+    p {
+      margin: 0;
+    }
+  }
+
+  // ---- Action container ----------------------------------------------------
+  &__action-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-3;
+    margin-top: $spacing-2;
+  }
+
+  &__action-link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-family: $font-family-base;
+    font-size: 0.875rem;
+    font-weight: $font-weight-semibold;
+    color: $color-primary-600;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, gap 0.15s ease-in-out;
+
+    &:hover {
+      color: $color-primary-700;
+      gap: $spacing-3; // Subtle arrow slide
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-primary-500;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    // Arrow icon
+    &::after {
+      content: '→';
+      display: inline-block;
+      font-size: 1em;
+      transition: transform 0.15s ease-in-out;
+    }
+
+    &:hover::after {
+      transform: translateX(3px);
+    }
+  }
+
+  // ---- Horizontal teaser variant ------------------------------------------
+  &--horizontal {
+    flex-direction: row;
+    align-items: stretch;
+
+    .cmp-teaser__image {
+      width: 45%;
+      aspect-ratio: auto;
+      min-height: 200px;
+    }
+
+    .cmp-teaser__content {
+      flex: 1;
+      justify-content: center;
+    }
+
+    @media (max-width: 640px) {
+      flex-direction: column;
+
+      .cmp-teaser__image {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+      }
+    }
+  }
+
+  // ---- Teaser without image -------------------------------------------------
+  &--no-image {
+    .cmp-teaser__content {
+      padding-top: $spacing-8;
+    }
+  }
+
+  // ---- CTA teaser (more prominent) -----------------------------------------
+  &--cta {
+    border-color: $color-primary-200;
+    background: linear-gradient(
+      to bottom right,
+      $color-primary-50 0%,
+      $color-background 100%
+    );
+  }
+
+  // ---- Responsive -----------------------------------------------------------
+  @media (max-width: 640px) {
+    &__content {
+      padding: $spacing-5;
+    }
+
+    &__title {
+      font-size: $font-size-h4;
+    }
+  }
+}
