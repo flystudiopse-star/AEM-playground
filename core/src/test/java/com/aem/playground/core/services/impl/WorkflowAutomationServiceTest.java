@@ -285,7 +285,7 @@ class WorkflowAutomationServiceTest {
         assertEquals(0, metrics.getRejectionCount());
     }
 
-    private static abstract class TestWorkflowAutomationServiceConfig implements WorkflowAutomationServiceConfig {
+    TestWorkflowAutomationServiceConfig implements WorkflowAutomationServiceConfig {
         
         public Class<? extends java.lang.annotation.Annotation> annotationType() { return WorkflowAutomationServiceConfig.class; }
         @Override
