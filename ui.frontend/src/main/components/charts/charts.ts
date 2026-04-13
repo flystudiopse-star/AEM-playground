@@ -1,7 +1,7 @@
 // Charts Component - Highcharts integration
 import './scss';
 
-import { Chart } from './chartOptions';
+import { Chart } from './chart-options';
 
 export class Charts {
     private container: string;
