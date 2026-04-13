@@ -18,7 +18,7 @@ package com.aem.playground.core.models;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ModifiableValueMap;
-import org.apache.sling.models.spi.ModelPackage;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

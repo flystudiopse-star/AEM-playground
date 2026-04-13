@@ -227,7 +227,7 @@ class ContentModerationServiceTest {
 
     @Test
     void testModerationResultBuilder() {
-        ModerationResult result = ModerationResultBuilder.builder()
+        ModerationResult result = ModerationResult.builder()
                 .contentPath("/content/page")
                 .isApproved(true)
                 .overallScore(95.0)
@@ -241,7 +241,7 @@ class ContentModerationServiceTest {
 
     @Test
     void testModerationViolationBuilder() {
-        ModerationViolation violation = ModerationViolationBuilder.builder()
+        ModerationViolation violation = ModerationViolation.builder()
                 .category(ModerationCategory.HATE_SPEECH)
                 .confidence(0.9)
                 .description("Hate speech detected")
@@ -278,7 +278,7 @@ class ContentModerationServiceTest {
         segment.setReason("Prohibited word");
         segments.add(segment);
 
-        ContentCensorResult result = ContentCensorResultBuilder.builder()
+        ContentCensorResult result = ContentCensorResult.builder()
                 .originalContent("This contains badword here")
                 .censoredContent("This contains ******* here")
                 .censoredSegments(segments)
@@ -293,12 +293,12 @@ class ContentModerationServiceTest {
     @Test
     void testModerationWorkflowTriggerBuilder() {
         List<ModerationViolation> violations = new ArrayList<>();
-        violations.add(ModerationViolationBuilder.builder()
+        violations.add(ModerationViolation.builder()
                 .category(ModerationCategory.SPAM)
                 .confidence(0.8)
                 .build());
 
-        ModerationWorkflowTrigger trigger = ModerationWorkflowTriggerBuilder.builder()
+        ModerationWorkflowTrigger trigger = ModerationWorkflowTrigger.builder()
                 .contentPath("/content/page")
                 .workflowModelId("models/content-moderation")
                 .triggerReason("Spam detected")
@@ -315,7 +315,7 @@ class ContentModerationServiceTest {
     void testApprovalQueueItemBuilder() {
         List<ModerationViolation> violations = new ArrayList<>();
         
-        ApprovalQueueItem item = ApprovalQueueItemBuilder.builder()
+        ApprovalQueueItem item = ApprovalQueueItem.builder()
                 .itemId("item-123")
                 .contentPath("/content/page")
                 .contentTitle("Test Page")
@@ -346,7 +346,7 @@ class ContentModerationServiceTest {
         stats.setPercentage(25.0);
         categoryStats.put(ModerationCategory.SPAM, stats);
 
-        ModerationReport report = ModerationReportBuilder.builder()
+        ModerationReport report = ModerationReport.builder()
                 .reportId("report-123")
                 .startDate(System.currentTimeMillis() - 86400000)
                 .endDate(System.currentTimeMillis())
@@ -458,7 +458,7 @@ class ContentModerationServiceTest {
     @Test
     void testModerationViolationAllCategories() {
         for (ModerationCategory category : ModerationCategory.values()) {
-            ModerationViolation violation = ModerationViolationBuilder.builder()
+            ModerationViolation violation = ModerationViolation.builder()
                     .category(category)
                     .confidence(0.5)
                     .build();
@@ -490,12 +490,12 @@ class ContentModerationServiceTest {
     @Test
     void testModerationResultWithViolations() {
         List<ModerationViolation> violations = new ArrayList<>();
-        violations.add(ModerationViolationBuilder.builder()
+        violations.add(ModerationViolation.builder()
                 .category(ModerationCategory.SPAM)
                 .confidence(0.7)
                 .build());
         
-        ModerationResult result = ModerationResultBuilder.builder()
+        ModerationResult result = ModerationResult.builder()
                 .contentPath("/content/page")
                 .isApproved(false)
                 .violations(violations)
@@ -526,7 +526,7 @@ class ContentModerationServiceTest {
         trend.setCensored(5);
         trends.add(trend);
 
-        ModerationReport report = ModerationReportBuilder.builder()
+        ModerationReport report = ModerationReport.builder()
                 .trends(trends)
                 .build();
 

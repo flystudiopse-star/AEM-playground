@@ -7,6 +7,11 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorDashboard;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorSummary;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorTrend;
+import static com.aem.playground.core.services.ErrorDetectionService.ErrorType;
+import static com.aem.playground.core.services.ErrorDetectionService.ContentError;
 
 class ErrorDashboardTest {
 

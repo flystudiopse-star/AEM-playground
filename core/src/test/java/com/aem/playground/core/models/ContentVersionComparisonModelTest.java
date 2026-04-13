@@ -45,7 +45,7 @@ class ContentVersionComparisonModelTest {
             "version1", "1.0",
             "version2", "2.0");
 
-        context.getServiceTracker().registerService(contentVersionManager, ContentVersionManager.class);
+        context.registerService(contentVersionManager, ContentVersionManager.class);
 
         model = resource.adaptTo(ContentVersionComparisonModel.class);
     }
@@ -134,7 +134,7 @@ class ContentVersionComparisonModelTest {
         drift.setBaseVersionId("1.0");
         drift.setCurrentVersionId("2.0");
         drift.setDriftScore(0.15);
-        drift.setStatus("MODERATE");
+        drift.setStatus(ContentDrift.DriftStatus.MODERATE_DRIFT);
 
         when(contentVersionManager.detectContentDrift("/content/page", "1.0", "2.0")).thenReturn(drift);
 
@@ -142,7 +142,7 @@ class ContentVersionComparisonModelTest {
 
         ContentDrift result = model.getDrift();
         assertNotNull(result);
-        assertEquals("MODERATE", result.getStatus());
+        assertEquals(ContentDrift.DriftStatus.MODERATE_DRIFT, result.getStatus());
         assertEquals(0.15, result.getDriftScore());
     }
 
@@ -150,7 +150,7 @@ class ContentVersionComparisonModelTest {
     void testGetRecommendations() {
         List<VersionRecommendation> recommendations = new ArrayList<>();
         VersionRecommendation rec = new VersionRecommendation();
-        rec.setAction("RESTORE");
+        rec.setRecommendation(VersionRecommendation.RecommendationType.RESTORE);
         rec.setReason("Significant drift detected");
         recommendations.add(rec);
 
@@ -165,7 +165,7 @@ class ContentVersionComparisonModelTest {
         List<VersionRecommendation> result = model.getRecommendations();
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("RESTORE", result.get(0).getAction());
+        assertEquals("RESTORE", result.get(0).getRecommendation());
     }
 
     @Test
@@ -240,9 +240,9 @@ class ContentVersionComparisonModelTest {
         drift.setBaseVersionId("1.0");
         drift.setCurrentVersionId("2.0");
         drift.setDriftScore(0.15);
-        drift.setStatus("HIGH");
+        drift.setStatus(ContentDrift.DriftStatus.CRITICAL_DRIFT);
         drift.setDriftReason("Significant changes detected");
-        drift.setDetectedAt("2024-01-01T00:00:00Z");
+        drift.setDetectedAt(System.currentTimeMillis());
 
         when(contentVersionManager.detectContentDrift("/content/page", "1.0", "2.0")).thenReturn(drift);
 
@@ -265,7 +265,7 @@ class ContentVersionComparisonModelTest {
         summary.setAiConfidence(0.9);
         summary.setVersionLabel("v1.0");
         summary.setAuthor("admin");
-        summary.setTimestamp("2024-01-01T00:00:00Z");
+        summary.setTimestamp(System.currentTimeMillis());
 
         when(contentVersionManager.generateVersionSummary("/content/page", "1.0", true)).thenReturn(summary);
 

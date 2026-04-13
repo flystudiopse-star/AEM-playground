@@ -248,7 +248,9 @@ class AutoTaggingServiceImplTest {
         assertEquals(50L, result.getProcessingTimeMs());
     }
 
-    private static class TestAutoTaggingConfig implements AutoTaggingConfig {
+    private static abstract class TestAutoTaggingConfig implements AutoTaggingConfig {
+        
+        public Class<? extends java.lang.annotation.Annotation> annotationType() { return AutoTaggingConfig.class; }
         @Override
         public String ai_service_url() {
             return "https://api.openai.com/v1/chat/completions";

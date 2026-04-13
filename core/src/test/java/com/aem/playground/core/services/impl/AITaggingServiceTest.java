@@ -75,7 +75,7 @@ class AITaggingServiceTest {
         TaggingService.TaggingResult result = taggingService.autoTagContent(null, TaggingService.TaggingOptions.defaultOptions());
 
         assertFalse(result.isSuccess());
-        assertNotNull(result.getError());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -189,7 +189,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "invalid", null);
 
         assertFalse(result.isSuccess());
-        assertNotNull(result.getError());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -224,7 +224,9 @@ class AITaggingServiceTest {
         assertTrue(options.isDedupe());
     }
 
-    private static class TestTaggingServiceConfig implements TaggingServiceConfig {
+    private static abstract class TestTaggingServiceConfig implements TaggingServiceConfig {
+        
+        public Class<? extends java.lang.annotation.Annotation> annotationType() { return TaggingServiceConfig.class; }
         @Override
         public String ai_service_url() {
             return "https://api.openai.com/v1/chat/completions";

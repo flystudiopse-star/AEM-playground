@@ -440,7 +440,9 @@ class DAMMetadataManagerServiceImplTest {
         assertTrue(relationship.isHighlySimilar());
     }
 
-    private static class TestDAMMetadataManagerConfig implements DAMMetadataManagerConfig {
+    private static abstract class TestDAMMetadataManagerConfig implements DAMMetadataManagerConfig {
+        
+        public int cacheSize() { return 100; }
         @Override
         public String ai_service_url() {
             return "https://api.openai.com/v1/chat/completions";
@@ -512,7 +514,9 @@ class DAMMetadataManagerServiceImplTest {
         }
     }
 
-    private static class TestDAMMetadataManagerConfigDisabled implements DAMMetadataManagerConfig {
+    private static abstract class TestDAMMetadataManagerConfigDisabled implements DAMMetadataManagerConfig {
+        
+        public int cacheSize() { return 0; }
         @Override
         public String ai_service_url() {
             return "https://api.openai.com/v1/chat/completions";

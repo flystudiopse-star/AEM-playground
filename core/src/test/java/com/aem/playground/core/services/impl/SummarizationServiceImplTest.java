@@ -32,43 +32,28 @@ class SummarizationServiceImplTest {
         service.aiService = aiService;
     }
 
+
+    static abstract class TestSummarizationConfig implements SummarizationServiceConfig {
+        @Override
+        public Class<? extends java.lang.annotation.Annotation> annotationType() { return SummarizationServiceConfig.class; }
+        @Override
+        public String apiKey() { return "test-api-key"; }
+        @Override
+        public String serviceUrl() { return "https://api.openai.com/v1/chat/completions"; }
+        @Override
+        public String defaultModel() { return "gpt-4"; }
+        @Override
+        public float temperature() { return 0.5f; }
+        @Override
+        public int maxTokens() { return 2000; }
+        @Override
+        public int defaultSummaryLength() { return 100; }
+        @Override
+        public boolean enableAIIntegration() { return true; }
+    }
+
     private SummarizationServiceConfig createTestConfig() {
-        return new SummarizationServiceConfig() {
-            @Override
-            public String apiKey() {
-                return "test-api-key";
-            }
-
-            @Override
-            public String serviceUrl() {
-                return "https://api.openai.com/v1/chat/completions";
-            }
-
-            @Override
-            public String defaultModel() {
-                return "gpt-4";
-            }
-
-            @Override
-            public float temperature() {
-                return 0.5f;
-            }
-
-            @Override
-            public int maxTokens() {
-                return 2000;
-            }
-
-            @Override
-            public int defaultSummaryLength() {
-                return 100;
-            }
-
-            @Override
-            public boolean enableAIIntegration() {
-                return true;
-            }
-        };
+        return new TestSummarizationConfig() {};
     }
 
     @Test
