@@ -426,7 +426,7 @@ class ContentSummarizerServiceImplTest {
         assertNotNull(summary.getMetadata());
     }
 
-    static class ContentSummarizerServiceTestConfig implements ContentSummarizerServiceConfig {
+    static abstract class ContentSummarizerServiceTestConfig implements ContentSummarizerServiceConfig {
         @Override
         public String apiKey() {
             return "test-api-key";
