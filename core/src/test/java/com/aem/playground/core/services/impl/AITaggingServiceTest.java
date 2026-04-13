@@ -224,7 +224,7 @@ class AITaggingServiceTest {
         assertTrue(options.isDedupe());
     }
 
-    TestTaggingServiceConfig implements TaggingServiceConfig {
+    private static abstract class TestTaggingServiceConfig implements TaggingServiceConfig {
         
         public Class<? extends java.lang.annotation.Annotation> annotationType() { return TaggingServiceConfig.class; }
         @Override
