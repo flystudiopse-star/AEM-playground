@@ -202,7 +202,7 @@
     }
 
     &-mark {
-      @extend .cmp-search__item-title mark;
+      @extend mark;
     }
   }
 

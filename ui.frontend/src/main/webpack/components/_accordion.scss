@@ -89,7 +89,8 @@
     }
 
     &--expanded {
-      @extend .cmp-accordion__button[aria-expanded='true'];
+      @extend .cmp-accordion__button;
+      @extend [aria-expanded='true'];
     }
   }
 
