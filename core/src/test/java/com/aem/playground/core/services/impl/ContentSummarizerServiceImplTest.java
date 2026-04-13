@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.annotation.Annotation;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -27,7 +28,12 @@ class ContentSummarizerServiceImplTest {
     void setUp() throws Exception {
         service = new ContentSummarizerServiceImpl();
 
-        ContentSummarizerServiceTestConfig config = new ContentSummarizerServiceTestConfig();
+        ContentSummarizerServiceTestConfig config = new ContentSummarizerServiceTestConfig() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return null;
+            }
+        };
         service.activate(config);
         service.aiService = aiService;
     }

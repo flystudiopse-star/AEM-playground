@@ -45,7 +45,7 @@ class AutoTaggingServiceImplTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         autoTaggingService = new AutoTaggingServiceImpl();
-        
+
         AutoTaggingConfig config = Mockito.mock(AutoTaggingConfig.class, Mockito.RETURNS_DEFAULTS);
         when(config.model()).thenReturn("gpt-4");
         when(config.max_tags()).thenReturn(10);
@@ -57,8 +57,8 @@ class AutoTaggingServiceImplTest {
     @Test
     void testAutoTagContentWithValidContent() {
         AutoTaggingService.AutoTaggingResult result = autoTaggingService.autoTagContent(
-            "content-1", 
-            "Java Programming Guide", 
+            "content-1",
+            "Java Programming Guide",
             "Learn Java programming from basics to advanced concepts including OOP, collections, and design patterns.",
             null
         );
@@ -70,8 +70,8 @@ class AutoTaggingServiceImplTest {
     @Test
     void testAutoTagContentWithEmptyContent() {
         AutoTaggingService.AutoTaggingResult result = autoTaggingService.autoTagContent(
-            "content-1", 
-            "Empty Content", 
+            "content-1",
+            "Empty Content",
             "",
             null
         );
@@ -82,8 +82,8 @@ class AutoTaggingServiceImplTest {
     @Test
     void testAutoTagContentWithNullContent() {
         AutoTaggingService.AutoTaggingResult result = autoTaggingService.autoTagContent(
-            null, 
-            null, 
+            null,
+            null,
             null,
             null
         );
@@ -94,10 +94,10 @@ class AutoTaggingServiceImplTest {
     @Test
     void testAutoTagContentWithExistingTags() {
         List<String> existingTags = Arrays.asList("java", "programming");
-        
+
         AutoTaggingService.AutoTaggingResult result = autoTaggingService.autoTagContent(
-            "content-1", 
-            "Java Tutorial", 
+            "content-1",
+            "Java Tutorial",
             "Learn Java programming with examples",
             existingTags
         );
@@ -109,7 +109,7 @@ class AutoTaggingServiceImplTest {
     @Test
     void testSuggestTags() {
         List<AutoTaggingService.TagSuggestion> suggestions = autoTaggingService.suggestTags(
-            "This is about cloud computing and AWS services", 
+            "This is about cloud computing and AWS services",
             5
         );
 
@@ -119,7 +119,7 @@ class AutoTaggingServiceImplTest {
     @Test
     void testSuggestTagsWithEmptyContent() {
         List<AutoTaggingService.TagSuggestion> suggestions = autoTaggingService.suggestTags(
-            "", 
+            "",
             5
         );
 
@@ -130,11 +130,11 @@ class AutoTaggingServiceImplTest {
     @Test
     void testLearnFromUserTags() {
         List<String> userTags = Arrays.asList("cloud", "aws", "devops");
-        
+
         autoTaggingService.learnFromUserTags("content-1", userTags);
 
         List<AutoTaggingService.TagSuggestion> learned = autoTaggingService.getSuggestedTagsForContent("content-1");
-        
+
         assertNotNull(learned);
     }
 
@@ -142,12 +142,12 @@ class AutoTaggingServiceImplTest {
     void testLearnFromUserTagsMultipleContent() {
         List<String> tags1 = Arrays.asList("java", "spring");
         List<String> tags2 = Arrays.asList("python", "django");
-        
+
         autoTaggingService.learnFromUserTags("content-1", tags1);
         autoTaggingService.learnFromUserTags("content-2", tags2);
 
         Map<String, Double> stats = autoTaggingService.getTagUsageStats();
-        
+
         assertNotNull(stats);
         assertTrue(stats.containsKey("java"));
         assertTrue(stats.containsKey("python"));
@@ -166,14 +166,14 @@ class AutoTaggingServiceImplTest {
         autoTaggingService.learnFromUserTags("content-1", userTags);
 
         List<AutoTaggingService.TagSuggestion> suggestions = autoTaggingService.getSuggestedTagsForContent("content-1");
-        
+
         assertNotNull(suggestions);
     }
 
     @Test
     void testGetSuggestedTagsForUnknownContent() {
         List<AutoTaggingService.TagSuggestion> suggestions = autoTaggingService.getSuggestedTagsForContent("unknown-content");
-        
+
         assertNotNull(suggestions);
         assertTrue(suggestions.isEmpty());
     }
@@ -181,7 +181,7 @@ class AutoTaggingServiceImplTest {
     @Test
     void testGetTagUsageStats() {
         Map<String, Double> stats = autoTaggingService.getTagUsageStats();
-        
+
         assertNotNull(stats);
     }
 
@@ -189,9 +189,9 @@ class AutoTaggingServiceImplTest {
     void testClearLearningData() {
         List<String> userTags = Arrays.asList("test", "tags");
         autoTaggingService.learnFromUserTags("content-1", userTags);
-        
+
         autoTaggingService.clearLearningData();
-        
+
         Map<String, Double> stats = autoTaggingService.getTagUsageStats();
         assertTrue(stats.isEmpty());
     }
@@ -209,7 +209,7 @@ class AutoTaggingServiceImplTest {
         AutoTaggingService.TagSuggestion suggestion = AutoTaggingService.TagSuggestion.create(
             "java", "programming", 0.9, "ai"
         );
-        
+
         assertEquals("java", suggestion.getTagName());
         assertEquals("programming", suggestion.getCategory());
         assertEquals(0.9, suggestion.getConfidence(), 0.01);
@@ -220,11 +220,11 @@ class AutoTaggingServiceImplTest {
     void testTagCategoryBuilder() {
         List<String> subCategories = Arrays.asList("sub1", "sub2");
         List<String> allowedTags = Arrays.asList("tag1", "tag2");
-        
+
         AutoTaggingService.TagCategory category = AutoTaggingService.TagCategory.create(
             "technology", "root", subCategories, allowedTags
         );
-        
+
         assertEquals("technology", category.getName());
         assertEquals("root", category.getParentCategory());
         assertEquals(2, category.getSubCategories().size());
@@ -235,9 +235,9 @@ class AutoTaggingServiceImplTest {
     void testAutoTaggingResultSuccess() {
         List<AutoTaggingService.TagSuggestion> tags = new ArrayList<>();
         tags.add(AutoTaggingService.TagSuggestion.create("test", "category", 0.8, "ai"));
-        
+
         AutoTaggingService.AutoTaggingResult result = AutoTaggingService.AutoTaggingResult.success(tags, 100L);
-        
+
         assertTrue(result.isSuccess());
         assertEquals(1, result.getSuggestedTags().size());
         assertEquals(100L, result.getProcessingTimeMs());
@@ -246,15 +246,15 @@ class AutoTaggingServiceImplTest {
     @Test
     void testAutoTaggingResultError() {
         AutoTaggingService.AutoTaggingResult result = AutoTaggingService.AutoTaggingResult.error("Error message", 50L);
-        
+
         assertFalse(result.isSuccess());
         assertNull(result.getSuggestedTags());
         assertEquals("Error message", result.getError());
         assertEquals(50L, result.getProcessingTimeMs());
     }
 
-    private static abstract class TestAutoTaggingConfig implements AutoTaggingConfig {
-        
+    private static class TestAutoTaggingConfig implements AutoTaggingConfig {
+
         public Class<? extends java.lang.annotation.Annotation> annotationType() { return AutoTaggingConfig.class; }
         @Override
         public String ai_service_url() {

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.annotation.Annotation;
 import java.time.*;
 import java.util.*;
 
@@ -23,7 +24,12 @@ class ContentSchedulerServiceImplTest {
     void setUp() throws Exception {
         service = new ContentSchedulerServiceImpl();
 
-        ContentSchedulerServiceTestConfig config = new ContentSchedulerServiceTestConfig();
+        ContentSchedulerServiceTestConfig config = new ContentSchedulerServiceTestConfig() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return null;
+            }
+        };
         service.activate(config);
     }
 
