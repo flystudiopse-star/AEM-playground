@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static com.aem.playground.core.services.ErrorDetectionService.ErrorDashboard;
 import static com.aem.playground.core.services.ErrorDetectionService.ErrorSummary;
 import static com.aem.playground.core.services.ErrorDetectionService.ErrorTrend;
-import static com.aem.playground.core.services.ErrorDetectionService.ErrorType;
-import static com.aem.playground.core.services.ErrorDetectionService.ContentError;
+import com.aem.playground.core.services.ErrorType;
+import com.aem.playground.core.services.ContentError;
 
 class ErrorDashboardTest {
 
