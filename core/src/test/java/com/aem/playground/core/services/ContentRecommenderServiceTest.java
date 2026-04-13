@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -18,11 +19,28 @@ class ContentRecommenderServiceTest {
     @Mock
     private AIService aiService;
 
-    private ContentRecommenderService service;
+    @Mock
+    private ContentRecommenderConfig config;
+
+    private ContentRecommenderServiceImpl service;
 
     @BeforeEach
     void setUp() {
         service = new ContentRecommenderServiceImpl();
+        Mockito.reset(config);
+        when(config.apiKey()).thenReturn("test-api-key");
+        when(config.defaultModel()).thenReturn("gpt-4");
+        when(config.maxRecommendations()).thenReturn(10);
+        when(config.minRelevanceThreshold()).thenReturn(0.5);
+        when(config.similarityThreshold()).thenReturn(0.7);
+        when(config.maxSimilarUsers()).thenReturn(20);
+        when(config.enableCaching()).thenReturn(true);
+        when(config.cacheSize()).thenReturn(100);
+        when(config.contentAnalysisPrompt()).thenReturn("Analyze content:");
+        when(config.enableCollaborativeFiltering()).thenReturn(true);
+        when(config.personalizationEnabled()).thenReturn(true);
+        when(config.recommendationTtl()).thenReturn(3600);
+        service.activate(config);
     }
 
     @Test

@@ -46,7 +46,11 @@ class AutoTaggingServiceImplTest {
         MockitoAnnotations.openMocks(this);
         autoTaggingService = new AutoTaggingServiceImpl();
         
-        AutoTaggingConfig config = Mockito.mock(AutoTaggingConfig.class);
+        AutoTaggingConfig config = Mockito.mock(AutoTaggingConfig.class, Mockito.RETURNS_DEFAULTS);
+        when(config.model()).thenReturn("gpt-4");
+        when(config.max_tags()).thenReturn(10);
+        when(config.min_confidence()).thenReturn(0.5);
+        when(config.enable_learning()).thenReturn(true);
         autoTaggingService.activate(config);
     }
 
