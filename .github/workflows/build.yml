@@ -26,7 +26,7 @@ jobs:
     - name: Build with Maven
       run: |
         cd aem-playground
-        mvn clean install -DskipTests
+        mvn clean install -DskipTests -DskipTests
       
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
