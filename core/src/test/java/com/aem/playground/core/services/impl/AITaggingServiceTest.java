@@ -75,7 +75,7 @@ class AITaggingServiceTest {
         TaggingService.TaggingResult result = taggingService.autoTagContent(null, TaggingService.TaggingOptions.defaultOptions());
 
         assertFalse(result.isSuccess());
-        assertNotNull(result.getMessage());
+        assertNotNull(result.getError());
     }
 
     @Test
@@ -157,7 +157,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "add", "programming");
 
         assertTrue(result.isSuccess());
-        assertEquals("Tag added: java", result.getMessage());
+        assertEquals("Tag added: java", result.getError());
     }
 
     @Test
@@ -165,7 +165,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "remove", null);
 
         assertTrue(result.isSuccess());
-        assertEquals("Tag removed: java", result.getMessage());
+        assertEquals("Tag removed: java", result.getError());
     }
 
     @Test
@@ -173,7 +173,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "update", "language");
 
         assertTrue(result.isSuccess());
-        assertEquals("Tag updated: java", result.getMessage());
+        assertEquals("Tag updated: java", result.getError());
     }
 
     @Test
@@ -181,7 +181,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("", "list", null);
 
         assertTrue(result.isSuccess());
-        assertEquals("Tags listed", result.getMessage());
+        assertEquals("Tags listed", result.getError());
     }
 
     @Test
@@ -189,7 +189,7 @@ class AITaggingServiceTest {
         TagManagerResult result = taggingService.manageTag("java", "invalid", null);
 
         assertFalse(result.isSuccess());
-        assertNotNull(result.getMessage());
+        assertNotNull(result.getError());
     }
 
     @Test
@@ -224,7 +224,7 @@ class AITaggingServiceTest {
         assertTrue(options.isDedupe());
     }
 
-    private static abstract class TestTaggingServiceConfig implements TaggingServiceConfig {
+    TestTaggingServiceConfig implements TaggingServiceConfig {
         
         public Class<? extends java.lang.annotation.Annotation> annotationType() { return TaggingServiceConfig.class; }
         @Override
