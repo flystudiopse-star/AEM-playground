@@ -295,7 +295,7 @@ class ContentSchedulerServiceImplTest {
         assertEquals(slotTime, recommendation.getSlotTime());
     }
 
-    static class ContentSchedulerServiceTestConfig implements ContentSchedulerConfig {
+    static abstract class ContentSchedulerServiceTestConfig implements ContentSchedulerConfig {
         @Override
         public String defaultTimezone() {
             return "America/New_York";
