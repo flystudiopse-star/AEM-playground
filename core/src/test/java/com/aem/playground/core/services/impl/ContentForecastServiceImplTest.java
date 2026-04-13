@@ -445,7 +445,7 @@ class ContentForecastServiceImplTest {
         }
     }
 
-    static class ContentForecastServiceTestConfig implements ContentForecastServiceConfig {
+    static abstract class ContentForecastServiceTestConfig implements ContentForecastServiceConfig {
         @Override
         public String apiKey() {
             return "test-api-key";
