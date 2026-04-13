@@ -61,7 +61,7 @@ public class AIContentQACheckerService implements ContentQACheckerService {
 
     @Activate
     @Modified
-    protected void activate(AIContentQACheckerConfig config) {
+    public void activate(AIContentQACheckerConfig config) {
         this.config = config;
         this.aiEnabled = config.aiEnabled();
         this.allowedBrandColors = parseStringList(config.allowedBrandColors());

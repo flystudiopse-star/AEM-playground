@@ -13,7 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.aem.playground.core.services;
+package com.aem.playground.core.services.impl;
+import com.aem.playground.core.services.AIService;
+import com.aem.playground.core.services.AIService.AIGenerationResult;
+import com.aem.playground.core.services.AISmartSearchConfig;
+import com.aem.playground.core.services.AISmartSearchService;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -45,6 +49,10 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.aem.playground.core.services.AIService;
+import com.aem.playground.core.services.AIService.AIGenerationResult;
+import com.aem.playground.core.services.AISmartSearchConfig;
+import com.aem.playground.core.services.AISmartSearchService;
 
 @Component(service = AISmartSearchService.class)
 @Designate(ocd = AISmartSearchConfig.class)
@@ -157,7 +165,7 @@ public class AISmartSearchServiceImpl implements AISmartSearchService {
         }
     }
 
-    private void indexContent(String contentId, String content, String contentType, String title, String path) {
+    public void indexContent(String contentId, String content, String contentType, String title, String path) {
         if (StringUtils.isBlank(contentId) || StringUtils.isBlank(content)) {
             log.warn("Skipping indexing: missing contentId or content");
             return;

@@ -43,7 +43,7 @@ public class SummarizationServiceImpl implements SummarizationService {
     private boolean enableAIIntegration;
 
     @Reference
-    private AIService aiService;
+    protected AIService aiService;
 
     @Activate
     protected void activate(SummarizationServiceConfig config) {

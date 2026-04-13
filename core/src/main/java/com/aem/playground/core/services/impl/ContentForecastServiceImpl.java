@@ -50,7 +50,7 @@ public class ContentForecastServiceImpl implements ContentForecastService {
     private int trendingTopicsLimit;
 
     @Reference
-    private AIService aiService;
+    protected AIService aiService;
 
     @Activate
     protected void activate(ContentForecastServiceConfig config) {

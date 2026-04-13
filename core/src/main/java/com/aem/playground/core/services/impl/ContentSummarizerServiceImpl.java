@@ -52,7 +52,7 @@ public class ContentSummarizerServiceImpl implements ContentSummarizerService {
     private boolean enableAIIntegration;
 
     @Reference
-    private AIService aiService;
+    protected AIService aiService;
 
     @Activate
     protected void activate(ContentSummarizerServiceConfig config) {

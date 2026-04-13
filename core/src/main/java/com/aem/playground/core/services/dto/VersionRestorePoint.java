@@ -30,6 +30,14 @@ public class VersionRestorePoint {
         return restorePointId;
     }
 
+    public String getId() {
+        return restorePointId;
+    }
+
+    public void setId(String id) {
+        this.restorePointId = id;
+    }
+
     public void setRestorePointId(String restorePointId) {
         this.restorePointId = restorePointId;
     }
