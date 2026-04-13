@@ -1,28 +1,246 @@
-//== Base
+// =============================================================================
+// BASE STYLES — Landwind-inspired Design System
+// =============================================================================
 
-html,
+// Google Fonts import (to be added in the HTML template or main.scss)
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+
+// =============================================================================
+// RESET & BOX SIZING
+// =============================================================================
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+// =============================================================================
+// HTML & BODY
+// =============================================================================
+
+html {
+    font-size: $font-size-base;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    // Tailwind-like font-smoothing
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 body {
     margin: 0;
-    font-size:   $font-size;
     font-family: $font-family;
-    line-height: $font-height;
-    color:       $color-foreground;
-    background:  $color-background;
-
+    font-size: $font-size-base;
+    line-height: $line-height-normal;
+    color: $color-foreground;
+    background-color: $color-background;
     @media (prefers-color-scheme: dark) {
-        color:       $color-foreground-dark;
-        background:  $color-background-dark;
+        color: $color-foreground-dark;
+        background-color: $color-background-dark;
     }
 }
 
+// =============================================================================
+// TYPOGRAPHY
+// =============================================================================
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: $font-family-heading;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-tight;
+    color: $color-foreground;
+    margin-top: 0;
+    margin-bottom: $spacing-4;
+    @media (prefers-color-scheme: dark) {
+        color: $color-foreground-dark;
+    }
+}
+
+h1, .h1 {
+    font-size: $font-size-h1;
+    letter-spacing: -0.02em;
+}
+
+h2, .h2 {
+    font-size: $font-size-h2;
+    letter-spacing: -0.01em;
+}
+
+h3, .h3 {
+    font-size: $font-size-h3;
+}
+
+h4, .h4 {
+    font-size: $font-size-h4;
+    font-weight: $font-weight-semibold;
+}
+
+h5, .h5 {
+    font-size: $font-size-h5;
+    font-weight: $font-weight-semibold;
+}
+
+h6, .h6 {
+    font-size: $font-size-h6;
+    font-weight: $font-weight-semibold;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: $spacing-4;
+    line-height: $line-height-normal;
+}
+
+// Text sizes
+.text-sm  { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg  { font-size: 1.125rem; }
+.text-xl  { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-4xl { font-size: 2.25rem; }
+.text-5xl { font-size: 3rem; }
+
+// Text colors
+.text-muted { color: $color-foreground-muted; }
+.text-brand { color: $color-brand; }
+.text-success { color: $color-success; }
+.text-warning { color: $color-warning; }
+.text-error { color: $color-error; }
+
+// =============================================================================
+// LINKS
+// =============================================================================
 
 a {
     color: $color-link;
-
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+    &:hover {
+        color: $color-link-hover;
+    }
+    &:active {
+        color: $color-link-active;
+    }
     @media (prefers-color-scheme: dark) {
         color: $color-link-dark;
+        &:hover {
+            color: $color-link-hover-dark;
+        }
     }
 }
+
+// =============================================================================
+// LISTS
+// =============================================================================
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: $spacing-4;
+    padding-left: $spacing-6;
+}
+
+li {
+    margin-bottom: $spacing-2;
+}
+
+// =============================================================================
+// CODE
+// =============================================================================
+
+code, pre {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Roboto Mono, monospace;
+    font-size: 0.875em;
+}
+
+code {
+    padding: 0.125em 0.375em;
+    background-color: $color-gray-100;
+    border-radius: $border-radius;
+    color: $color-primary-700;
+    @media (prefers-color-scheme: dark) {
+        background-color: $color-gray-800;
+        color: $color-primary-300;
+    }
+}
+
+pre {
+    padding: $spacing-4;
+    background-color: $color-gray-900;
+    border-radius: $border-radius-lg;
+    overflow-x: auto;
+    code {
+        padding: 0;
+        background: none;
+        color: $color-gray-100;
+    }
+}
+
+// =============================================================================
+// HORIZONTAL RULES
+// =============================================================================
+
+hr {
+    border: none;
+    border-top: 1px solid $color-border;
+    margin: $spacing-8 0;
+    @media (prefers-color-scheme: dark) {
+        border-top-color: $color-border-dark;
+    }
+}
+
+// =============================================================================
+// IMAGES
+// =============================================================================
+
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+// =============================================================================
+// TABLES
+// =============================================================================
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: $spacing-4;
+}
+
+th {
+    font-weight: $font-weight-semibold;
+    text-align: left;
+    padding: $spacing-3 $spacing-4;
+    border-bottom: 2px solid $color-border;
+    color: $color-gray-700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    @media (prefers-color-scheme: dark) {
+        border-bottom-color: $color-border-dark;
+        color: $color-gray-300;
+    }
+}
+
+td {
+    padding: $spacing-3 $spacing-4;
+    border-bottom: 1px solid $color-border;
+    @media (prefers-color-scheme: dark) {
+        border-bottom-color: $color-border-dark;
+    }
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+// =============================================================================
+// FORM ELEMENTS BASE
+// =============================================================================
 
 button,
 input,
@@ -30,4 +248,72 @@ optgroup,
 select,
 textarea {
     font: inherit;
+    line-height: $line-height-normal;
+}
+
+button {
+    cursor: pointer;
+}
+
+// =============================================================================
+// UTILITY CLASSES
+// =============================================================================
+
+// Containers
+.container {
+    width: 100%;
+    max-width: $container-xl;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: $spacing-4;
+    padding-right: $spacing-4;
+
+    @media (min-width: 768px) {
+        padding-left: $spacing-6;
+        padding-right: $spacing-6;
+    }
+    @media (min-width: 1024px) {
+        padding-left: $spacing-8;
+        padding-right: $spacing-8;
+    }
+}
+
+// Section spacing
+.section {
+    padding-top: $spacing-16;
+    padding-bottom: $spacing-16;
+    @media (min-width: 768px) {
+        padding-top: $spacing-24;
+        padding-bottom: $spacing-24;
+    }
+}
+
+// Cards / Surfaces
+.card {
+    background-color: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-xl;
+    padding: $spacing-6;
+    box-shadow: $shadow-sm;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+    @media (prefers-color-scheme: dark) {
+        background-color: $color-surface-dark;
+        border-color: $color-border-dark;
+    }
+    &:hover {
+        box-shadow: $shadow-md;
+    }
+}
+
+// Accessibility — visually hidden
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
