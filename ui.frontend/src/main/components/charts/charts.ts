@@ -1,5 +1,5 @@
 // Charts Component - Highcharts integration
-import './scss';
+import './scss/index';
 
 import { Chart } from './chart-options';
 
