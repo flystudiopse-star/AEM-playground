@@ -16,6 +16,7 @@
 package com.aem.playground.core.services.impl;
 
 import com.aem.playground.core.services.AIService;
+import com.aem.playground.core.services.AIGenerationOptions;
 import com.aem.playground.core.services.AutoTaggingService;
 import com.aem.playground.core.services.AutoTaggingConfig;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -311,7 +312,7 @@ public class AutoTaggingServiceImpl implements AutoTaggingService {
     }
 
     private String callAI(String prompt) throws IOException {
-        AIService.AIGenerationOptions options = AIService.AIGenerationOptions.builder()
+        AIGenerationOptions options = AIGenerationOptions.builder()
             .temperature(temperature)
             .maxTokens(maxTokens)
             .build();
