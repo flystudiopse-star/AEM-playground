@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" 
+          xmlns:cq="http://www.day.com/jcr/cq/1.0" 
+          xmlns:jcr="http://www.jcp.org/jcr/1.0" 
+          xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Chart Component"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/tabs">
+        
+        <items jcr:primaryType="nt:unstructured">
+            
+            <chart-config
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Chart Configuration"
+                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                
+                <items jcr:primaryType="nt:unstructured">
+                    
+                    <chartId
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        name="./chartId"
+                        fieldLabel="Chart ID (unique)"
+                        emptyText="e.g., sales-chart-1"/>
+                    
+                    <chartTitle
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        name="./chartTitle"
+                        fieldLabel="Chart Title"
+                        emptyText="Enter chart title"/>
+                    
+                    <chartType
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        name="./chartType"
+                        fieldLabel="Chart Type"
+                        emptyText="Select chart type">
+                        <items jcr:primaryType="nt:unstructured">
+                            <line
+                                jcr:primaryType="nt:unstructured"
+                                value="line"
+                                text="Line Chart"/>
+                            <column
+                                jcr:primaryType="nt:unstructured"
+                                value="column"
+                                text="Column Chart"/>
+                            <bar
+                                jcr:primaryType="nt:unstructured"
+                                value="bar"
+                                text="Bar Chart"/>
+                            <pie
+                                jcr:primaryType="nt:unstructured"
+                                value="pie"
+                                text="Pie Chart"/>
+                            <area
+                                jcr:primaryType="nt:unstructured"
+                                value="area"
+                                text="Area Chart"/>
+                        </items>
+                    </chartType>
+                    
+                </items>
+            </chart-config>
+            
+            <data-source
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Data Source"
+                sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                
+                <items jcr:primaryType="nt:unstructured">
+                    
+                    <chartLabels
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                        name="./chartLabels"
+                        fieldLabel="Labels (comma-separated)"
+                        emptyText="e.g., Jan, Feb, Mar, Apr"
+                        maxlength="2000"/>
+                    
+                    <chartValues
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
+                        name="./chartValues"
+                        fieldLabel="Values (comma-separated)"
+                        emptyText="e.g., 100, 200, 150, 300"
+                        maxlength="2000"/>
+                    
+                    <csvFile
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                        name="./csvFileReference"
+                        fieldLabel="Or upload CSV file"
+                        emptyText="Select CSV file"
+                        rootPath="/content/dam"/>
+                    
+                </items>
+            </data-source>
+            
+        </items>
+    </content>
+</jcr:root>
