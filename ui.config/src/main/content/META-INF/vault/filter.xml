@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/apps/aem-project">
-        <include pattern="/apps/aem-project/config"/>
-    </filter>
-    <filter root="/conf/aem-project"/>
+    <filter root="/apps/aem-playground/osgiconfig"/>
 </workspaceFilter>
