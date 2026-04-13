@@ -189,7 +189,7 @@ class AIContentQACheckerServiceTest {
 
         ContentQAReport report = fixture.checkBrandConsistency(content, "/content/page");
 
-        assertTrue(report.getTotalIssues().stream()
+        assertTrue(report.getIssues().stream()
                 .anyMatch(i -> i.getTitle().contains("Apologetic")));
     }
 
