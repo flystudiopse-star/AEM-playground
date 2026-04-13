@@ -1,0 +1,21 @@
+// Charts Component Styles
+// Uses Highcharts library
+
+.chart-component {
+    margin: 20px 0;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .chart-container {
+        min-height: 400px;
+        width: 100%;
+    }
+
+    .chart-help {
+        text-align: center;
+        color: #666;
+        padding: 20px;
+    }
+}
