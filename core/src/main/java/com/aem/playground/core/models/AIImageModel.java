@@ -15,34 +15,31 @@
  */
 package com.aem.playground.core.models;
 
-import org.apache.sling.api.resource.ModifiableValueMap;
+import com.aem.playground.core.services.AIGenerationOptions;
+import com.aem.playground.core.services.AIService;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
+import org.apache.sling.models.annotations.injectorspecific.OSGiService;
 import org.apache.sling.models.annotations.injectorspecific.Self;
 import org.apache.sling.models.annotations.injectorspecific.ValueMapValue;
 import org.apache.sling.models.annotations.injectorspecific.SlingObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.day.cq.commons.jcr.JcrConstants;
-import org.apache.sling.models.annotations.Default;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Model(adaptables = Resource.class)
 public class AIImageModel {
 
+    private static final Logger log = LoggerFactory.getLogger(AIImageModel.class);
+
     private static final String PN_AI_ENABLED = "aiEnabled";
     private static final String PN_AI_PROMPT = "aiPrompt";
-    private static final String PN_AI_SERVICE_URL = "aiServiceUrl";
     private static final String PN_GENERATED_IMAGE_URL = "generatedImageUrl";
     private static final String PN_GENERATED_ALT_TEXT = "generatedAltText";
     private static final String PN_REGENERATE = "regenerate";
@@ -50,16 +47,14 @@ public class AIImageModel {
     @Self
     private Resource resource;
 
+    @OSGiService
+    private AIService aiService;
+
     @ValueMapValue(name = PN_AI_ENABLED, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private boolean aiEnabled;
 
     @ValueMapValue(name = PN_AI_PROMPT, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(values = "")
     private String aiPrompt;
-
-    @ValueMapValue(name = PN_AI_SERVICE_URL, injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
-    @Default(values = "https://api.openai.com/v1/images/generations")
-    private String aiServiceUrl;
 
     @ValueMapValue(name = "generatedImageUrl", injectionStrategy = org.apache.sling.models.annotations.injectorspecific.InjectionStrategy.OPTIONAL)
     private String generatedImageUrl;
@@ -76,21 +71,15 @@ public class AIImageModel {
     @SlingObject
     private Resource currentResource;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @PostConstruct
     protected void init() {
+        if (aiService == null) {
+            log.warn("AIService not available - AI image generation disabled");
+            return;
+        }
         if (aiEnabled && aiPrompt != null && !aiPrompt.isEmpty()) {
             if (generatedImageUrl != null && !generatedImageUrl.isEmpty() && !regenerate) {
                 return;
-            }
-            if (!regenerate) {
-                String[] cached = getCachedGeneratedImage();
-                if (cached != null) {
-                    generatedImageUrl = cached[0];
-                    generatedAltText = cached[1];
-                    return;
-                }
             }
             generateImage();
             saveToJcr();
@@ -103,10 +92,6 @@ public class AIImageModel {
 
     public String getAiPrompt() {
         return aiPrompt;
-    }
-
-    public String getAiServiceUrl() {
-        return aiServiceUrl;
     }
 
     public String getGeneratedImageUrl() {
@@ -125,17 +110,6 @@ public class AIImageModel {
         return aiEnabled && generatedImageUrl != null && !generatedImageUrl.isEmpty();
     }
 
-    private String[] getCachedGeneratedImage() {
-        if (resource != null) {
-            String url = resource.getValueMap().get(PN_GENERATED_IMAGE_URL, String.class);
-            String alt = resource.getValueMap().get(PN_GENERATED_ALT_TEXT, String.class);
-            if (url != null) {
-                return new String[]{url, alt};
-            }
-        }
-        return null;
-}
-
     private void saveToJcr() {
         if (currentResource != null && generatedImageUrl != null && !generatedImageUrl.isEmpty()) {
             try {
@@ -152,54 +126,36 @@ public class AIImageModel {
                     resourceResolver.commit();
                 }
             } catch (Exception e) {
+                log.error("Error saving generated image to JCR", e);
             }
         }
     }
 
     private void generateImage() {
         try {
-            URL url = new URL(aiServiceUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
+            AIGenerationOptions options = AIGenerationOptions.builder()
+                .enableCache(!regenerate)
+                .imageCount(1)
+                .imageSize("1024x1024")
+                .build();
 
-            String requestBody = String.format(
-                "{\"prompt\": \"%s\", \"n\": 1, \"size\": \"1024x1024\"}",
-                escapeJson(aiPrompt)
-            );
+            AIService.AIGenerationResult result = aiService.generateImage(aiPrompt, options);
 
-            try (java.io.OutputStream os = connection.getOutputStream()) {
-                byte[] input = requestBody.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                try (InputStream responseStream = connection.getInputStream()) {
-                    JsonNode rootNode = objectMapper.readTree(responseStream);
-                    JsonNode dataArray = rootNode.get("data");
-                    if (dataArray != null && dataArray.isArray() && dataArray.size() > 0) {
-                        generatedImageUrl = dataArray.get(0).get("url").asText();
-                        JsonNode revisedPrompt = dataArray.get(0).get("revised_prompt");
-                        if (revisedPrompt != null) {
-                            generatedAltText = revisedPrompt.asText();
-                        }
-                    }
+            if (result.isSuccess()) {
+                generatedImageUrl = result.getContent();
+                Map<String, Object> metadata = result.getMetadata();
+                if (metadata != null && metadata.containsKey("revisedPrompt")) {
+                    generatedAltText = (String) metadata.get("revisedPrompt");
+                } else {
+                    generatedAltText = aiPrompt;
                 }
+            } else {
+                log.error("AI image generation failed: {}", result.getError());
+                generatedImageUrl = null;
             }
         } catch (Exception e) {
+            log.error("Error generating image", e);
             generatedImageUrl = null;
-            generatedAltText = null;
         }
-    }
-
-    private String escapeJson(String text) {
-        if (text == null) return "";
-        return text.replace("\\", "\\\\")
-                   .replace("\"", "\\\"")
-                   .replace("\n", "\\n")
-                   .replace("\r", "\\r")
-                   .replace("\t", "\\t");
     }
 }
