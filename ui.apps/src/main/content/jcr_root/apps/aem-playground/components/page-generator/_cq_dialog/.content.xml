@@ -1,88 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
-    sling:resourceSuperType="core/wcm/components/container/v1/container/cq:dialog">
+    jcr:title="AI Page Generator"
+    sling:resourceType="cq/gui/components/authoring/dialog">
     <content
         jcr:primaryType="nt:unstructured"
-        sling:resourceSuperType="granite/ui/components/coral/foundation/container">
+        sling:resourceType="granite/ui/components/coral/foundation/tabs">
         <items jcr:primaryType="nt:unstructured">
-            <tabs
+            <ai-configuration
                 jcr:primaryType="nt:unstructured"
-                sling:resourceSuperType="granite/ui/components/coral/foundation/tabs"
+                jcr:title="AI Configuration"
+                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
                 margin="{Boolean}true">
                 <items jcr:primaryType="nt:unstructured">
-                    <ai-configuration
+                    <column
                         jcr:primaryType="nt:unstructured"
-                        jcr:title="AI Configuration"
-                        sling:resourceSuperType="granite/ui/components/coral/foundation/form/fieldset">
+                        sling:resourceType="granite/ui/components/coral/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <aiEnabled
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/checkbox"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                 name="./aiEnabled"
                                 text="Enable AI Page Generation"
                                 checked="{Boolean}false"/>
                             <pageDescription
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
                                 name="./pageDescription"
                                 fieldLabel="Page Description"
                                 fieldDescription="Describe the page you want to generate (e.g., 'landing page for a SaaS product with hero, features, pricing sections')"
-                                maxLength="{Long}500"/>
+                                maxLength="{Long}500"
+                                rows="5"/>
                             <aiServiceUrl
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 name="./aiServiceUrl"
                                 fieldLabel="AI Service URL"
                                 fieldDescription="URL of the AI service to use for generation"
                                 defaultValue="https://api.openai.com/v1/chat/completions"/>
                             <regenerate
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/checkbox"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
                                 name="./regenerate"
-                                text="Regenerate content"
+                                text="Regenerate content (ignores cache)"
                                 checked="{Boolean}false"/>
                         </items>
-                    </ai-configuration>
-                    <seo-metadata
+                    </column>
+                </items>
+            </ai-configuration>
+            <seo-metadata
+                jcr:primaryType="nt:unstructured"
+                jcr:title="SEO Metadata"
+                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                margin="{Boolean}true">
+                <items jcr:primaryType="nt:unstructured">
+                    <column
                         jcr:primaryType="nt:unstructured"
-                        jcr:title="SEO Metadata"
-                        sling:resourceSuperType="granite/ui/components/coral/foundation/form/fieldset">
+                        sling:resourceType="granite/ui/components/coral/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
                             <seoKeywords
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/tags"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/tags"
                                 name="./seoKeywords"
                                 fieldLabel="SEO Keywords"
                                 fieldDescription="Keywords for SEO"/>
                             <seoOgTitle
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                 name="./seoOgTitle"
                                 fieldLabel="OG Title"
                                 fieldDescription="Open Graph title for social sharing"/>
                             <seoOgDescription
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/form/textarea"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/textarea"
                                 name="./seoOgDescription"
                                 fieldLabel="OG Description"
-                                fieldDescription="Open Graph description for social sharing"/>
+                                fieldDescription="Open Graph description for social sharing"
+                                rows="3"/>
                         </items>
-                    </seo-metadata>
-                    <preview
-                        jcr:primaryType="nt:unstructured"
-                        jcr:title="Preview"
-                        sling:resourceSuperType="granite/ui/components/coral/foundation/form/fieldset">
-                        <items jcr:primaryType="nt:unstructured">
-                            <previewContent
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceSuperType="granite/ui/components/coral/foundation/view/card"
-                                itemKind="component"
-                                pathHint="${resource.path}_generated"/>
-                        </items>
-                    </preview>
+                    </column>
                 </items>
-            </tabs>
+            </seo-metadata>
         </items>
     </content>
 </jcr:root>
