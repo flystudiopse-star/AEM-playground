@@ -1,0 +1,19 @@
+{
+  "tasks": [
+    {"id":"task-1","title":"[grafik] Design system - kolory #8B4513 #4A3728, fonty Playfair+Inter, style guide","status":"todo","priority":"high","agent":"grafik","project":"Drewno i Forma"},
+    {"id":"task-2","title":"[grafik] Homepage hero - layout wireframe mockup","status":"todo","priority":"high","agent":"grafik","project":"Drewno i Forma"},
+    {"id":"task-3","title":"[koder2] React + Vite + TypeScript setup, Tailwind config","status":"todo","priority":"high","agent":"koder2","project":"Drewno i Forma"},
+    {"id":"task-4","title":"[koder2] Homepage - hero USP CTA sections","status":"todo","priority":"high","agent":"koder2","project":"Drewno i Forma"},
+    {"id":"task-5","title":"[koder2] Galeria produktow z filtrami (kategorie drewno cena)","status":"todo","priority":"high","agent":"koder2","project":"Drewno i Forma"},
+    {"id":"task-6","title":"[koder2] Strona produktu - galeria opis specyfikacja","status":"todo","priority":"medium","agent":"koder2","project":"Drewno i Forma"},
+    {"id":"task-7","title":"[koder2] Formularz kontaktowy + walidacja","status":"todo","priority":"medium","agent":"koder2","project":"Drewno i Forma"},
+    {"id":"task-8","title":"[koder1] AEM content model - Produkty Realizacje Strony","status":"todo","priority":"high","agent":"koder1","project":"Drewno i Forma"},
+    {"id":"task-9","title":"[koder1] AEM REST API endpoints CRUD produktow","status":"todo","priority":"medium","agent":"koder1","project":"Drewno i Forma"},
+    {"id":"task-10","title":"[tester] E2E tests - galeria z filtrami","status":"todo","priority":"medium","agent":"tester","project":"Drewno i Forma"},
+    {"id":"task-11","title":"[tester] E2E tests - formularz kontaktowy","status":"todo","priority":"medium","agent":"tester","project":"Drewno i Forma"},
+    {"id":"task-12","title":"[grafik] O nas - historia warsztatu, zespol","status":"todo","priority":"low","agent":"grafik","project":"Drewno i Forma"},
+    {"id":"task-13","title":"[grafik] Realizacje - case studies layout","status":"todo","priority":"low","agent":"grafik","project":"Drewno i Forma"},
+    {"id":"task-14","title":"[koder2] Responsive mobile-first breakpoints","status":"todo","priority":"high","agent":"koder2","project":"Drewno i Forma"},
+    {"id":"task-15","title":"[fast] Deploy - Vercel + AEM Cloud Service","status":"todo","priority":"high","agent":"fast","project":"Drewno i Forma"}
+  ]
+}
